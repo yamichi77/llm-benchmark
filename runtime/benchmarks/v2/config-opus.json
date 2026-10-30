@@ -1,0 +1,67 @@
+{
+  "models": [
+    {
+      "id": "claude-opus-5-5-code",
+      "modelId": "claude-opus-5-5",
+      "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+      "args": [
+        "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/claude-opus-run.mjs",
+        "--prompt-version",
+        "{promptVersion}",
+        "--input",
+        "{input}",
+        "--output",
+        "{output}"
+      ],
+      "promptMode": "stdin",
+      "preflight": {
+        "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+        "args": [
+          "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/claude-opus-run.mjs",
+          "--models"
+        ]
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "writing-explanation-v2",
+      "label": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "prompt": "writing-ja.txt",
+      "promptVersion": "writing-explanation-v2",
+      "input": "facts-writing-ja.txt",
+      "inputVersion": "facts-writing-v2",
+      "artifactSource": "stdout"
+    },
+    {
+      "id": "research-repository-v2",
+      "label": "指定リポジトリの固定版要約",
+      "type": "research",
+      "prompt": "research-ja.txt",
+      "promptVersion": "research-repository-v2",
+      "input": "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/private/inputs-v2/yamichi-portal-old-b3a3d3568846d1b154e891fc4683c1eea73263ee",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee"
+    },
+    {
+      "id": "model3d-kurageko-v2",
+      "label": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "prompt": "model3d-mcp-ja.txt",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "input": "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/private/inputs-v2/kurageko-v2",
+      "inputVersion": "kurageko-reference-v2",
+      "reference": "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/private/inputs-v2/kurageko-v2/design-turnaround.png"
+    },
+    {
+      "id": "lp-local-llm-v2",
+      "label": "ローカルLLM紹介・デザインとアニメーション",
+      "type": "lp",
+      "prompt": "lp-ja.txt",
+      "promptVersion": "lp-local-llm-v2",
+      "input": "facts-lp-ja.txt",
+      "inputVersion": "facts-lp-v2",
+      "artifactSource": "stdout"
+    }
+  ]
+}

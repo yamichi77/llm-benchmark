@@ -1,0 +1,22 @@
+{
+  "id": "research-repository-v2--gpt-6-astra-code--1792741259879-inls7",
+  "trialPath": "models/gpt-6-astra-code/research-repository-v2/run-1792741259879-inls7",
+  "storageModelKey": "gpt-6-astra-code",
+  "task": "research-repository-v2",
+  "taskLabel": "指定リポジトリの固定版要約",
+  "type": "research",
+  "model": "gpt-6-astra-code",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+  "durationMs": 67499,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T07:42:07.383Z",
+  "updatedAt": "2026-10-23T07:42:07.383Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 67499,
+  "artifact": "models/gpt-6-astra-code/research-repository-v2/run-1792741259879-inls7/artifact.txt"
+}

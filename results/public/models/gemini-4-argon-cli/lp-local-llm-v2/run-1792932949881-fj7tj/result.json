@@ -1,0 +1,158 @@
+{
+  "id": "lp-local-llm-v2--gemini-4-argon-cli--1792932949881-fj7tj",
+  "trialPath": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj",
+  "storageModelKey": "gemini-4-argon-cli",
+  "task": "lp-local-llm-v2",
+  "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+  "type": "lp",
+  "model": "gemini-4-argon-cli",
+  "status": "success",
+  "promptVersion": "lp-local-llm-v2",
+  "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+  "inputVersion": "facts-lp-v2",
+  "durationMs": 163800,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-25T12:58:33.684Z",
+  "updatedAt": "2026-10-25T12:58:33.684Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 163800,
+  "artifact": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/artifact.html",
+  "artifactStatus": "saved-unmodified",
+  "outputExtraction": {
+    "source": "gemini-attempt-1.stdout.jsonl",
+    "method": "last assistant turn; complete UTF-8 raw bytes",
+    "modelTextUnchanged": true,
+    "wrapperDiagnosticsRemoved": false,
+    "rawStdoutPreserved": true
+  },
+  "outputValidation": {
+    "characters": 48747
+  },
+  "modelId": "gemini-4-argon",
+  "thinking": "MEDIUM",
+  "startedAt": "2026-10-25T12:55:51.431Z",
+  "finishedAt": "2026-10-25T12:58:33.665Z",
+  "usage": {
+    "total_tokens": 23469,
+    "input_tokens": 5053,
+    "output_tokens": 18239,
+    "cached": 0,
+    "input": 5053,
+    "duration_ms": 160933,
+    "tool_calls": 0,
+    "models": {
+      "gemini-4-argon": {
+        "total_tokens": 23469,
+        "input_tokens": 5053,
+        "output_tokens": 18239,
+        "cached": 0,
+        "input": 5053
+      }
+    }
+  },
+  "billingPolicy": {
+    "mode": "existing-provider-prepay",
+    "ownerReportedBalanceJpy": 900,
+    "ownerReportedAutoRecharge": false,
+    "billingSettingsVerified": false,
+    "clientMonetaryCap": false,
+    "additionalChargeAuthorized": false,
+    "onProviderLimit": "stop-no-retry"
+  },
+  "generationContract": "One initial trial per fixed task; no human follow-up, quality repair, or model resend",
+  "executionConditions": {
+    "imageReferences": 0,
+    "imageAttachment": null,
+    "toolCalls": 0,
+    "successfulToolCalls": 0,
+    "toolRegistrationErrors": 0
+  },
+  "comparisonEligible": true,
+  "recordedUsageCostEstimate": {
+    "usd": 0.194266,
+    "rateDate": "2026-10-25",
+    "basis": "Standard public rates; uncached/cached inputs and total-minus-input output including possible thinking",
+    "invoiceVerified": false,
+    "taxAndFxExcluded": true
+  },
+  "browserVerification": {
+    "sourceUnmodified": true,
+    "doctypePresent": true,
+    "method": "Headless Edge; new profile; sandbox allow-scripts without same-origin; CSP denies network; context offline; all requests aborted; no desktop/UI input",
+    "reports": [
+      {
+        "name": "pc",
+        "width": 1024,
+        "height": 768,
+        "bodyTextLength": 2521,
+        "h1": [
+          "生成AIを、\n            自分のPC・手元の計算機で動かすという選択肢。"
+        ],
+        "scrollWidth": 1024,
+        "innerWidth": 1024,
+        "brokenAnchors": 0,
+        "animations": 1,
+        "reducedMotion": false,
+        "overflow": false,
+        "blockedNetworkRequests": 0,
+        "pageErrors": [],
+        "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.png",
+        "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.mp4"
+      },
+      {
+        "name": "mobile",
+        "width": 390,
+        "height": 844,
+        "bodyTextLength": 2500,
+        "h1": [
+          "生成AIを、\n            自分のPC・手元の計算機で動かすという選択肢。"
+        ],
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "brokenAnchors": 0,
+        "animations": 1,
+        "reducedMotion": false,
+        "overflow": false,
+        "blockedNetworkRequests": 0,
+        "pageErrors": [],
+        "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.png",
+        "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.mp4"
+      },
+      {
+        "name": "mobile-reduced",
+        "width": 390,
+        "height": 844,
+        "bodyTextLength": 2517,
+        "h1": [
+          "生成AIを、\n            自分のPC・手元の計算機で動かすという選択肢。"
+        ],
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "brokenAnchors": 0,
+        "animations": 0,
+        "reducedMotion": true,
+        "overflow": false,
+        "blockedNetworkRequests": 0,
+        "pageErrors": [],
+        "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile-reduced.png",
+        "video": null
+      }
+    ]
+  },
+  "previewMedia": {
+    "pc": {
+      "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.png",
+      "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.mp4",
+      "width": 1024,
+      "height": 768
+    },
+    "mobile": {
+      "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.png",
+      "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.mp4",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

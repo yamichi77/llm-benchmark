@@ -1,0 +1,86 @@
+{
+  "id": "research-repository-v2--gemini-4-argon-cli--1792932250558-x021t",
+  "trialPath": "models/gemini-4-argon-cli/research-repository-v2/run-1792932250558-x021t",
+  "storageModelKey": "gemini-4-argon-cli",
+  "task": "research-repository-v2",
+  "taskLabel": "指定リポジトリの固定版要約",
+  "type": "research",
+  "model": "gemini-4-argon-cli",
+  "status": "invalid",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+  "durationMs": 94503,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-25T12:45:45.065Z",
+  "updatedAt": "2026-10-25T12:45:45.065Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 94503,
+  "artifact": "models/gemini-4-argon-cli/research-repository-v2/run-1792932250558-x021t/artifact.txt",
+  "artifactStatus": "saved-unmodified",
+  "outputExtraction": {
+    "source": "gemini-attempt-1.stdout.jsonl",
+    "method": "last assistant turn; complete UTF-8 raw bytes",
+    "modelTextUnchanged": true,
+    "wrapperDiagnosticsRemoved": true,
+    "rawStdoutPreserved": true
+  },
+  "outputValidation": {
+    "characters": 3626
+  },
+  "modelId": "gemini-4-argon",
+  "thinking": "MEDIUM",
+  "startedAt": "2026-10-25T12:44:12.711Z",
+  "finishedAt": "2026-10-25T12:45:45.048Z",
+  "usage": {
+    "total_tokens": 37386,
+    "input_tokens": 28414,
+    "output_tokens": 1675,
+    "cached": 7960,
+    "input": 20454,
+    "duration_ms": 90926,
+    "tool_calls": 6,
+    "models": {
+      "gemini-4-argon": {
+        "total_tokens": 37386,
+        "input_tokens": 28414,
+        "output_tokens": 1675,
+        "cached": 7960,
+        "input": 20454
+      }
+    }
+  },
+  "billingPolicy": {
+    "mode": "existing-provider-prepay",
+    "ownerReportedBalanceJpy": 900,
+    "ownerReportedAutoRecharge": false,
+    "billingSettingsVerified": false,
+    "clientMonetaryCap": false,
+    "additionalChargeAuthorized": false,
+    "onProviderLimit": "stop-no-retry"
+  },
+  "generationContract": "One initial trial per fixed task; no human follow-up, quality repair, or model resend",
+  "executionConditions": {
+    "imageReferences": 0,
+    "imageAttachment": null,
+    "toolCalls": 6,
+    "successfulToolCalls": 1,
+    "toolRegistrationErrors": 5
+  },
+  "initialRunnerStatus": "success",
+  "cliStatus": "success",
+  "comparisonEligible": false,
+  "failureCategory": "input-tool-registration",
+  "reason": "ファイル一覧のみ取得。本文read_fileはnativeツール名との衝突により5件とも未登録エラー。リポジトリ要約として無効。",
+  "artifactRecoveredFromFinalText": true,
+  "invalidResultPreserved": true,
+  "recordedUsageCostEstimate": {
+    "usd": 0.131424,
+    "rateDate": "2026-10-25",
+    "basis": "Standard public rates; uncached/cached inputs and total-minus-input output including possible thinking",
+    "invoiceVerified": false,
+    "taxAndFxExcluded": true
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "writing-explanation-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+  "task": "writing-explanation-v2",
+  "type": "writing",
+  "model": "deepseek-v4-1-flash-free-high-opencode",
+  "status": "success",
+  "promptVersion": "writing-explanation-v2",
+  "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+  "effectivePromptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+  "inputVersion": "facts-writing-v2",
+  "artifact": "models/deepseek-v4-1-flash-free-high-opencode/writing-explanation-v2/run-normal-20261024/artifact.txt",
+  "artifactSha256": "da115258080efd6c5ff0806b086586fb50e1db93524d156d74a1ab3ea581a879",
+  "durationMs": 49757,
+  "createdAt": "2026-10-24T00:03:14.372Z",
+  "finishedAt": "2026-10-24T00:04:04.129Z",
+  "exitCode": 0,
+  "effectiveModel": {
+    "id": "deepseek-v4.1-flash-free",
+    "providerID": "opencode",
+    "variant": "high"
+  },
+  "usage": {
+    "input": 5908,
+    "output": 554,
+    "reasoning": 7652,
+    "cache": {
+      "read": 2816,
+      "write": 0
+    }
+  },
+  "cost": 0,
+  "costSource": "Official persisted session metadata",
+  "attemptCount": 2,
+  "validation": {
+    "unicodeCharacters": 858,
+    "nonWhitespaceCharacters": 846,
+    "toolCalls": 0,
+    "rawTextUnchanged": true,
+    "lengthTarget": [
+      800,
+      1200
+    ],
+    "lengthPass": true,
+    "headings": 3,
+    "review": "Correct broad token/Attention/KV/memory flow, no invented GB or speeds. Minor precision concern: final paragraph groups fixed-capacity caches with discarding old context; fixed preallocation alone does not imply discarding."
+  },
+  "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/writing-explanation-v2/run-normal-20261024",
+  "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+  "modelId": "opencode/deepseek-v4.1-flash-free",
+  "provider": "opencode",
+  "variant": "high",
+  "cliVersion": "2.1.4 (parent verified)",
+  "continuationMode": "initial-user-request-agent-workflow",
+  "generationContract": "One user request; no quality regeneration; source setup attempts retained",
+  "toolCallCount": 0,
+  "assistantTurns": null,
+  "catalogPrice": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+  },
+  "comparisonConditions": {
+    "sourceInputVersion": "facts-writing-v2",
+    "standardContext": true
+  }
+}

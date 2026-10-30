@@ -1,0 +1,100 @@
+{
+  "id": "model3d-kurageko-v2--qwen38-code-0253-mcp--1792569102465-qdzas",
+  "task": "model3d-kurageko-v2",
+  "taskLabel": "画像入力・kurageko立体生成",
+  "type": "model3d",
+  "model": "qwen38-code-0253-mcp",
+  "status": "permission-required",
+  "promptVersion": "model3d-kurageko-v2-mcp1",
+  "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+  "inputVersion": "kurageko-reference-v2",
+  "durationMs": 7538960,
+  "exitCode": 77,
+  "exitSignal": null,
+  "createdAt": "2026-10-21T09:57:21.427Z",
+  "generationStatus": "completed-with-read-denial",
+  "artifactStatus": "validated",
+  "artifactRecoveredFromModelFiles": true,
+  "artifact": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/artifact.glb",
+  "reference": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/reference.png",
+  "previewMedia": {
+    "front": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_front.png",
+    "side": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_side.png",
+    "back": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_back.png",
+    "threeQuarter": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_34.png",
+    "face": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_face.png",
+    "backHead": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_backhead.png"
+  },
+  "validation": {
+    "checkedAt": "2026-10-21T09:57:51.986332+00:00",
+    "status": "import-success",
+    "sourceUnmodified": true,
+    "blenderVersion": "5.2.2 LTS",
+    "background": true,
+    "onlineAccess": false,
+    "glbBytes": 863636,
+    "glbVersion": 2,
+    "selfContained": true,
+    "externalResourceUris": [],
+    "meshObjects": 11,
+    "verticesAcrossObjects": 23570,
+    "trianglesAcrossObjects": 45868,
+    "referencedMaterials": 23,
+    "cameras": 0,
+    "lights": 0,
+    "limitations": "Technical fresh-import verification only; visual likeness is for human review. Generated Python was not executed and source GLB was not saved or edited."
+  },
+  "validationArtifact": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/validation.json",
+  "mcp": {
+    "server": "blender_benchmark",
+    "operations": {
+      "mcp__blender_benchmark__get_objects_summary": {
+        "attempted": 1,
+        "succeeded": 1,
+        "failed": 0,
+        "unknown": 0
+      },
+      "mcp__blender_benchmark__search_api_docs": {
+        "attempted": 3,
+        "succeeded": 3,
+        "failed": 0,
+        "unknown": 0
+      },
+      "mcp__blender_benchmark__execute_blender_code": {
+        "attempted": 37,
+        "succeeded": 37,
+        "failed": 0,
+        "unknown": 0
+      },
+      "mcp__blender_benchmark__render_thumbnail_to_path": {
+        "attempted": 1,
+        "succeeded": 1,
+        "failed": 0,
+        "unknown": 0
+      }
+    },
+    "confirmedResults": [
+      "geometry creation",
+      "editable Python source saved",
+      "GLB exported",
+      "blend saved",
+      "six preview images saved"
+    ]
+  },
+  "nativeProviderRetries": 1,
+  "permissionDenials": [
+    {
+      "tool": "read_file",
+      "reason": "Read of MCP temporary preview outside trial was denied"
+    }
+  ],
+  "reason": "GLB and source completed; one temporary preview read was denied. Original exit code 77 is retained.",
+  "networkObservation": {
+    "hostname": "gb4w8c3ygj-default-sea.rum.aliyuncs.com",
+    "purpose": "Matches installed QwenLogger usage statistics destination",
+    "payloadNotInspected": true,
+    "telemetryFlagWasFalse": true
+  },
+  "storageModelKey": "qwen38-code-0253",
+  "trialPath": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas"
+}

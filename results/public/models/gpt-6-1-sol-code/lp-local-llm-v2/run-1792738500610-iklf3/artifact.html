@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f3f0e8">
+<title>LOCAL / 自分のマシンに、AIという可能性。</title>
+<style>
+:root{--paper:#f3f0e8;--ink:#202c2b;--muted:#69716a;--line:#d5d7cc;--orange:#ed623d;--green:#cedabf;--dark:#202e2b;--ease:cubic-bezier(.2,.75,.25,1)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+::selection{background:var(--orange);color:white}
+:focus-visible{outline:3px solid var(--orange);outline-offset:6px}
+.skip{position:fixed;top:-80px;left:20px;z-index:100;background:var(--ink);color:white;padding:12px}
+.skip:focus{top:12px}
+.wrap{max-width:1440px;margin:auto;padding-inline:5.4%}
+header{height:86px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:relative;z-index:5}
+.logo{font-family:Arial,sans-serif;font-size:26px;letter-spacing:-1.5px;font-weight:900;display:flex;align-items:center;gap:12px}
+.logo-mark{display:grid;grid-template-columns:repeat(2,6px);gap:3px;transform:rotate(-12deg)}
+.logo-mark i{height:6px;background:var(--orange)}
+.logo small{font-size:10px;font-weight:400;letter-spacing:1.2px;margin-left:8px;border-left:1px solid var(--line);padding-left:18px}
+nav{display:flex;align-items:center;gap:28px;font-size:11px;font-weight:700}
+nav a{position:relative}
+nav a:not(.nav-start)::after{content:"";position:absolute;height:1px;background:var(--ink);bottom:-6px;left:0;width:0;transition:width .3s}
+nav a:hover::after{width:100%}
+.nav-start{border:1px solid var(--ink);padding:11px 17px;border-radius:30px;transition:background .2s,color .2s}
+.nav-start:hover{background:var(--ink);color:var(--paper)}
+.hero{position:relative;min-height:635px;display:grid;grid-template-columns:1.02fr 1fr;align-items:center;padding-top:50px;padding-bottom:65px;isolation:isolate}
+.hero-copy{position:relative;z-index:2}
+.eyebrow{display:flex;align-items:center;gap:10px;font:10px/1.5 Consolas,"Courier New",monospace;letter-spacing:1.8px;font-weight:700}
+.eyebrow .dot{width:6px;height:6px;background:var(--orange);border-radius:50%;box-shadow:0 0 0 4px #ed623d15}
+h1{font-size:clamp(39px,4.4vw,66px);line-height:1.5;letter-spacing:-.065em;margin:23px 0 21px;font-weight:800}
+h1 .accent{position:relative;display:inline-block}
+h1 .accent::after{content:"";height:7px;position:absolute;bottom:8px;left:0;right:0;background:var(--orange);z-index:-1;transform:rotate(-1deg)}
+.hero-desc{font-size:13px;line-height:2.2;color:#5f6861;margin:0 0 29px;letter-spacing:.03em}
+.cta{display:inline-flex;gap:38px;justify-content:space-between;align-items:center;padding:17px 24px;background:var(--ink);color:var(--paper);font-size:12px;font-weight:700;border-radius:3px;transition:transform .25s,background .25s}
+.cta span{font:20px Arial;transition:transform .25s}
+.cta:hover{background:#394d43;transform:translateY(-3px)}
+.cta:hover span{transform:translate(3px,-3px)}
+.hero-note{font-size:10px;color:var(--muted);margin-top:14px;letter-spacing:.04em}
+.hero-art{position:relative;width:112%;margin-left:-7%;aspect-ratio:1/1;max-height:520px;display:flex;align-items:center;justify-content:center}
+.hero-art::before{content:"";position:absolute;inset:1%;border-radius:50%;background:radial-gradient(ellipse,#d5dccb80 0%,#e4e7d940 46%,transparent 71%)}
+.scene{width:100%;overflow:visible;transform:translateY(var(--art-shift,0px))}
+.orbit{transform-origin:280px 245px;animation:orbit 48s linear infinite}
+.orbit.reverse{animation-direction:reverse;animation-duration:70s}
+.float{animation:float 5s ease-in-out infinite}
+.signal{stroke-dasharray:5 8;animation:signal 2.5s linear infinite}
+.core-light{animation:glow 3s ease-in-out infinite}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes float{50%{transform:translateY(-9px)}}
+@keyframes signal{to{stroke-dashoffset:-52}}
+@keyframes glow{50%{opacity:.35}}
+.art-tag{position:absolute;font:9px Consolas,monospace;letter-spacing:1px;line-height:1.8}
+.tag-top{top:11%;left:16%;color:var(--muted)}
+.tag-bottom{bottom:10%;right:8%;color:var(--muted);text-align:right}
+.tag-top::before{content:"";display:inline-block;width:16px;height:1px;background:var(--orange);vertical-align:middle;margin-right:7px}
+.hero-bottom{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;position:absolute;bottom:24px;left:0;right:0;font:9px Consolas,monospace;letter-spacing:1.4px;color:var(--muted)}
+.scroll-link{display:flex;align-items:center;gap:10px}
+.scroll-link span{height:26px;width:17px;border:1px solid #a6aea1;border-radius:15px;display:grid;place-items:center}
+.scroll-link span::after{content:"";height:6px;width:2px;background:var(--ink);animation:float 2s ease-in-out infinite}
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 0;background:#e9ebdf}
+.marquee-track{display:flex;gap:43px;align-items:center;width:max-content;animation:marquee 35s linear infinite;font:11px Consolas,monospace;letter-spacing:2px}
+.marquee-track b{font-size:17px;font-weight:400;color:var(--orange)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.section{padding-top:95px;padding-bottom:96px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;margin-bottom:42px}
+.kicker{font:10px Consolas,monospace;letter-spacing:1.8px;display:flex;align-items:center;gap:12px;color:var(--muted);margin:0 0 18px}
+.kicker b{font-size:11px;color:var(--orange);font-weight:400}
+h2{font-size:clamp(27px,3vw,41px);letter-spacing:-.055em;line-height:1.65;margin:0;font-weight:750}
+.section-intro{font-size:12px;line-height:2.1;color:var(--muted);max-width:340px;margin:36px 0 0}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
+.benefit{padding:30px 28px 31px;position:relative;overflow:hidden;transition:background .4s}
+.benefit+.benefit{border-left:1px solid var(--line)}
+.benefit:hover{background:#e9ecdf}
+.card-top{display:flex;align-items:center;justify-content:space-between;font:10px Consolas,monospace;color:var(--muted);letter-spacing:1px}
+.card-top span:last-child{font-size:17px}
+.mini-art{height:122px;display:grid;place-items:center}
+.mini-art svg{width:125px;height:100px;overflow:visible;transition:transform .5s var(--ease)}
+.benefit:hover svg{transform:translateY(-5px) rotate(-4deg)}
+.benefit h3{font-size:19px;letter-spacing:-.04em;margin:15px 0 13px}
+.benefit p{font-size:12px;line-height:2;color:var(--muted);margin:0}
+.use-section{background:var(--dark);color:var(--paper);position:relative;overflow:hidden}
+.use-section::before{content:"";position:absolute;right:-180px;top:-200px;width:600px;height:600px;border:1px solid #ffffff0c;border-radius:50%;box-shadow:0 0 0 90px #ffffff03,0 0 0 180px #ffffff02;pointer-events:none}
+.use-section .kicker,.use-section .section-intro{color:#a7b4a9}
+.use-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:65px;position:relative}
+.use-tabs{display:grid;gap:0;margin-top:35px}
+.use-tab{background:transparent;border:0;border-top:1px solid #ffffff20;text-align:left;padding:20px 12px 20px 0;display:flex;align-items:center;gap:18px;cursor:pointer;transition:padding .3s,color .3s;color:#a9b5aa}
+.use-tab:last-child{border-bottom:1px solid #ffffff20}
+.use-tab .num{font:10px Consolas,monospace;color:#87978c}
+.use-tab .label{font-size:15px;font-weight:700;flex:1}
+.use-tab .arrow{font-size:19px;transition:transform .3s}
+.use-tab[aria-selected="true"]{color:var(--paper);padding-left:13px;background:#ffffff05}
+.use-tab[aria-selected="true"] .num{color:var(--orange)}
+.use-tab[aria-selected="true"] .arrow{color:var(--orange);transform:rotate(-35deg)}
+.use-tab:hover{color:var(--paper)}
+.terminal{align-self:center;background:#17231f;border:1px solid #52614e;border-radius:8px;box-shadow:12px 14px 0 #16231c70;overflow:hidden;min-height:320px}
+.terminal-bar{height:43px;border-bottom:1px solid #ffffff13;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font:9px Consolas,monospace;letter-spacing:1px;color:#8fa18e}
+.lights{display:flex;gap:5px}
+.lights i{width:5px;height:5px;background:#758976;border-radius:50%}
+.lights i:first-child{background:var(--orange)}
+.terminal-body{padding:28px;font-size:12px;line-height:2}
+.prompt-label{font:9px Consolas,monospace;color:#a5b88f;letter-spacing:1.3px;margin-bottom:8px}
+.prompt{padding-bottom:22px;margin:0;color:#e0e5d7}
+.answer{padding-top:20px;border-top:1px dashed #61715760;color:#aab6a3}
+.answer p{margin:8px 0 0}
+.answer-label{color:var(--orange);font:9px Consolas,monospace;letter-spacing:1.3px}
+.cursor{display:inline-block;width:6px;height:12px;background:var(--orange);margin-left:6px;vertical-align:middle;animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.demo-note{font-size:10px;color:#8d9e91;line-height:1.9;margin-top:21px}
+.start-head{max-width:580px}
+.steps{margin-top:42px;border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:80px 1fr 1.15fr 30px;align-items:start;gap:25px;padding:29px 10px;border-bottom:1px solid var(--line);transition:background .3s,padding .3s}
+.step:hover{background:#e9ecdf;padding-inline:20px}
+.step-num{font:32px/1.3 Arial,sans-serif;font-weight:400;color:#a4ac9b;letter-spacing:-2px}
+.step h3{font-size:17px;margin:6px 0 0;letter-spacing:-.04em}
+.step p{margin:4px 0;font-size:12px;line-height:2;color:var(--muted)}
+.step-arrow{font-size:21px;color:#9ba28f;margin-top:5px}
+.step:last-child .step-num,.step:last-child .step-arrow{color:var(--orange)}
+.caution{display:grid;grid-template-columns:180px 1fr;gap:40px;margin-top:45px;padding:27px 30px;border:1px solid #c6cbb9;background:#e9ecdf}
+.caution-title{font-size:12px;font-weight:700;display:flex;gap:10px;align-items:flex-start}
+.info-icon{border:1px solid var(--muted);font:10px/16px Georgia,serif;width:17px;height:17px;border-radius:50%;text-align:center;flex-shrink:0}
+.caution ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.caution li{font-size:11px;line-height:1.9;color:#606a5b;position:relative;padding-left:12px}
+.caution li::before{content:"";width:3px;height:3px;background:var(--muted);position:absolute;left:0;top:9px}
+.closing{margin-top:10px;padding-top:49px;padding-bottom:50px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:30px}
+.closing p{font-size:24px;font-weight:700;letter-spacing:-.06em;line-height:1.6;margin:0}
+.closing .eyebrow{font-size:9px;margin-top:10px;color:var(--muted)}
+.to-top{width:52px;height:52px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:21px;transition:background .3s,transform .3s;flex-shrink:0}
+.to-top:hover{background:var(--green);transform:translateY(-4px)}
+footer{border-top:1px solid var(--line);padding-top:22px!important;padding-bottom:25px!important;display:flex;align-items:center;justify-content:space-between}
+footer .logo{font-size:18px}
+footer p{font:9px Consolas,monospace;letter-spacing:1px;color:var(--muted)}
+.progress{height:3px;position:fixed;left:0;top:0;background:var(--orange);width:100%;transform:scaleX(0);transform-origin:left;z-index:20}
+.js .reveal{transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.js .reveal.pending{opacity:0;transform:translateY(22px)}
+.js .reveal.visible{opacity:1;transform:translateY(0)}
+@media(min-width:1450px){.hero{min-height:740px}.hero-art{max-height:610px}}
+@media(max-width:900px){nav{gap:20px}.hero{min-height:600px}.hero-art{width:119%;margin-left:-12%}h1{font-size:42px}.hero-desc{font-size:12px}.benefit{padding:23px 20px}.benefit h3{font-size:17px}.use-layout{gap:38px}.step{grid-template-columns:60px 1fr 1.1fr 20px;gap:15px}.section-intro{max-width:270px}}
+@media(max-width:600px){
+.wrap{padding-inline:6%}header{height:72px}.logo{font-size:24px}.logo small{font-size:8px;padding-left:12px;margin-left:0;letter-spacing:.8px}nav>a:not(.nav-start){display:none}nav .nav-start{font-size:10px;padding:9px 12px}
+.hero{grid-template-columns:1fr;min-height:auto;padding-top:35px;padding-bottom:46px}
+.eyebrow{font-size:8px;letter-spacing:1.4px}h1{font-size:40px;line-height:1.48;margin:19px 0 17px}h1 .accent::after{height:5px;bottom:6px}
+.hero-desc{font-size:11px;line-height:2.1;margin-bottom:22px}.cta{font-size:11px;padding:15px 20px;gap:40px}.hero-note{font-size:9px;margin-top:11px}
+.hero-art{width:100%;margin:-7px 0 -13px;aspect-ratio:1.35;max-height:300px}.scene{height:310px;width:350px;max-width:110%}.tag-top{top:16%;left:1%;font-size:7px}.tag-bottom{bottom:7%;right:0;font-size:7px}
+.hero-bottom{bottom:9px;font-size:7px}.hero-bottom>span{max-width:145px;line-height:1.7}.scroll-link{gap:6px}.scroll-link span{height:22px;width:14px}
+.marquee{padding:13px 0}.marquee-track{font-size:9px;gap:25px;letter-spacing:1.4px}
+.section{padding-top:61px;padding-bottom:63px}.section-head{display:block;margin-bottom:28px}.kicker{font-size:9px;margin-bottom:14px}h2{font-size:28px;line-height:1.6}.section-intro{font-size:11px;margin-top:20px;max-width:100%}
+.benefits{grid-template-columns:1fr}.benefit{padding:23px;display:grid;grid-template-columns:1fr 88px;gap:0 10px}.benefit+.benefit{border-left:0;border-top:1px solid var(--line)}.card-top{grid-column:1/-1}.mini-art{grid-column:2;grid-row:2/4;height:110px;align-self:center}.mini-art svg{width:90px;height:85px}.benefit h3{font-size:19px;margin:23px 0 10px}.benefit p{font-size:11px}.card-top span:last-child{font-size:15px}
+.use-layout{grid-template-columns:1fr;gap:27px}.use-tabs{margin-top:27px}.use-tab{padding-block:17px}.use-tab .label{font-size:14px}.terminal{min-height:312px;box-shadow:7px 8px 0 #16231c70}.terminal-body{padding:23px;font-size:11px}.terminal-bar{font-size:8px}.demo-note{font-size:9px}
+.steps{margin-top:29px}.step{grid-template-columns:40px 1fr 15px;gap:5px 13px;padding:23px 0}.step:hover{padding-inline:5px}.step-num{font-size:28px;grid-row:1/3}.step h3{font-size:16px;margin-top:4px}.step p{grid-column:2;grid-row:2;font-size:11px}.step-arrow{grid-column:3;grid-row:1;font-size:17px}
+.caution{grid-template-columns:1fr;gap:18px;padding:22px;margin-top:30px}.caution li{font-size:10px}.closing{padding-top:30px;padding-bottom:32px}.closing p{font-size:22px}.closing .eyebrow{font-size:7px;letter-spacing:1px}.to-top{width:43px;height:43px}footer p{font-size:7px;letter-spacing:.5px}footer .logo{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.scene{transform:none!important}.js .reveal.pending{opacity:1;transform:none}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">本文へ移動</a>
+<div class="progress" aria-hidden="true"></div>
+<div class="wrap">
+<header>
+<a class="logo" href="#top" aria-label="LOCAL トップ"><span class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LOCAL<span aria-hidden="true">/</span><small>AI, ON YOUR TERMS.</small></a>
+<nav aria-label="メインナビゲーション"><a href="#why">ローカルの魅力</a><a href="#use">できること</a><a class="nav-start" href="#start">はじめ方 <span aria-hidden="true">↗</span></a></nav>
+</header>
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+<div class="hero-copy">
+<div class="eyebrow"><span class="dot"></span> A SMALL MACHINE. A NEW POSSIBILITY.</div>
+<h1 id="hero-title">自分のマシンに、<br>AIという<span class="accent">可能性。</span></h1>
+<p class="hero-desc">いつもの生成AIを、もっと自分のそばへ。<br>ローカルLLMは、自分のPCや手元の計算機で<br>言葉を生み出すAIを動かす、もうひとつの選択肢。</p>
+<a class="cta" href="#start">ローカルLLMをはじめる <span aria-hidden="true">↗</span></a>
+<p class="hero-note">まずは、ひとつの用途と、小さな実験から。</p>
+</div>
+<div class="hero-art" role="img" aria-label="手元のコンピューターを中心に、モデルやデータが軌道を描くイラスト">
+<div class="art-tag tag-top">YOUR MACHINE<br>YOUR POSSIBILITIES</div>
+<svg class="scene" viewBox="0 0 560 490" fill="none" aria-hidden="true">
+<defs>
+<pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#a7b39c" opacity=".45"/></pattern>
+<linearGradient id="screen" x1="207" y1="166" x2="360" y2="292" gradientUnits="userSpaceOnUse"><stop stop-color="#34483b"/><stop offset="1" stop-color="#172b24"/></linearGradient>
+<linearGradient id="side" x1="359" y1="167" x2="416" y2="300" gradientUnits="userSpaceOnUse"><stop stop-color="#a6b99a"/><stop offset="1" stop-color="#7e9477"/></linearGradient>
+</defs>
+<circle cx="280" cy="245" r="212" fill="url(#grid)"/>
+<circle cx="280" cy="245" r="199" stroke="#b8c2ac" stroke-width=".8" stroke-dasharray="2 7"/>
+<g transform="rotate(-24 280 245)"><ellipse cx="280" cy="245" rx="248" ry="129" stroke="#b3bda7" stroke-width=".8"/><ellipse cx="280" cy="245" rx="219" ry="106" stroke="#c8cebd" stroke-width=".7"/></g>
+<g class="orbit"><circle cx="280" cy="46" r="7" fill="#ed623d"/><circle cx="280" cy="46" r="14" stroke="#ed623d" opacity=".22"/><circle cx="280" cy="444" r="4" fill="#6e8467"/></g>
+<g class="orbit reverse"><path d="M78 239h12m-6-6v12" stroke="#7b9271" stroke-width="2"/><rect x="458" y="288" width="10" height="10" rx="2" fill="#ed623d" transform="rotate(30 463 293)"/></g>
+<ellipse cx="294" cy="373" rx="133" ry="21" fill="#a9b59b" opacity=".17"/>
+<g class="float">
+<path d="M187 178 319 124 404 169 268 226Z" fill="#e2e7d4" stroke="#819174" stroke-linejoin="round"/>
+<path d="M319 124 404 169 404 292 319 250Z" fill="url(#side)" stroke="#819174" stroke-linejoin="round"/>
+<path d="M187 178 319 124 319 250 187 308Z" fill="#dce3cc" stroke="#819174" stroke-linejoin="round"/>
+<path d="m203 184 100-42v94l-100 44Z" fill="url(#screen)" stroke="#61785c"/>
+<path d="m214 193 20-8m-20 17 36-15m-36 25 17-7" stroke="#a6be8b" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+<path d="m244 224 11-18 11 8m-11-8v28m-14 7 29-12" stroke="#dbe5bb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle class="core-light" cx="286" cy="229" r="3" fill="#ed623d"/>
+<path d="m330 156 49 24m-49-15 49 24m-49-15 49 24" stroke="#6f8465" stroke-width="2"/>
+<path d="m336 252 37 18v8l-37-18Z" fill="#526d4f"/>
+<path d="m187 308 132-58 85 42-134 62Z" fill="#b6c7a5" stroke="#819174"/>
+<path d="m187 308 83 46v15l-83-46Z" fill="#cdd8bc" stroke="#819174"/>
+<path d="m270 354 134-62v15l-134 62Z" fill="#93aa86" stroke="#819174"/>
+<path d="m208 308 103-45 64 31-104 46Z" fill="#849b77"/>
+<g stroke="#bacbad" stroke-width="2"><path d="m222 302 64 31m-46-39 63 31m-45-39 63 31m-46-39 63 31"/><path d="m220 317 103-45m-90 52 104-45m-90 52 103-45"/></g>
+<path d="m205 320 29 16" stroke="#819174" stroke-width="2"/>
+<path d="m300 340 49-23" stroke="#d5dfc8" stroke-width="2"/>
+</g>
+<g transform="rotate(-12 134 154)">
+<rect x="101" y="123" width="69" height="58" rx="5" fill="#f3f0e8" stroke="#a9b69b"/>
+<path d="m118 142-7 6 7 6m34-12 7 6-7 6m-14-17-7 22" stroke="#7a8d6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g transform="rotate(12 431 315)"><rect x="406" y="290" width="58" height="49" rx="5" fill="#ed623d"/><path d="M421 306h27m-27 8h20m-20 8h11" stroke="#fff0da" stroke-width="2" stroke-linecap="round"/></g>
+<path class="signal" d="M154 187q-13 48 30 80m221-35q49 7 40 49" stroke="#8b9c7b" stroke-width="1.3"/>
+<path d="M360 93h20m-10-10v20" stroke="#b2bba5"/>
+<circle cx="117" cy="322" r="4" stroke="#8b9c7b"/>
+</svg>
+<div class="art-tag tag-bottom">COMPUTE CLOSE.<br>THINK FREELY.</div>
+</div>
+<div class="hero-bottom"><span>LOCAL LLM — AN INTRODUCTION</span><a class="scroll-link" href="#why">SCROLL TO EXPLORE <span aria-hidden="true"></span></a></div>
+</section>
+</main>
+</div>
+<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>RUN IT YOURSELF</span><b>✳</b><span>CHOOSE YOUR MODEL</span><b>✳</b><span>MAKE IT PERSONAL</span><b>✳</b><span>KEEP EXPLORING</span><b>✳</b><span>RUN IT YOURSELF</span><b>✳</b><span>CHOOSE YOUR MODEL</span><b>✳</b><span>MAKE IT PERSONAL</span><b>✳</b><span>KEEP EXPLORING</span><b>✳</b></div></div>
+<section class="section wrap" id="why" aria-labelledby="why-title">
+<div class="section-head reveal">
+<div><p class="kicker"><b>01 /</b> WHY LOCAL?</p><h2 id="why-title">「使う」から、<br>自分で動かす楽しさへ。</h2></div>
+<p class="section-intro">クラウドで使うAIの、その先へ。<br>モデルも、使い方も、データの扱いも。<br>自分で選べる余白が、ここにあります。</p>
+</div>
+<div class="benefits">
+<article class="benefit reveal">
+<div class="card-top"><span>01 — EXPERIMENT</span><span aria-hidden="true">↗</span></div>
+<div class="mini-art" aria-hidden="true"><svg viewBox="0 0 130 100" fill="none"><ellipse cx="65" cy="80" rx="41" ry="8" fill="#dbe0ce"/><path d="m29 34 43-19 29 15-44 20Z" fill="#e2e7d4" stroke="#809071"/><path d="m29 34 28 16v31L29 65Z" fill="#ccd8bb" stroke="#809071"/><path d="m57 50 44-20v31L57 81Z" fill="#aec19b" stroke="#809071"/><path d="m45 20 17-8m-9 0v17" stroke="#ed623d" stroke-width="2"/><circle cx="88" cy="60" r="4" fill="#ed623d"/><path d="m67 64 10-5" stroke="#68825b" stroke-width="2"/></svg></div>
+<h3>手元で、試してみる。</h3><p>入力を変えて、返事を比べる。<br>自分のPCでAIが動く。その小さな発見が、次のアイデアにつながります。</p>
+</article>
+<article class="benefit reveal">
+<div class="card-top"><span>02 — FREEDOM</span><span aria-hidden="true">↗</span></div>
+<div class="mini-art" aria-hidden="true"><svg viewBox="0 0 130 100" fill="none"><rect x="30" y="16" width="46" height="59" rx="3" transform="rotate(-14 30 16)" fill="#e2e7d4" stroke="#809071"/><rect x="43" y="18" width="46" height="59" rx="3" transform="rotate(3 43 18)" fill="#c7d6b7" stroke="#809071"/><rect x="58" y="25" width="46" height="59" rx="3" transform="rotate(18 58 25)" fill="#ed623d"/><path d="m69 45 15 5m-18 4 22 7m-25 2 12 4" stroke="#f9ecd8" stroke-width="2"/></svg></div>
+<h3>用途で、選べる。</h3><p>文章、コード、資料の整理。<br>得意なことや必要な機器を見ながら、自分の目的に合うモデルを探せます。</p>
+</article>
+<article class="benefit reveal">
+<div class="card-top"><span>03 — CONTROL</span><span aria-hidden="true">↗</span></div>
+<div class="mini-art" aria-hidden="true"><svg viewBox="0 0 130 100" fill="none"><circle cx="65" cy="50" r="34" stroke="#9bab8c" stroke-dasharray="3 4"/><path d="m65 22 23 10v24c0 13-23 23-23 23S42 69 42 56V32Z" fill="#cfddbf" stroke="#809071"/><path d="m54 50 8 8 15-18" stroke="#6d855d" stroke-width="2"/><circle cx="97" cy="27" r="5" fill="#ed623d"/></svg></div>
+<h3>データの扱いを、設計する。</h3><p>何を読み込み、どこにつなぐか。<br>保存先や通信の設定を確かめながら、自分に合った使い方を組み立てます。</p>
+</article>
+</div>
+</section>
+<section class="use-section section" id="use" aria-labelledby="use-title">
+<div class="wrap use-layout">
+<div class="reveal">
+<p class="kicker"><b>02 /</b> EVERYDAY POSSIBILITIES</p>
+<h2 id="use-title">いつもの作業に、<br>新しい相棒を。</h2>
+<p class="section-intro">まずは、身近なひと仕事から。<br>どんなふうに使うか、のぞいてみましょう。</p>
+<div class="use-tabs" role="tablist" aria-label="ローカルLLMの活用例" aria-orientation="vertical">
+<button class="use-tab" id="tab-write" role="tab" aria-selected="true" aria-controls="use-panel" data-type="write"><span class="num">01</span><span class="label">文章の下書き</span><span class="arrow" aria-hidden="true">→</span></button>
+<button class="use-tab" id="tab-code" role="tab" aria-selected="false" aria-controls="use-panel" tabindex="-1" data-type="code"><span class="num">02</span><span class="label">コードの相談</span><span class="arrow" aria-hidden="true">→</span></button>
+<button class="use-tab" id="tab-notes" role="tab" aria-selected="false" aria-controls="use-panel" tabindex="-1" data-type="notes"><span class="num">03</span><span class="label">手元資料の整理</span><span class="arrow" aria-hidden="true">→</span></button>
+</div>
+</div>
+<div class="reveal">
+<div class="terminal">
+<div class="terminal-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span>LOCAL WORKSPACE / EXAMPLE</span><span aria-hidden="true">↗</span></div>
+<div class="terminal-body" id="use-panel" role="tabpanel" aria-labelledby="tab-write" tabindex="0">
+<div class="prompt-label">YOU / お願いしたいこと</div>
+<p class="prompt" id="demo-prompt">新しい企画の紹介文を書きたい。<br>まずは、構成を一緒に考えて。</p>
+<div class="answer"><span class="answer-label">POSSIBILITY / こんな使い方に</span><p id="demo-answer">伝えたいことを箇条書きで渡して、見出しや文章のたたき台に。表現を変えながら、自分の言葉に整えていきます。</p><span class="cursor" aria-hidden="true"></span></div>
+</div>
+</div>
+<p class="demo-note">※ 利用イメージです。実際のモデルは実行していません。<br>出力の品質や適性は、用途・モデル・設定によって異なります。内容は自分で確認しましょう。</p>
+<noscript><p class="demo-note">コードの相談：エラーの原因や改善案を考える補助に。提案は実行前に確認します。<br>手元資料の整理：用意した文章の要点や分類案を作る補助に。原文と照合します。</p></noscript>
+</div>
+</div>
+</section>
+<section class="section wrap" id="start" aria-labelledby="start-title">
+<div class="start-head reveal"><p class="kicker"><b>03 /</b> YOUR FIRST LOCAL LLM</p><h2 id="start-title">大きく構えず、<br>小さくはじめよう。</h2><p class="section-intro">最初から、すべてを揃える必要はありません。<br>この4つの順番で、自分に合う入口を見つけましょう。</p></div>
+<div class="steps">
+<article class="step reveal"><span class="step-num">01</span><h3>やりたいことを、ひとつ。</h3><p>「短い文章の下書き」など、試したい用途を決めます。期待する出力を具体的にすると、結果を比べやすくなります。</p><span class="step-arrow" aria-hidden="true">↘</span></article>
+<article class="step reveal"><span class="step-num">02</span><h3>機器とメモリを確認する。</h3><p>PCのOS、メモリ、GPUの有無を確認。実行ツールとモデルの要件を読み、手元の環境で動かせるか確かめます。</p><span class="step-arrow" aria-hidden="true">↘</span></article>
+<article class="step reveal"><span class="step-num">03</span><h3>条件を読んで、モデルを選ぶ。</h3><p>用途への適性と必要メモリに加え、配布元の利用条件を確認します。無料かどうか、商用利用できるかも、モデルごとに確認を。</p><span class="step-arrow" aria-hidden="true">↘</span></article>
+<article class="step reveal"><span class="step-num">04</span><h3>小さく動かして、確かめる。</h3><p>対応する実行ツールの手順に沿って準備し、機密情報を含まない短い入力から。返答・速度・メモリ使用量を見ながら調整します。</p><span class="step-arrow" aria-hidden="true">↗</span></article>
+</div>
+<aside class="caution reveal" aria-labelledby="caution-title"><div class="caution-title" id="caution-title"><span class="info-icon" aria-hidden="true">i</span>はじめる前に、知っておくこと。</div><ul><li>速度と必要メモリは、モデル・機器・設定に依存します。手元の環境に合わせて選びましょう。</li><li>すべてのモデルが無料・商用利用可能とは限りません。モデルや実行ツールの利用条件を確認してください。</li><li>外部連携や設定によって通信が発生します。ローカル実行だけで完全な秘密保持が保証されるわけではありません。通信・保存先・ログの扱いを確認しましょう。</li></ul></aside>
+</section>
+<div class="wrap">
+<div class="closing reveal"><div><p>可能性は、<br>あなたの手元に。</p><div class="eyebrow">STAY CURIOUS. KEEP IT LOCAL.</div></div><a class="to-top" href="#top" aria-label="ページの先頭へ戻る">↑</a></div>
+</div>
+<footer class="wrap"><a class="logo" href="#top" aria-label="LOCAL トップ">LOCAL /</a><p>AN INDEPENDENT INTRODUCTION TO LOCAL LLMs.</p></footer>
+<script>
+(function(){
+'use strict';
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+const progress=document.querySelector('.progress');
+const art=document.querySelector('.scene');
+let scheduled=false;
+function updateScroll(){
+const max=document.documentElement.scrollHeight-window.innerHeight;
+progress.style.transform='scaleX('+(max>0?Math.min(1,window.scrollY/max):0)+')';
+if(!reduced.matches)art.style.setProperty('--art-shift',Math.min(window.scrollY*.065,30)+'px');
+else art.style.setProperty('--art-shift','0px');
+scheduled=false;
+}
+window.addEventListener('scroll',function(){if(!scheduled){scheduled=true;requestAnimationFrame(updateScroll)}},{passive:true});
+window.addEventListener('resize',updateScroll);
+reduced.addEventListener('change',updateScroll);
+updateScroll();
+if('IntersectionObserver' in window&&!reduced.matches){
+document.documentElement.classList.add('js');
+const observer=new IntersectionObserver(function(entries){
+entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.remove('pending');entry.target.classList.add('visible');observer.unobserve(entry.target)}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('pending');observer.observe(el)});
+}
+const examples={
+write:{prompt:'新しい企画の紹介文を書きたい。\nまずは、構成を一緒に考えて。',answer:'伝えたいことを箇条書きで渡して、見出しや文章のたたき台に。表現を変えながら、自分の言葉に整えていきます。'},
+code:{prompt:'このエラー、どこから調べればいい？\nコードを読みながら、原因を考えたい。',answer:'小さなコードとエラーの内容を渡して、原因の候補や改善案を相談。提案されたコードは内容を確認し、安全な環境で試します。'},
+notes:{prompt:'このメモの要点をまとめて、\n次にやることを整理して。',answer:'用意したテキストから、要点の抜き出しや分類案を作る補助に。抜けや誤りがないか原文と照合しながら、資料を整えます。'}
+};
+const tabs=Array.from(document.querySelectorAll('.use-tab'));
+const panel=document.getElementById('use-panel');
+function select(tab,moveFocus){
+tabs.forEach(function(item){const selected=item===tab;item.setAttribute('aria-selected',String(selected));item.tabIndex=selected?0:-1});
+const data=examples[tab.dataset.type];
+const prompt=document.getElementById('demo-prompt');
+prompt.textContent=data.prompt;
+prompt.style.whiteSpace='pre-line';
+document.getElementById('demo-answer').textContent=data.answer;
+panel.setAttribute('aria-labelledby',tab.id);
+if(moveFocus)tab.focus();
+}
+tabs.forEach(function(tab,index){
+tab.addEventListener('click',function(){select(tab,false)});
+tab.addEventListener('keydown',function(event){
+let next=index;
+if(event.key==='ArrowDown'||event.key==='ArrowRight')next=(index+1)%tabs.length;
+else if(event.key==='ArrowUp'||event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;
+else if(event.key==='Home')next=0;
+else if(event.key==='End')next=tabs.length-1;
+else return;
+event.preventDefault();select(tabs[next],true);
+});
+});
+})();
+</script>
+</body>
+</html>

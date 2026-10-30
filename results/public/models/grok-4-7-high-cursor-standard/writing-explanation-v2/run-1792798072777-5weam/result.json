@@ -1,0 +1,44 @@
+{
+  "id": "writing-explanation-v2--grok-4-7-high-cursor-standard--1792798072777-5weam",
+  "trialPath": "models/grok-4-7-high-cursor-standard/writing-explanation-v2/run-1792798072777-5weam",
+  "storageModelKey": "grok-4-7-high-cursor-standard",
+  "task": "writing-explanation-v2",
+  "taskLabel": "日本語技術解説・KVキャッシュ",
+  "type": "writing",
+  "model": "grok-4-7-high-cursor-standard",
+  "status": "success",
+  "promptVersion": "writing-explanation-v2",
+  "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+  "inputVersion": "facts-writing-v2",
+  "durationMs": 225190,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T23:27:59.396Z",
+  "updatedAt": "2026-10-23T23:43:13.801Z",
+  "continuationMode": "initial-generation-after-setup-refusals",
+  "attemptCount": 3,
+  "activeDurationMs": 260350,
+  "artifact": "models/grok-4-7-high-cursor-standard/writing-explanation-v2/run-1792798072777-5weam/artifact.txt",
+  "preGenerationStops": [
+    "workspace-trust-required",
+    "backend-workspace-context-exclusion-refused"
+  ],
+  "previousRejectedRequestUsage": "unknown",
+  "executionConditions": {
+    "cli": "Cursor 2026.10.22-27dcf5f",
+    "mode": "ask",
+    "modelId": "grok-4.7-high",
+    "effectiveModel": "Grok 4.7 256K High",
+    "speed": "standard",
+    "effort": "high",
+    "context": "standard CLI context; no hidden options; local generic skill metadata may differ from other CLIs",
+    "workspaceTrust": "exact writing trial only",
+    "toolCalls": 0,
+    "usage": {
+      "inputTokens": 9433,
+      "outputTokens": 20673,
+      "cacheReadTokens": 6016,
+      "cacheWriteTokens": 0
+    }
+  }
+}

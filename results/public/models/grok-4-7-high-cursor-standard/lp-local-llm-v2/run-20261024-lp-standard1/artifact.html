@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="生成AIを自分のPCや手元の計算機で動かす、ローカルLLMという選択肢の案内です。">
+<title>ローカルLLMは、自分のPCで動く</title>
+<style>
+:root {
+  --ink: #14110e;
+  --ink-2: #241f1a;
+  --ink-3: #312b24;
+  --paper: #f3eee4;
+  --paper-2: #fffaf3;
+  --cream: #f7f3ea;
+  --cream-dim: #e4d9c8;
+  --ink-soft: #3e372f;
+  --copper: #e36b2e;
+  --copper-deep: #7a3010;
+  --lime: #e3f56e;
+  --line: rgba(247, 243, 234, 0.16);
+  --p: 0;
+  --flow: 0;
+  --sans: "Yu Gothic UI", "Yu Gothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  --serif: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "MS PMincho", serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; background: var(--ink); }
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--cream);
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(rgba(247, 243, 234, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247, 243, 234, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  overflow-x: clip;
+}
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; }
+a { color: inherit; }
+:focus { outline: none; }
+:focus-visible { outline: 3px solid var(--copper); outline-offset: 3px; }
+::selection { background: var(--lime); color: var(--ink); }
+.skip {
+  position: absolute;
+  left: 8px;
+  top: -52px;
+  z-index: 80;
+  background: var(--lime);
+  color: var(--ink);
+  padding: 8px 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.skip:focus { top: 8px; }
+.wash {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  width: 46vw;
+  height: 46vw;
+  top: -12vw;
+  right: -12vw;
+  background: radial-gradient(circle, rgba(227, 107, 46, 0.2), transparent 68%);
+}
+.wash-b {
+  top: auto;
+  right: auto;
+  bottom: -14vw;
+  left: -14vw;
+  width: 38vw;
+  height: 38vw;
+  background: radial-gradient(circle, rgba(227, 245, 110, 0.1), transparent 70%);
+}
+.top, main, .colophon { position: relative; z-index: 1; }
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(20, 17, 14, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  transform-origin: left center;
+  transform: scaleX(var(--p));
+  background: linear-gradient(90deg, var(--copper), var(--lime));
+}
+.wrap { width: min(1080px, calc(100% - 48px)); margin-inline: auto; }
+.top-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+  min-height: 60px;
+  padding-block: 6px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--cream);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+.led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  flex: none;
+}
+nav { display: flex; flex-wrap: wrap; gap: 2px 4px; }
+nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px;
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 15px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+nav a:hover, nav a:focus-visible, nav a[aria-current="page"] {
+  color: var(--cream);
+  border-bottom-color: var(--lime);
+}
+.band { padding: 76px 0; }
+.sheet { padding: 76px 0; background: var(--paper); color: var(--ink); }
+.hero { padding: 28px 0 36px; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: 28px;
+  align-items: center;
+}
+h1 { font-size: clamp(1.9rem, 2.6vw + 1rem, 3.15rem); line-height: 1.22; margin: 0 0 14px; }
+h2 { font-size: clamp(1.6rem, 1.2vw + 1.15rem, 2.35rem); line-height: 1.32; margin: 0 0 10px; }
+h3 { font-size: 1.32rem; line-height: 1.35; margin: 0 0 8px; }
+.kicker { margin: 0 0 8px; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; }
+.band .kicker { color: var(--lime); }
+.sheet .kicker { color: var(--copper-deep); }
+.lede { max-width: 40rem; }
+.hero .lede { font-size: 17px; max-width: 36rem; }
+.quiet { margin-top: 10px; color: var(--cream-dim); font-size: 16px; }
+.sheet .lede, .point p, .step p { color: var(--ink-soft); }
+.band .lede, .card p, .note p, .factor p { color: var(--cream-dim); }
+.point p, .step p, .card p, .note p, .quiet, .cta-note, figcaption, .factor p, .colophon p { font-size: 16px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 16px 0 0; list-style: none; }
+.chips a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(247, 243, 234, 0.28);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 15px;
+}
+.chips a::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+}
+.chips a:hover, .chips a:focus-visible { border-color: var(--lime); background: rgba(227, 245, 110, 0.12); }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 18px; }
+.cta-note { flex-basis: 100%; color: var(--cream-dim); }
+.sheet .cta-note { color: var(--ink-soft); }
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 2px solid var(--cream);
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 700;
+  text-decoration: none;
+}
+.button span { display: inline-block; }
+.band .button:hover, .band .button:focus-visible,
+.sheet .button:hover, .sheet .button:focus-visible {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: var(--ink);
+}
+.sheet .button { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.textlink { font-weight: 700; text-underline-offset: 0.28em; text-decoration-thickness: 2px; }
+.band .textlink:hover, .band .textlink:focus-visible { color: var(--lime); }
+.sheet .textlink:hover, .sheet .textlink:focus-visible { color: var(--copper-deep); }
+.visual { margin: 0; min-width: 0; }
+.stage {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+.chassis { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.slot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+.s-lg { width: 58.75%; height: 58.75%; }
+.s-md { width: 39.4%; height: 39.4%; }
+.s-sm { width: 24.4%; height: 24.4%; }
+.mini { position: relative; width: 72px; height: 72px; flex: none; color: inherit; }
+.mini.lg { width: 128px; height: 128px; }
+.mini .slot.a { width: 100%; height: 100%; border: 1px solid currentColor; opacity: 1; }
+.mini .slot.b { width: 62%; height: 62%; border: 1px dashed currentColor; }
+.sheet .mini { color: rgba(122, 48, 16, 0.55); }
+.band .mini { color: rgba(227, 245, 110, 0.45); }
+.spin { position: absolute; inset: 0; animation: spin 20s linear infinite; }
+.spin.rev { animation-direction: reverse; animation-duration: 13s; }
+.spin.fast { animation-duration: 8.5s; }
+.scanring { border-radius: 50%; border: 2px solid transparent; border-top-color: var(--copper); }
+.spin span {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--lime);
+  box-shadow: 0 0 0 1px rgba(20, 17, 14, 0.5);
+}
+.mini .spin span { width: 6px; height: 6px; }
+.mini.lg .spin span { width: 8px; height: 8px; }
+.spin span:nth-child(1) { left: 50%; top: 0; transform: translate(-50%, -50%); }
+.spin span:nth-child(2) { left: 100%; top: 50%; transform: translate(-50%, -50%); }
+.spin span:nth-child(3) { left: 50%; top: 100%; transform: translate(-50%, -50%); }
+.spin span:nth-child(4) { left: 0; top: 50%; transform: translate(-50%, -50%); }
+.spin.two span:nth-child(2) { left: 50%; top: 100%; }
+.s-md .spin span, .slot.b .spin span { background: var(--copper); }
+.s-sm .spin span { width: 6px; height: 6px; background: var(--cream); }
+.dotcore {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  width: 18%;
+  height: 18%;
+  min-width: 10px;
+  min-height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe1d2, var(--copper) 45%, var(--copper-deep) 80%);
+}
+.scan {
+  position: absolute;
+  left: 14%;
+  top: 36%;
+  z-index: 3;
+  width: 72%;
+  height: 2px;
+  pointer-events: none;
+  opacity: 0.9;
+  background: linear-gradient(90deg, transparent, var(--lime), transparent);
+  animation: scan 5.8s ease-in-out infinite;
+}
+.sheet .scan { background: linear-gradient(90deg, transparent, var(--copper-deep), transparent); }
+figcaption { max-width: 36em; margin: 12px auto 0; text-align: center; color: var(--cream); }
+.sec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+.sec-head > div { max-width: 42rem; min-width: 0; }
+.points { list-style: none; padding: 0; }
+.point {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px 18px;
+  align-items: center;
+  padding: 18px 12px;
+  border-top: 1px solid rgba(20, 17, 14, 0.12);
+}
+.point:last-child { border-bottom: 1px solid rgba(20, 17, 14, 0.12); }
+.point:hover { background: rgba(255, 255, 255, 0.55); }
+.idx { display: block; margin-bottom: 4px; color: var(--copper-deep); font-size: 0.82em; letter-spacing: 0.08em; }
+.point h3 { font-size: 1.5rem; }
+.after { margin-top: 22px; }
+.cards, .steps { list-style: none; padding: 0; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.card, .note {
+  position: relative;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px 20px 20px;
+}
+.card h3, .note h3, .card p, .note p { color: var(--cream); }
+.card p, .note p { color: var(--cream-dim); }
+.card::before, .card::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--lime);
+  opacity: 0.45;
+}
+.card::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.card::after { right: 10px; bottom: 10px; border-left: 0; border-top: 0; }
+.card:hover, .step:hover, .note:hover { border-color: var(--copper); }
+.card:hover { background: var(--ink-3); }
+.card:hover::before, .card:hover::after { opacity: 1; }
+.steps-wrap { position: relative; }
+.flow-line {
+  position: absolute;
+  z-index: 0;
+  top: 36px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: rgba(122, 48, 16, 0.28);
+}
+.flow-line span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--copper-deep);
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.steps {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.step {
+  background: rgba(255, 250, 243, 0.72);
+  border: 1px solid rgba(20, 17, 14, 0.1);
+  border-radius: 16px;
+  padding: 16px 16px 18px;
+}
+.step:hover { background: var(--paper-2); }
+.num {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--lime);
+  font-size: 15px;
+}
+.step:hover .num { background: var(--lime); color: var(--ink); }
+.notes-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr); gap: 22px; align-items: start; }
+.notes { list-style: none; padding: 0; display: grid; gap: 12px; }
+.note { border-left: 4px solid var(--copper); border-radius: 0 16px 16px 0; padding: 16px 18px; }
+.note:hover { border-left-color: var(--lime); background: var(--ink-3); }
+.factor {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.factor .mini { margin-bottom: 14px; }
+.factor ul { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px; }
+.factor li {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--cream);
+  font-weight: 700;
+}
+.factor li:hover { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+.factor-result { color: var(--cream); font-weight: 700; }
+.close .sec-head { margin-bottom: 0; }
+.colophon { background: #100e0c; color: var(--cream-dim); padding: 18px 0 28px; }
+.colophon p { display: flex; gap: 10px; align-items: flex-start; }
+.card, .step, .point, .note, .factor li, .chips a, .button, nav a, .textlink, .num {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes scan {
+  0%, 100% { top: 22%; }
+  50% { top: 70%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage { transform: translateY(calc(var(--p) * -18px)); }
+  .wash { transform: translate3d(calc(var(--p) * -6vw), calc(var(--p) * 58vh), 0); }
+  .wash-b { transform: translate3d(calc(var(--p) * 8vw), calc(var(--p) * -24vh), 0); }
+  .button:hover span, .button:focus-visible span { transform: translateX(4px); }
+  .card:hover, .step:hover { transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 861px) {
+  .flow-line span { transform: scaleX(var(--flow)); }
+}
+@media (max-width: 860px) {
+  .wrap { width: min(1080px, calc(100% - 32px)); }
+  .band, .sheet { padding: 52px 0; }
+  .hero { padding: 20px 0 28px; }
+  .hero-grid, .cards, .steps, .notes-layout, .sec-head { grid-template-columns: 1fr; }
+  .sec-head { flex-direction: column; align-items: flex-start; }
+  .stage { width: min(70vw, 250px); }
+  .mini.lg { width: 96px; height: 96px; }
+  .flow-line { top: 10px; bottom: 10px; left: 6px; right: auto; width: 2px; height: auto; }
+  .flow-line span { transform: scaleY(1); transform-origin: top center; }
+  .steps { padding-left: 28px; }
+  figcaption { text-align: left; }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 860px) {
+  .flow-line span { transform: scaleY(var(--flow)); }
+}
+@media (max-height: 820px) and (min-width: 861px) {
+  .hero { padding: 14px 0 20px; }
+  .stage { width: min(100%, 372px); }
+  .top-inner { min-height: 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .stage, .wash, .wash-b { transform: none !important; }
+}
+@media (forced-colors: active) {
+  .button, .card, .note, .step, .chips a, .factor li { border: 1px solid CanvasText; }
+  .progress { background: CanvasText; }
+}
+</style>
+</head>
+<body>
+<div class="wash" aria-hidden="true"></div>
+<div class="wash wash-b" aria-hidden="true"></div>
+<a class="skip" href="#main">本文へスキップ</a>
+<header class="top">
+  <div class="progress" aria-hidden="true"></div>
+  <div class="wrap top-inner">
+    <a class="brand" href="#top"><span class="led" aria-hidden="true"></span>ローカルLLM</a>
+    <nav aria-label="ページ内">
+      <a href="#appeal">魅力</a>
+      <a href="#uses">用途</a>
+      <a href="#flow">手順</a>
+      <a href="#notes">注意</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="hero band" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">手元で動かす、という選択</p>
+        <h1>ローカルLLMは、<br>自分のPCで動く。</h1>
+        <p class="lede">生成AIを、自分のPCや手元の計算機で動かすという選択肢です。魅力は、手元で試す楽しさ、モデルを選ぶ自由、データの扱いを自分で設計できることです。</p>
+        <p class="quiet">特定の製品を売るサイトではありません。</p>
+        <ul class="chips">
+          <li><a href="#try">手元で試す</a></li>
+          <li><a href="#choose">モデルを選ぶ</a></li>
+          <li><a href="#data">データを設計する</a></li>
+        </ul>
+        <div class="cta-row">
+          <a class="button" href="#flow">導入の流れを見る<span aria-hidden="true">→</span></a>
+          <a class="textlink" href="#notes">注意点を先に読む</a>
+          <p class="cta-note">どちらもページ内への移動です。入力の送信はありません。</p>
+        </div>
+      </div>
+      <figure class="visual">
+        <div class="stage" aria-hidden="true">
+          <svg class="chassis" viewBox="0 0 640 640" focusable="false">
+            <defs>
+              <radialGradient id="coreglow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e36b2e" stop-opacity="0.95"/>
+                <stop offset="46%" stop-color="#e36b2e" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#e36b2e" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="plate" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#2a241e"/>
+                <stop offset="100%" stop-color="#12100e"/>
+              </linearGradient>
+            </defs>
+            <rect x="18" y="18" width="604" height="604" rx="46" fill="url(#plate)" stroke="#f7f3ea" stroke-opacity="0.32" stroke-width="2"/>
+            <rect x="46" y="46" width="548" height="548" rx="34" fill="none" stroke="#e36b2e" stroke-opacity="0.55"/>
+            <g fill="none" stroke="#f7f3ea" stroke-opacity="0.5" stroke-width="2">
+              <circle cx="80" cy="80" r="7"/>
+              <circle cx="560" cy="80" r="7"/>
+              <circle cx="80" cy="560" r="7"/>
+              <circle cx="560" cy="560" r="7"/>
+            </g>
+            <g fill="none" stroke="#e3f56e" stroke-width="3">
+              <path d="M108 156 V108 H156"/>
+              <path d="M484 108 H532 V156"/>
+              <path d="M532 484 V532 H484"/>
+              <path d="M156 532 H108 V484"/>
+            </g>
+            <circle cx="320" cy="308" r="188" fill="none" stroke="#f7f3ea" stroke-opacity="0.14"/>
+            <circle cx="320" cy="308" r="168" fill="none" stroke="#f7f3ea" stroke-opacity="0.55" stroke-width="10" stroke-dasharray="1.6 18" stroke-linecap="round"/>
+            <circle cx="320" cy="308" r="126" fill="none" stroke="#e3f56e" stroke-opacity="0.38" stroke-dasharray="3 8"/>
+            <circle cx="320" cy="308" r="78" fill="none" stroke="#f7f3ea" stroke-opacity="0.28"/>
+            <circle cx="320" cy="308" r="100" fill="url(#coreglow)"/>
+            <g stroke="#f7f3ea" stroke-opacity="0.28">
+              <path d="M320 126 V198"/>
+              <path d="M320 418 V490"/>
+              <path d="M138 308 H210"/>
+              <path d="M430 308 H502"/>
+            </g>
+            <circle cx="320" cy="308" r="34" fill="#f7f3ea"/>
+            <circle cx="320" cy="308" r="14" fill="#e36b2e"/>
+            <rect x="232" y="532" width="176" height="36" rx="8" fill="#14110e" stroke="#e3f56e" stroke-width="1.5"/>
+            <text x="320" y="556" text-anchor="middle" fill="#f7f3ea" font-size="16" font-family="Yu Gothic UI, Yu Gothic, Meiryo, sans-serif">手元で実行</text>
+          </svg>
+          <div class="slot s-lg"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div>
+          <div class="slot s-md"><div class="spin rev"><span></span><span></span><span></span><span></span></div></div>
+          <div class="slot s-sm"><div class="spin fast two"><span></span><span></span></div></div>
+          <div class="scan"></div>
+        </div>
+        <figcaption>図は、計算を手元の枠の中で行うイメージです。外部連携や設定があれば、通信は起きます。</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sheet" id="appeal">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="kicker">01 / 魅力</p>
+          <h2>手元で動かすと、何が変わるか</h2>
+          <p class="lede">クラウドの生成AIは使ったことがある。自分のPCでは、まだ動かしたことがない。そんな人に向けた三つのポイントです。</p>
+        </div>
+      </header>
+      <ol class="points">
+        <li class="point" id="try">
+          <div class="mini" aria-hidden="true"><div class="slot a"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div><div class="slot b"><div class="spin rev two"><span></span><span></span></div></div><div class="dotcore"></div></div>
+          <div>
+            <h3><span class="idx">01</span>手元で試す楽しさ</h3>
+            <p>自分のマシンにプロンプトを渡し、応答が返ってくるところから始まります。設定を変えると、振る舞いも変わります。うまくいかない回も含めて、小さく試せます。</p>
+          </div>
+        </li>
+        <li class="point" id="choose">
+          <div class="mini" aria-hidden="true"><div class="slot a"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div><div class="slot b"><div class="spin rev two"><span></span><span></span></div></div><div class="dotcore"></div></div>
+          <div>
+            <h3><span class="idx">02</span>用途に合わせて選ぶ</h3>
+            <p>文章の下書き、コードの相談、手元の資料の整理。やりたいことに合わせて、モデルを選べます。うまくいく度合いや精度は、用途とモデルによって変わります。</p>
+          </div>
+        </li>
+        <li class="point" id="data">
+          <div class="mini" aria-hidden="true"><div class="slot a"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div><div class="slot b"><div class="spin rev two"><span></span><span></span></div></div><div class="dotcore"></div></div>
+          <div>
+            <h3><span class="idx">03</span>データの扱いを設計する</h3>
+            <p>入力、ログ、資料をどこに置くか。外部へ出す処理をどこまで許すか。その方針を自分で決められます。ただし、連携や設定によっては通信が発生します。手元で動かすことだけで、完全な秘密保持が自動的に保証されるわけではありません。</p>
+          </div>
+        </li>
+      </ol>
+      <p class="after"><a class="textlink" href="#flow">三つの魅力を、導入の流れで確かめる</a></p>
+    </div>
+  </section>
+
+  <section class="band" id="uses">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="kicker">02 / 用途</p>
+          <h2>試し始めの用途</h2>
+          <p class="lede">文章の下書き、コードの相談、手元の資料の整理。最初に切り出しやすい例です。精度や、うまくいく度合いは、用途とモデルに依存します。</p>
+        </div>
+        <div class="mini lg" aria-hidden="true"><div class="slot a"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div><div class="slot b"><div class="spin rev two"><span></span><span></span></div></div><div class="dotcore"></div><div class="scan"></div></div>
+      </header>
+      <ul class="cards">
+        <li class="card">
+          <h3>文章の下書き</h3>
+          <p>見出し、構成、言い換え、叩き台づくりに使えます。外へ出す文章の確認は、人の側に残します。</p>
+        </li>
+        <li class="card">
+          <h3>コードの相談</h3>
+          <p>エラーの読み解き、短い処理の案、書き方の比較に使えます。動くかどうかは、自分の環境で確かめます。</p>
+        </li>
+        <li class="card">
+          <h3>手元資料の整理</h3>
+          <p>メモや文書の要約、論点の抜き出し、比較の下書きに使えます。資料を外部へ送るかどうかは、ソフトの設定と連携先によります。</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sheet" id="flow">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="kicker">03 / 手順</p>
+          <h2>導入の流れ</h2>
+          <p class="lede">販売のための手順ではありません。手元で小さく試すときの順番です。</p>
+        </div>
+        <div class="mini lg" aria-hidden="true"><div class="slot a"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div><div class="slot b"><div class="spin rev two"><span></span><span></span></div></div><div class="dotcore"></div><div class="scan"></div></div>
+      </header>
+      <div class="steps-wrap">
+        <div class="flow-line" aria-hidden="true"><span></span></div>
+        <ol class="steps">
+          <li class="step">
+            <h3><span class="num">01</span>用途を決める</h3>
+            <p>文章、コード、資料整理のどれに近いかを決めます。これが、モデルを見る基準になります。</p>
+          </li>
+          <li class="step">
+            <h3><span class="num">02</span>機器と必要メモリを確認する</h3>
+            <p>OSと空きメモリを確認します。グラフィックス機能があれば、それも見ます。必要なメモリと速度は、モデル、機器、設定で変わります。</p>
+          </li>
+          <li class="step">
+            <h3><span class="num">03</span>利用条件を読んで選ぶ</h3>
+            <p>無料かどうか、商用利用できるかは、モデルごとに違います。すべてのモデルが無料で、商用利用できるとは限りません。条件を読んでから選びます。</p>
+          </li>
+          <li class="step">
+            <h3><span class="num">04</span>小さく試す</h3>
+            <p>短いプロンプトで、決めた用途に近いかを見ます。期待と違えば、モデルや設定を変えて、もう一度小さく試します。</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="notes">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="kicker">04 / 注意</p>
+          <h2>先に知っておくこと</h2>
+          <p class="lede">ローカル実行は、速さも秘密も、最初から一つに決まっている方式ではありません。</p>
+        </div>
+      </header>
+      <div class="notes-layout">
+        <ol class="notes">
+          <li class="note">
+            <h3>速度と必要メモリ</h3>
+            <p>速度と必要メモリは、モデル、機器、設定に依存します。同じモデルでも、機器と設定が違えば結果は変わります。</p>
+          </li>
+          <li class="note">
+            <h3>無料と商用利用</h3>
+            <p>すべてのモデルが無料とは限りません。商用利用ができるとも限りません。選ぶ前に、配布元の利用条件を読みます。</p>
+          </li>
+          <li class="note">
+            <h3>通信と秘密保持</h3>
+            <p>外部連携や設定によって通信が発生します。ローカル実行だけで、完全な秘密保持が自動的に保証されるわけではありません。</p>
+          </li>
+        </ol>
+        <aside class="factor" aria-label="速度と必要メモリが依存するもの">
+          <div class="mini lg" aria-hidden="true"><div class="slot a"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div><div class="slot b"><div class="spin rev two"><span></span><span></span></div></div><div class="dotcore"></div><div class="scan"></div></div>
+          <p>速度と必要メモリが依存するもの</p>
+          <ul>
+            <li>モデル</li>
+            <li>機器</li>
+            <li>設定</li>
+          </ul>
+          <p class="factor-result">この三つが変わると、速度と必要メモリも変わります。</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet close" id="close">
+    <div class="wrap sec-head">
+      <div>
+        <p class="kicker">次の一歩</p>
+        <h2>自分の用途から、手元で試す</h2>
+        <p class="lede">この案内は、ローカルLLMを手元で動かすという選択肢の紹介です。特定の製品の販売や、性能の順位づけはしていません。用途を一つ決め、自分の機器と利用条件の確認から始められます。</p>
+        <div class="cta-row">
+          <a class="button" href="#flow">導入の流れを見る<span aria-hidden="true">→</span></a>
+          <a class="textlink" href="#notes">注意点を読む</a>
+          <p class="cta-note">ページ内の案内へ移動します。送信はしません。</p>
+        </div>
+      </div>
+      <div class="mini lg" aria-hidden="true"><div class="slot a"><div class="spin scanring"><span></span><span></span><span></span><span></span></div></div><div class="slot b"><div class="spin rev two"><span></span><span></span></div></div><div class="dotcore"></div><div class="scan"></div></div>
+    </div>
+  </section>
+</main>
+<footer class="colophon">
+  <div class="wrap">
+    <p><span class="led" aria-hidden="true"></span>速度、必要メモリ、利用条件は、モデルの説明と自分の機器で確認します。</p>
+  </div>
+</footer>
+<script>
+(function () {
+  var root = document.documentElement;
+  var links = Array.prototype.slice.call(document.querySelectorAll(".top nav a"));
+  var flow = document.getElementById("flow");
+  var ticking = false;
+  function paint() {
+    ticking = false;
+    var max = root.scrollHeight - window.innerHeight;
+    var p = max > 0 ? window.scrollY / max : 0;
+    if (p < 0) p = 0;
+    if (p > 1) p = 1;
+    root.style.setProperty("--p", p.toFixed(4));
+    if (flow) {
+      var rect = flow.getBoundingClientRect();
+      var vh = window.innerHeight || 1;
+      var fp = (vh * 0.92 - rect.top) / (vh * 0.55 + rect.height * 0.5);
+      if (fp < 0) fp = 0;
+      if (fp > 1) fp = 1;
+      flow.style.setProperty("--flow", fp.toFixed(4));
+    }
+    var current = "";
+    var i;
+    for (i = 0; i < links.length; i++) {
+      var id = links[i].getAttribute("href").slice(1);
+      var el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < 120) current = id;
+    }
+    for (i = 0; i < links.length; i++) {
+      if (links[i].getAttribute("href") === "#" + current) links[i].setAttribute("aria-current", "page");
+      else links[i].removeAttribute("aria-current");
+    }
+  }
+  function request() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(paint);
+    }
+  }
+  document.addEventListener("scroll", request, { passive: true });
+  window.addEventListener("resize", request);
+  window.addEventListener("hashchange", request);
+  window.addEventListener("load", request);
+  paint();
+})();
+</script>
+</body>
+</html>

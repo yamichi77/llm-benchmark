@@ -1,0 +1,22 @@
+{
+  "id": "lp-local-llm-v2--gpt-6-astra-code--1792741438500-mcktk",
+  "trialPath": "models/gpt-6-astra-code/lp-local-llm-v2/run-1792741438500-mcktk",
+  "storageModelKey": "gpt-6-astra-code",
+  "task": "lp-local-llm-v2",
+  "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+  "type": "lp",
+  "model": "gpt-6-astra-code",
+  "status": "success",
+  "promptVersion": "lp-local-llm-v2",
+  "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+  "inputVersion": "facts-lp-v2",
+  "durationMs": 309709,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T07:49:08.212Z",
+  "updatedAt": "2026-10-23T07:49:08.213Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 309710,
+  "artifact": "models/gpt-6-astra-code/lp-local-llm-v2/run-1792741438500-mcktk/artifact.html"
+}

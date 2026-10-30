@@ -1,0 +1,22 @@
+{
+  "id": "research-repository-v2--gpt-6-1-sol-code--1792738156852-9flrh",
+  "trialPath": "models/gpt-6-1-sol-code/research-repository-v2/run-1792738156852-9flrh",
+  "storageModelKey": "gpt-6-1-sol-code",
+  "task": "research-repository-v2",
+  "taskLabel": "指定リポジトリの固定版要約",
+  "type": "research",
+  "model": "gpt-6-1-sol-code",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+  "durationMs": 67761,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T06:50:24.617Z",
+  "updatedAt": "2026-10-23T06:50:24.617Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 67761,
+  "artifact": "models/gpt-6-1-sol-code/research-repository-v2/run-1792738156852-9flrh/artifact.txt"
+}

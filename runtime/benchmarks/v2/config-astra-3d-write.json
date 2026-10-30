@@ -1,0 +1,43 @@
+{
+  "models": [
+    {
+      "id": "gpt-6-astra-code",
+      "modelId": "gpt-6-astra",
+      "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+      "args": [
+        "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/codex-sol-run.mjs",
+        "--trial-write",
+        "--benchmark-model",
+        "gpt-6-astra",
+        "--prompt-version",
+        "{promptVersion}",
+        "--input",
+        "{input}",
+        "--output",
+        "{output}"
+      ],
+      "promptMode": "stdin",
+      "preflight": {
+        "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+        "args": [
+          "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/codex-sol-run.mjs",
+          "--benchmark-model",
+          "gpt-6-astra",
+          "--models"
+        ]
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "model3d-kurageko-v2",
+      "label": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "prompt": "model3d-mcp-ja.txt",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "input": "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/private/inputs-v2/kurageko-v2",
+      "inputVersion": "kurageko-reference-v2",
+      "reference": "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/private/inputs-v2/kurageko-v2/design-turnaround.png"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "id": "model3d-kurageko-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+  "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024",
+  "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+  "task": "model3d-kurageko-v2",
+  "taskLabel": "画像入力・kurageko立体生成（通常ツール経路・MCP限定条件外）",
+  "type": "model3d",
+  "model": "deepseek-v4-1-flash-free-high-opencode",
+  "status": "success",
+  "promptVersion": "model3d-kurageko-v2-mcp1",
+  "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+  "inputVersion": "kurageko-reference-v2",
+  "durationMs": 10474322,
+  "activeDurationMs": 10474322,
+  "createdAt": "2026-10-24T01:21:05.774Z",
+  "updatedAt": "2026-10-24T04:15:40.096Z",
+  "exitCode": 0,
+  "attemptCount": 1,
+  "continuationMode": "initial",
+  "artifact": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/artifact.glb",
+  "reference": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/reference.png",
+  "effectiveModel": {
+    "id": "deepseek-v4.1-flash-free",
+    "providerID": "opencode",
+    "variant": "high"
+  },
+  "effort": "high",
+  "usage": {
+    "input": 1298387,
+    "output": 132588,
+    "reasoning": 181734,
+    "cache": {
+      "read": 27067615,
+      "write": 0
+    }
+  },
+  "cost": 0,
+  "sessionId": "public-session-001",
+  "generationContract": "One user request with internal agent turns; no human quality repair or regeneration.",
+  "executionConditions": {
+    "agent": "Default build; normal official CLI and permission checks",
+    "images": "Four fixed PNGs via official --file",
+    "mcpConfigured": "Existing six-tool trial Blender MCP launcher",
+    "toolCalls": 325,
+    "toolCallTypes": {
+      "execute": 6,
+      "read": 99,
+      "shell": 63,
+      "write": 8,
+      "edit": 145,
+      "grep": 4
+    },
+    "contractDeviation": "Model used native tools/shell and a custom TCP helper instead of the requested six MCP tools. Do not treat this as a compliant six-tool MCP condition."
+  },
+  "validation": {
+    "actions": 0,
+    "armatures": 0,
+    "bones": 0,
+    "boundary_edges": 20908,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 88568,
+    "flat_polygons": 1020,
+    "geometry_nodes_modifiers": 0,
+    "images": 3,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 18,
+    "mesh_objects": 1,
+    "missing_material_faces": 0,
+    "node_materials": 18,
+    "non_manifold_edges": 20908,
+    "objects": 1,
+    "polygons": 52076,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 51056,
+    "textured_materials": 3,
+    "triangles": 52076,
+    "uv_mapped_meshes": 1,
+    "vertices": 38412,
+    "weighted_meshes": 0,
+    "wire_edges": 0,
+    "zero_length_edges": 0,
+    "glbBytes": 1826964,
+    "selfContained": true,
+    "sha256": "0e49154f899ef0ac9dc305c7532210e8dce8e459cda2e565300438960ddf96af"
+  },
+  "verification": {
+    "freshBlenderImport": true,
+    "fixedViewsRendered": 6,
+    "sourcePreserved": true,
+    "artifactUnmodified": true,
+    "heroAndContactSheetOpened": true,
+    "authoredAndGlbTriangleCountMatch": true
+  },
+  "previewMedia": {
+    "front": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/front.png",
+    "threeQuarter": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/perspective.png",
+    "side": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/right.png",
+    "back": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/back.png"
+  },
+  "visualObservations": {
+    "classification": "Artifact technically valid; visual deviations retained; strict six-tool MCP condition not met.",
+    "viewsOpened": [
+      "perspective",
+      "front",
+      "back",
+      "left",
+      "right",
+      "top",
+      "contact_sheet"
+    ],
+    "observations": [
+      "Full-body character has a volumetric jellyfish cap, blue bob hair, blue eyes, petal collar, layered skirt and short boots.",
+      "Compared with the fixed reference, the dress silhouette is narrower and straighter, sleeves less full, and the face/eyes more strongly three-dimensional.",
+      "Hat and clothing render nearly white under the pinned neutral evidence lighting; blue markings and pale blue layers remain visible.",
+      "Open surfaces and split export edges are present; no invalid vertices or degenerate faces were measured. No geometry or material corrections were made."
+    ],
+    "strictComparison": {
+      "eligible": false,
+      "reason": "Normal native tools and custom localhost TCP Blender execution were used instead of exclusively the six configured MCP tools."
+    }
+  },
+  "strictConditionMatch": false,
+  "excludedFromStrictMcpScore": true,
+  "comparisonCaveats": [
+    "6ツールMCP限定条件には不適合。通常ツール＋独自localhost TCP経路の成果として表示し、厳密な同条件スコアから除外。"
+  ],
+  "safetyAudit": "deepseek-3d-pc-impact-audit.json"
+}

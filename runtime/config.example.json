@@ -1,0 +1,22 @@
+{
+  "models": [
+    {
+      "id": "fake-a",
+      "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Microsoft\\WinGet\\Packages\\OpenJS.NodeJS.LTS_Microsoft.Winget.Source_8wekyb3d8bbwe\\node-v22.16.0-win-x64\\node.exe",
+      "args": [
+        "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/development/fake-cli.mjs",
+        "ok",
+        "writing",
+        "{output}"
+      ],
+      "promptMode": "stdin"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "writing",
+      "type": "writing",
+      "prompt": "fixtures/writing.txt"
+    }
+  ]
+}

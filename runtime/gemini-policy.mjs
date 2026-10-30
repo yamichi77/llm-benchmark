@@ -1,0 +1,26 @@
+import path from 'node:path';
+import {mcpTools} from './qwen-mcp-policy.mjs';
+import {mcpConfiguration} from './opus-policy.mjs';
+
+export const geminiModel='gemini-4-argon';
+export const geminiVersion='0.65.0';
+export const geminiThinking='MEDIUM';
+export const imageNames=Object.freeze(['front.png','right.png','back.png','design-turnaround.png']);
+export const inputTools=Object.freeze(['list_files','read_snapshot_file']);
+export function taskKind(version){const entries={'writing-explanation-v2':'writing','research-repository-v2':'research','model3d-kurageko-v2-mcp1':'model3d','lp-local-llm-v2':'lp'};if(!entries[version])throw Error('Unknown fixed prompt version');return entries[version];}
+export function allowedTools(kind){if(!['writing','research','model3d','lp'].includes(kind))throw Error('Unknown task kind');return kind==='research'?inputTools.map(toolName=>({mcpName:'benchmark_inputs',toolName})):kind==='model3d'?mcpTools.map(toolName=>({mcpName:'blender_benchmark',toolName})):[];}
+export function policyText(kind){return '# Trial-only default-deny policy; system/admin policies retain precedence.\n[[rule]]\ntoolName = "*"\ndecision = "deny"\npriority = 100\n'+allowedTools(kind).map(r=>`\n[[rule]]\nmcpName = ${JSON.stringify(r.mcpName)}\ntoolName = ${JSON.stringify(r.toolName)}\ndecision = "allow"\npriority = 200\n`).join('');}
+export function trialSettings(kind,{runtime,work,blenderPort=9877}){
+ if(![9877,9878].includes(blenderPort))throw Error('Unsupported benchmark Blender port');const tools=allowedTools(kind);let mcpServers={};
+ if(kind==='research')mcpServers={benchmark_inputs:{command:process.execPath,args:[path.join(runtime,'input-mcp.mjs')],env:{MODEL_BENCHMARK_INPUT:path.join(work,'input'),MODEL_BENCHMARK_READ_TOOL:'read_snapshot_file'},includeTools:[...inputTools]}};
+ if(kind==='model3d'){const s=mcpConfiguration(runtime,work).mcpServers.blender_benchmark;const {type,...rest}=s;mcpServers={blender_benchmark:{...rest,env:{...rest.env,MODEL_BENCHMARK_BLENDER_PORT:String(blenderPort)},includeTools:[...mcpTools]}};}
+ return {model:{name:geminiModel,maxSessionTurns:-1},modelConfigs:{customOverrides:[{match:{overrideScope:'core'},modelConfig:{model:geminiModel,generateContentConfig:{maxOutputTokens:65536,thinkingConfig:{thinkingLevel:geminiThinking}}}}]},general:{maxAttempts:1,retryFetchErrors:false},context:{fileName:[],loadMemoryFromIncludeDirectories:false},hooksConfig:{enabled:false},skills:{enabled:false},privacy:{usageStatisticsEnabled:false},telemetry:{enabled:false},ide:{enabled:false},advanced:{ignoreLocalEnv:true},billing:{overageStrategy:'never'},mcp:{allowed:[...new Set(tools.map(t=>t.mcpName))].length?[...new Set(tools.map(t=>t.mcpName))]:['benchmark_no_servers']},mcpServers};
+}
+export function buildArguments(kind,policyFile){return ['--model',geminiModel,'--approval-mode','default','--output-format','stream-json','--extensions','none','--allowed-mcp-server-names',kind==='research'?'benchmark_inputs':kind==='model3d'?'blender_benchmark':'benchmark_no_servers','--policy',policyFile,'--prompt',''];}
+export function effectivePrompt(prompt,kind){return kind==='model3d'?prompt+'\n\n参照画像（固定4枚）: '+imageNames.map(n=>'@input/'+n).join(' ')+'\n専用Blender MCPを使い、この試行の artifacts/artifact.glb と編集可能ソースを保存してください。外部素材・通信・作業フォルダ外の変更は禁止です。':kind==='research'?prompt+'\n\n固定スナップショットは input/。benchmark_inputs の list_files / read_snapshot_file のみで読み、README.md と package.json から確認してください。外部検索・shell・書込みは禁止です。':prompt;}
+export function parseStream(events,code){const init=events.find(e=>e.type==='init'),result=events.findLast(e=>e.type==='result');const models=new Set([init?.model,...Object.keys(result?.stats?.models||{}),...events.map(e=>e.model)].filter(Boolean));if([...models].some(m=>m!==geminiModel))return {status:'model-mismatch',text:null,models:[...models]};const denied=events.some(e=>e.type==='tool_result'&&e.status==='error'&&/denied|permission|not allowed|policy/i.test(JSON.stringify(e)));if(denied)return {status:'permission-required',text:null,models:[...models]};if(code!==0||!result||result.status!=='success'||events.some(e=>e.type==='error'&&e.severity==='error'))return {status:'failed',text:null,models:[...models],stats:result?.stats||null,sessionId:init?.session_id||null};
+ // Keep only the last assistant turn: earlier turns may describe tool work.
+ let text='',assistant=false;for(const e of events){if(e.type==='tool_use'||e.type==='tool_result'||e.type==='message'&&e.role==='user'){assistant=false;text='';}else if(e.type==='message'&&e.role==='assistant'){if(!assistant){text='';assistant=true;}text+=e.content||'';}}
+ return {status:text?'success':'failed',text:text||null,models:[...models],sessionId:init?.session_id||null,stats:result.stats||null};}
+
+export function paymentLimitInfo(events,stderr=''){const errors=events.filter(e=>e.type==='error'||e.type==='result'&&e.error||e.is_error||e.error);const text=JSON.stringify(errors)+'\n'+stderr;if(!/(\b402\b|PAYMENT_REQUIRED|insufficient[ _-]*(?:credits?|balance)|(?:credits?|prepay[ _-]*balance)[^\n]{0,40}(?:depleted|exhausted|zero)|billing[^\n]{0,30}(?:disabled|not enabled))/i.test(text))return null;return {reason:'provider-payment-required',retryAt:null,retryTimeKnown:false};}

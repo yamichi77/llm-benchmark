@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {nameAllowed,sensitiveText} from './prepare-grok-input.mjs';
+test('input allowlist excludes env, credentials, binary assets and lockfiles',()=>{for(const p of ['.env','src/.env.local','secret.json','credentials.json','front.png','package-lock.json','.git/config'])assert.equal(nameAllowed(p),false,p);assert.equal(nameAllowed('src/app/page.tsx'),true);assert.equal(nameAllowed('README.md'),true);});
+test('potential credential literals are blocked without exposing their values',()=>{assert.equal(sensitiveText('const password = "'+ 'x'.repeat(18)+'"'),true);assert.equal(sensitiveText('export const title = "Portal"'),false);});

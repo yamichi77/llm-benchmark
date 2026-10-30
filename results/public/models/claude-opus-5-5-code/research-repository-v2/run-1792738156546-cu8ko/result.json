@@ -1,0 +1,22 @@
+{
+  "id": "research-repository-v2--claude-opus-5-5-code--1792738156546-cu8ko",
+  "trialPath": "models/claude-opus-5-5-code/research-repository-v2/run-1792738156546-cu8ko",
+  "storageModelKey": "claude-opus-5-5-code",
+  "task": "research-repository-v2",
+  "taskLabel": "指定リポジトリの固定版要約",
+  "type": "research",
+  "model": "claude-opus-5-5-code",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+  "durationMs": 113158,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T06:51:09.713Z",
+  "updatedAt": "2026-10-23T06:51:09.713Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 113158,
+  "artifact": "models/claude-opus-5-5-code/research-repository-v2/run-1792738156546-cu8ko/artifact.txt"
+}

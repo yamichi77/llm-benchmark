@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "language": "ja",
+  "repository": {
+    "name": "yamichi77/yamichi-portal-old",
+    "visibility": "private",
+    "commit": "b3a3d3568846d1b154e891fc4683c1eea73263ee"
+  },
+  "referenceImages": [
+    "front.png",
+    "right.png",
+    "back.png",
+    "design-turnaround.png"
+  ],
+  "answerModelIncluded": false,
+  "notes": "Only PNG references are supplied to generation. Original GLB and inspection data stay outside the input directory."
+}

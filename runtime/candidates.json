@@ -1,0 +1,37 @@
+[
+  {
+    "label": "GPT-6 Sol 6.1",
+    "modelId": null,
+    "status": "CLI・利用可能ID 未確認"
+  },
+  {
+    "label": "Claude Opus 5.5",
+    "modelId": null,
+    "status": "CLI・利用可能ID 未確認"
+  },
+  {
+    "label": "Gemini 4 Argon（API / MEDIUM）",
+    "modelId": "gemini-4-argon",
+    "status": "MEDIUM。文章/LP生成完了。要約再試行は生成完了・指定字数超過。3Dは初回/再試行とも通信失敗で未完、scene保全・GLBなし。"
+  },
+  {
+    "label": "Gemini 4 Argon（agy Pro / MEDIUM）",
+    "modelId": "gemini-4-argon-medium",
+    "status": "3D成果保存・独立検証済み。中断後に同一会話を1回再開し続行。品質比較対象。最終回答・usage・生成時間未取得。"
+  },
+  {
+    "label": "DeepSeek-4.1",
+    "modelId": null,
+    "status": "CLI・利用可能ID 未確認"
+  },
+  {
+    "label": "Qwen 3.8 fn",
+    "modelId": "qwen3.8-flash-next-orca-uncensored-bf16-mtp",
+    "status": "Qwen Code 0.25.3・4課題成果保存済み（3DはMCPあり）"
+  },
+  {
+    "label": "Grok 4.7",
+    "modelId": "grok-4.7",
+    "status": "公式ID確認済み・本人CLI利用可否 未確認"
+  }
+]

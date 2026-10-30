@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-21T09:57:51.986332+00:00",
+  "status": "import-success",
+  "sourceUnmodified": true,
+  "blenderVersion": "5.2.2 LTS",
+  "background": true,
+  "onlineAccess": false,
+  "glbBytes": 863636,
+  "glbVersion": 2,
+  "selfContained": true,
+  "externalResourceUris": [],
+  "meshObjects": 11,
+  "verticesAcrossObjects": 23570,
+  "trianglesAcrossObjects": 45868,
+  "referencedMaterials": 23,
+  "cameras": 0,
+  "lights": 0,
+  "limitations": "Technical fresh-import verification only; visual likeness is for human review. Generated Python was not executed and source GLB was not saved or edited."
+}

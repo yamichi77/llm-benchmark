@@ -1,0 +1,39 @@
+### 目的と主要機能
+`yamichi-portal` は、React 18 + TypeScript + Vite で構成された個人向けWebポータルのフロントエンドであり、原本HTMLと画面仕様を `packages/markup/` に分離管理する構成をとっています（`README.md:1-4`）。
+READMEには画面一覧の詳述はありませんが、実装（`src/App.tsx:133-150`、`src/components/layout/Layout/presenter.tsx:43-118`）および仕様書（`packages/markup/docs/requirements.md:7-23`）から以下の主要機能が確認できます。
+- **ダッシュボード・認証（`/`）**: 未認証時はログイン画面（`LoggedOutIndexPagePresenter`）、認証時はサーバーメトリクス等を表示するダッシュボード（`DashboardPageContainer`）を表示します（`src/pages/IndexPage/container.tsx:38-51`）。
+- **AI対話・画像生成系**: LLMチャット・テキスト添付（`/chat`、`src/pages/ChatPage/container.tsx:16-36, 158`）、Text2Image（`/ImageGenerate`）、Img2Img（`/Img2Img`）、生成画像一覧・削除（`/ImageView`）。
+- **地図・写真・移動ログ・旅行準備系**: Leafletを用いたマーカー地図管理（`/mymarkermap`）と編集（`/mymarkermap/edit/:id`）、撮影写真一覧・マージ・一時状態更新（`/photolist`）、移動履歴と経路可視化（`/movementlog`）、旅行用チェックリスト（`/travelchecklist`）。
+- **エラー画面**: 403（`/error/403`）、404（`/error/404`、未定義パス `*`）、500（`/error/500`）（`src/App.tsx:145-148`）。
+
+### 技術構成と重要なディレクトリ
+README記載のスタック（`README.md:44-56`）および `package.json:39-98` より、React 18、TypeScript、Vite、MUI v5、Emotion / styled-components、React Router v6、Recoil、react-hook-form、axios、Leaflet / react-leaflet、MSW v2、Vitest、Playwright、Motion（`motion/react`）を採用しています。npm workspaces（`package.json:5-7`）で `@yamichi/markup` を管理します。
+- `src/pages/`: 各画面の `container.tsx`（ロジック）と `presenter.tsx`（表示）および単体テスト（`README.md:61`、`packages/markup/docs/requirements.md:28`）。
+- `src/components/`: `auth/`（認証初期化）、`layout/Layout/`（ナビゲーションシェル）、`modules/CustomMarker/`、`shared/`（ローディング・エラー境界）。
+- `src/globalState/`: Recoil Atom群（`README.md:63`）。
+- `src/hooks/`: API通信、ロール判定、SSE、WebSocket等のカスタムフック（`README.md:64`）。
+- `src/theme/`・`src/design-tokens/`・`src/motion/`: READMEのディレクトリ一覧には未記載ですが、実装上はMD3テーマ生成や画面遷移アニメーションを担う重要ディレクトリです（`src/App.tsx:22-36`）。
+- `src/mocks/`: MSWによるAPIモック定義（`README.md:168`）。
+- `packages/markup/`: 原本HTML（`src/pages/*.html`）と要件・画面詳細仕様書（`docs/`）（`README.md:69, 74-85`）。
+- `e2e/`・`scripts/`: Playwright設定・テストと、開発サーバーやDocker実行を制御する補助スクリプト群。
+
+### 認証・状態管理・バックエンド接続の流れ
+- **認証と初期化**: 起動時に `AuthInitializer` が実行され、開発環境の `window.__E2E_ROLES__`、URLのハッシュまたはクエリ文字列の `access_token`、あるいは `POST /api/auth/token/refresh`（Cookie同梱のサイレントリフレッシュ）の順でトークン解決を試みます（`src/components/auth/AuthInitializer.tsx:107-236`）。取得したJWTは `sessionStorage` とRecoilの `accessTokenState` に保存され、`jwtDecode` で `resource_access["web-app"].roles` を抽出して `roleListState` に格納します（同 `40-59`、`src/hooks/useRole.ts:5-32`）。
+- **状態管理**: Recoilで `accessTokenState`、`authInitializedState`、`authIssueState`、`roleListState`、`loadingState` を管理します（`src/globalState/` 配下）。一方、旅行用チェックリスト（`/travelchecklist`）はバックエンドAPIを使わず `localStorage`（キー `travel-checklist:state:v2`）で状態を永続化していることが実装から分かります（`src/pages/TravelChecklistPage/container.tsx:17, 118-141`）。
+- **バックエンド接続**: `useBackend` が `withCredentials: true` のaxiosインスタンスを生成します（`src/hooks/useBackend.ts:217-218`）。リクエストインターセプターでJWT有効期限（残り30秒未満）を検査し、期限切れ時やレスポンス401時には `/api/auth/token/refresh` で再取得・再試行し、失敗時は `/api/auth/login` へ遷移させます（同 `119-280`）。403/404/通信エラー時は対応する `/error/*` へ遷移します（同 `282-301`）。LLM応答や画像生成のストリーム受信には `@microsoft/fetch-event-source` を用いた `useServerSentEvent`（`POST` + Bearerトークン）が使われます（`src/hooks/useServerSentEvent.ts:6-74`）。開発時のAPIプロキシ先は `src/.env*` の `VITE_API_TARGET` で `/api` と `/movelog` に設定されます（`vite.config.ts:13-45`）。
+
+### 開発とテストの手順
+- **開発サーバー**: `npm install` 後、`npm run dev`（既定ポート `5173`）でアプリ起動、`npm run markup:dev`（既定ポート `4173`、内部で `python3 -m http.server` を使用）で原本HTMLサーバーを起動します（`README.md:8-31, 90-91`、`packages/markup/package.json:7`）。ローカルモック利用時は `src/.env.local` に `VITE_USE_MOCKS=true` を設定します（`README.md:158-160`、`src/main.tsx:10-20`）。
+- **UI変更順序**: 「1. 原本HTML（`packages/markup/src/pages/`）→ 2. ドキュメント（`packages/markup/docs/`）→ 3. React実装」の順で更新する運用ルールです（`README.md:74-80`）。
+- **品質確認・単体テスト**: `npm run lint`（ESLint + `tsc --noEmit`）、`npm run check:format`（Prettier）、`npm run test`（Vitest + jsdom）を使用します（`package.json:14-18`、`vitest.config.ts:21-27`）。
+- **E2E・ビジュアルテスト**: `npm run e2e`（またはローカル直接実行の `npm run e2e:local`、非ビジュアル必須テストのみの `npm run e2e:required:app`）を実行します（`README.md:39-41, 126-130`）。ビジュアル回帰テストは `page canary`、`markup parity`（原本HTMLとReact実装の `data-visual-region` 比較）、`app-only dynamic` の3層で構成されています（`README.md:131-143`、`package.json:24-28`）。
+
+### 読み取れた制約と未確認事項
+- **読み取れた制約**:
+  - 開発サーバーは `strictPort: true` かつ許可ホスト（`frontend`, `ubt-webdev.home`, `front-new`）が固定されています（`vite.config.ts:27, 31`）。
+  - `npm run markup:dev` は `python3` コマンドの存在に依存します（`packages/markup/package.json:7`）。またWindowsでの `npm run e2e` は既定でDocker経由となります（`README.md:127`）。
+  - チャットの添付ファイルは指定拡張子のテキスト系のみ・最大3件・1ファイル256KiB以下の制約があります（`src/pages/ChatPage/container.tsx:16-36, 229-245`）。
+- **未確認事項（リポジトリ内から判断できない点）**:
+  - バックエンドサーバーおよび認証基盤（Keycloak等のIdP）の実装・インフラ構成はこのリポジトリに含まれていません。
+  - `src/hooks/useWebSocket.ts:1-15` に `/api/llm/ws` へ接続するフックが存在し、`src/hooks/useBackend.ts:522-530` に非ストリームの `getLlmPrompt` も定義されていますが、現行の `ChatPage` 実装はSSE（`useServerSentEvent`）を使用しており（`src/pages/ChatPage/container.tsx:160, 468`）、WebSocket等の実際の利用有無や廃止予定は未確認です。
+  - `src/env.d.ts:7-10` に定義されている `VITE_LOGIN_TOKEN_COOKIE` と `VITE_REFRESH_TOKEN_COOKIE` は `src/` 内のコードから参照されておらず、用途は未確認です。

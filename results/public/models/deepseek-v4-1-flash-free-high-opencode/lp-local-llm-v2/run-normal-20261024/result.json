@@ -1,0 +1,306 @@
+{
+  "id": "lp-local-llm-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+  "task": "lp-local-llm-v2",
+  "type": "lp",
+  "model": "deepseek-v4-1-flash-free-high-opencode",
+  "status": "success",
+  "promptVersion": "lp-local-llm-v2",
+  "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+  "effectivePromptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+  "inputVersion": "facts-lp-v2",
+  "artifact": "models/deepseek-v4-1-flash-free-high-opencode/lp-local-llm-v2/run-normal-20261024/artifact.html",
+  "artifactSha256": "5711765d058dac3cf1c1e1102c24804d662e7d8b26a152355ba541f6ac47c035",
+  "durationMs": 974614,
+  "createdAt": "2026-10-24T00:04:48.907Z",
+  "finishedAt": "2026-10-24T00:21:03.521Z",
+  "exitCode": 0,
+  "effectiveModel": {
+    "id": "deepseek-v4.1-flash-free",
+    "providerID": "opencode",
+    "variant": "high"
+  },
+  "usage": {
+    "input": 824741,
+    "output": 79019,
+    "reasoning": 37450,
+    "cache": {
+      "read": 3176704,
+      "write": 0
+    }
+  },
+  "cost": 0,
+  "costSource": "Official persisted session metadata",
+  "attemptCount": 1,
+  "validation": {
+    "unicodeCharacters": 73264,
+    "nonWhitespaceCharacters": 64302,
+    "toolCalls": 73,
+    "rawTextUnchanged": true,
+    "browser": {
+      "source": "artifact.html",
+      "sourceSha256": "5711765d058dac3cf1c1e1102c24804d662e7d8b26a152355ba541f6ac47c035",
+      "sourceUnmodified": true,
+      "network": "offline + abort all routes",
+      "doctype": true,
+      "reducedMotionRule": true,
+      "reports": [
+        {
+          "name": "pc",
+          "width": 1024,
+          "height": 768,
+          "reducedMotion": false,
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "bodyTextLength": 3292,
+          "h1": [
+            "そのAI、手元で走らせよう。"
+          ],
+          "links": [
+            {
+              "label": "本文へスキップ",
+              "href": "#main",
+              "targetExists": true
+            },
+            {
+              "label": "L/L\n    LOCAL / LLMA FIELD GUIDE",
+              "href": "#top",
+              "targetExists": true
+            },
+            {
+              "label": "なぜ手元か",
+              "href": "#why",
+              "targetExists": true
+            },
+            {
+              "label": "できること",
+              "href": "#uses",
+              "targetExists": true
+            },
+            {
+              "label": "選び方",
+              "href": "#choose",
+              "targetExists": true
+            },
+            {
+              "label": "はじめ方",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "はじめる ↘",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "導入手順を見る ↓",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "なぜ手元なのか →",
+              "href": "#why",
+              "targetExists": true
+            },
+            {
+              "label": "注意点も確認する ↓",
+              "href": "#notes",
+              "targetExists": true
+            },
+            {
+              "label": "導入手順へ ↑",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "ページの先頭へ ↑",
+              "href": "#top",
+              "targetExists": true
+            }
+          ],
+          "animations": 18,
+          "blockedRequests": [],
+          "pageErrors": []
+        },
+        {
+          "name": "mobile",
+          "width": 390,
+          "height": 844,
+          "reducedMotion": false,
+          "scrollWidth": 390,
+          "innerWidth": 390,
+          "bodyTextLength": 3231,
+          "h1": [
+            "そのAI、手元で走らせよう。"
+          ],
+          "links": [
+            {
+              "label": "本文へスキップ",
+              "href": "#main",
+              "targetExists": true
+            },
+            {
+              "label": "L/L\n    LOCAL / LLMA FIELD GUIDE",
+              "href": "#top",
+              "targetExists": true
+            },
+            {
+              "label": "なぜ手元か",
+              "href": "#why",
+              "targetExists": true
+            },
+            {
+              "label": "できること",
+              "href": "#uses",
+              "targetExists": true
+            },
+            {
+              "label": "選び方",
+              "href": "#choose",
+              "targetExists": true
+            },
+            {
+              "label": "はじめ方",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "はじめる ↘",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "導入手順を見る ↓",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "なぜ手元なのか →",
+              "href": "#why",
+              "targetExists": true
+            },
+            {
+              "label": "注意点も確認する ↓",
+              "href": "#notes",
+              "targetExists": true
+            },
+            {
+              "label": "導入手順へ ↑",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "ページの先頭へ ↑",
+              "href": "#top",
+              "targetExists": true
+            }
+          ],
+          "animations": 17,
+          "blockedRequests": [],
+          "pageErrors": []
+        },
+        {
+          "name": "mobile-reduced",
+          "width": 390,
+          "height": 844,
+          "reducedMotion": true,
+          "scrollWidth": 390,
+          "innerWidth": 390,
+          "bodyTextLength": 3231,
+          "h1": [
+            "そのAI、手元で走らせよう。"
+          ],
+          "links": [
+            {
+              "label": "本文へスキップ",
+              "href": "#main",
+              "targetExists": true
+            },
+            {
+              "label": "L/L\n    LOCAL / LLMA FIELD GUIDE",
+              "href": "#top",
+              "targetExists": true
+            },
+            {
+              "label": "なぜ手元か",
+              "href": "#why",
+              "targetExists": true
+            },
+            {
+              "label": "できること",
+              "href": "#uses",
+              "targetExists": true
+            },
+            {
+              "label": "選び方",
+              "href": "#choose",
+              "targetExists": true
+            },
+            {
+              "label": "はじめ方",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "はじめる ↘",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "導入手順を見る ↓",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "なぜ手元なのか →",
+              "href": "#why",
+              "targetExists": true
+            },
+            {
+              "label": "注意点も確認する ↓",
+              "href": "#notes",
+              "targetExists": true
+            },
+            {
+              "label": "導入手順へ ↑",
+              "href": "#steps",
+              "targetExists": true
+            },
+            {
+              "label": "ページの先頭へ ↑",
+              "href": "#top",
+              "targetExists": true
+            }
+          ],
+          "animations": 0,
+          "blockedRequests": [],
+          "pageErrors": []
+        }
+      ]
+    },
+    "review": "See offline screenshots and browser validation; original HTML is retained without fixes.",
+    "fileVsStdout": "Same after whitespace removal, but bytewise different. artifact.html preserves stdout exactly; browser validation rerun on artifact.html.",
+    "storedMessageCount": 51,
+    "assistantTurns": 48,
+    "processNotes": "73 tool calls; ordinary local creation and self-validation. npx --no-install playwright --version failed, no install succeeded. The agent removed its temporary screenshots/test scripts; final benchmark screenshots were recreated after exit."
+  },
+  "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/lp-local-llm-v2/run-normal-20261024",
+  "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+  "modelId": "opencode/deepseek-v4.1-flash-free",
+  "provider": "opencode",
+  "variant": "high",
+  "cliVersion": "2.1.4 (parent verified)",
+  "continuationMode": "initial-user-request-agent-workflow",
+  "generationContract": "One user request; agent workflow with 73 tool calls and 48 assistant turns; not a single inference",
+  "toolCallCount": 73,
+  "assistantTurns": 48,
+  "catalogPrice": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+  },
+  "comparisonConditions": {
+    "sourceInputVersion": "facts-lp-v2",
+    "standardContext": true
+  }
+}

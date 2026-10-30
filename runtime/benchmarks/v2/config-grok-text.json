@@ -1,0 +1,48 @@
+{
+  "models": [
+    {
+      "id": "grok-4-7-high-cursor-standard",
+      "modelId": "grok-4.7-high",
+      "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+      "args": [
+        "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/cursor-grok-run.mjs",
+        "--prompt-version",
+        "{promptVersion}",
+        "--input",
+        "{input}",
+        "--output",
+        "{output}"
+      ],
+      "promptMode": "stdin",
+      "preflight": {
+        "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+        "args": [
+          "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/cursor-grok-run.mjs",
+          "--models"
+        ]
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "writing-explanation-v2",
+      "label": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "prompt": "writing-ja.txt",
+      "promptVersion": "writing-explanation-v2",
+      "input": "facts-writing-ja.txt",
+      "inputVersion": "facts-writing-v2",
+      "artifactSource": "stdout"
+    },
+    {
+      "id": "lp-local-llm-v2",
+      "label": "ローカルLLM紹介・デザインとアニメーション",
+      "type": "lp",
+      "prompt": "lp-ja.txt",
+      "promptVersion": "lp-local-llm-v2",
+      "input": "facts-lp-ja.txt",
+      "inputVersion": "facts-lp-v2",
+      "artifactSource": "stdout"
+    }
+  ]
+}

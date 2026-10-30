@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {build3dArgs,work} from '../runtime/cursor-grok-3d-run.mjs';
+test('Grok 3D pins exact trusted trial, High nonFast and four explicit local images',()=>{const a=build3dArgs();assert.equal(a[a.indexOf('--workspace')+1],work);assert.equal(a[a.indexOf('--model')+1],'grok-4.7-high');assert.equal(a.filter(v=>v==='--image').length,4);assert.ok(a.includes('--trust'));for(const f of ['--force','--yolo','--approve-mcps','--exclude-workspace-context','--allowed-tools','--sandbox'])assert.ok(!a.includes(f));});

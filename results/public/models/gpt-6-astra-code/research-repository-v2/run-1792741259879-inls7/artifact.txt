@@ -1,0 +1,11 @@
+対象は yamichi77/yamichi-portal-old の指定commit `b3a3d3568846d1b154e891fc4683c1eea73263ee` に対応する入力素材のみ。READMEは本体を「React 18＋TypeScript＋Viteのフロントエンド」と説明する（`README.md:3`）。実装からは、AI機能と写真・移動記録などをまとめたポータルと読める。チャット、画像生成、Img2Img、生成画像閲覧、移動ログ、写真一覧、旅行チェックリスト、地図マーカー表示・編集のルートがあり、トップはトークンの有無でログイン画面とダッシュボードを切り替える（`src/App.tsx:133`、`src/pages/IndexPage/container.tsx:38`）。
+
+技術構成はReact Router、MUI、Emotion／styled-components、Recoil、axios、Leafletなど（`package.json:39`）。`src/pages/`には画面ごとのcontainerとpresenter、`src/components/`には共通UI、`src/hooks/`には通信・認証処理、`src/globalState/`には共有状態、`src/types/`にはAPIの型がある。画面は遅延ロードされる（`src/App.tsx:38`）。`packages/markup/`は原本HTMLと画面仕様を保持する別workspaceで、READMEでは「原本HTML→仕様→React実装」の更新順を案内している（`README.md:58,74`）。仕様資料と稼働するReactコードは区別して読む必要がある。
+
+認証では、ログイン先を原則 `/api/auth/login` とし、設定があればAPI接続先を基準にURLを組み立てる（`src/auth/loginUrl.ts:1`）。初期化時にURLのフラグメントまたはクエリからトークンを取り込み、RecoilとsessionStorageへ保存してURLから取り除く。トークンがない場合はCookieを伴うPOSTで `/api/auth/token/refresh` を呼ぶ（`src/components/auth/AuthInitializer.tsx:107,166`）。JWTの `resource_access["web-app"].roles` を取り出し、Recoilのロール一覧で権限を判定する（同`:40`、`src/hooks/useRole.ts:5`）。この読み取りはクライアント側の処理であり、サーバー側の署名検証・認可まで確認できたわけではない。
+
+通常のAPI接続は `useBackend` に集約され、axiosがCookieとBearerトークンを送る。有効期限まで30秒未満なら更新し、401時も更新後に一度再送する（`src/hooks/useBackend.ts:217`）。移動ログ、ダッシュボード、マーカー、写真用のAPI呼び出しもここにある（同`:342–505`）。チャットは別のSSEフックで応答を受信する（`src/pages/ChatPage/container.tsx:158`、`src/hooks/useServerSentEvent.ts:22`）。開発時は `src/` を環境変数の読込元とし、`VITE_API_TARGET` があれば `/api` と `/movelog` をプロキシする（`vite.config.ts:13–45`）。旅行チェックリストの保存先はlocalStorageであり、サーバー同期はこの保存処理からは確認できない（`src/pages/TravelChecklistPage/container.tsx:118–140`）。
+
+開発手順はREADME上では `npm install` 後に `npm run dev`。既定ポートは5173で、Markupは `npm run markup:dev` の4173を使う（`README.md:6,88`）。実際のbuildは `tsc && vite build`、lintには型チェックも含まれる。単体テストはVitestで、jsdom上の `src/**/*.test.{ts,tsx}` が対象（`package.json:12–18`、`vitest.config.ts:21`）。E2EはPlaywrightで、標準の `npm run e2e` は必須機能テスト、Markup基準画像更新、見た目の比較を順に行うため、単なる比較だけではない（`package.json:20–28`）。READMEはWindowsでの既定Docker利用と `e2e:local` も案内している（`README.md:124`）。
+
+制約として、E2Eのアプリ起動はモック有効であり、実バックエンドとの結合成功を保証しない（`e2e/playwright.config.ts:61–70`）。開発用MSWも未定義リクエストは通過させるため、完全なオフライン環境とは限らない（`src/main.tsx:10–18`）。今回行ったのは静的な読取りだけで、ビルド・テストの成否、実認証、APIの稼働、本番配信設定は未確認である。

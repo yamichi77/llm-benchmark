@@ -1,0 +1,5 @@
+node_modules/
+**/private/
+*.log
+development/test*.config.json
+development/demo.config.json

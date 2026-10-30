@@ -1,0 +1,65 @@
+{
+  "id": "research-repository-v2--grok-4-7-high-cursor-standard--20261024-summary-standard1",
+  "trialPath": "models/grok-4-7-high-cursor-standard/research-repository-v2/run-20261024-summary-standard1",
+  "storageModelKey": "grok-4-7-high-cursor-standard",
+  "task": "research-repository-v2",
+  "type": "research",
+  "model": "grok-4-7-high-cursor-standard",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee-grok-reviewed-summary-v2",
+  "createdAt": "2026-10-24T00:09:59.073Z",
+  "durationMs": 666167,
+  "activeDurationMs": 666167,
+  "taskLabel": "指定リポジトリの固定版要約",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "exitCode": 0,
+  "exitSignal": null,
+  "updatedAt": "2026-10-24T00:21:10.511Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "artifact": "models/grok-4-7-high-cursor-standard/research-repository-v2/run-20261024-summary-standard1/artifact.txt",
+  "artifactRecoveredFromFinalText": true,
+  "extractionCorrection": "Cursor result concatenates intermediate assistant messages; final assistant event copied byte-for-byte; original aggregate and complete event stream preserved",
+  "executionConditions": {
+    "cli": "Cursor 2026.10.22-27dcf5f",
+    "mode": "ask",
+    "modelId": "grok-4.7-high",
+    "effectiveModel": "Grok 4.7 256K High",
+    "speed": "standard",
+    "effort": "high",
+    "context": "Standard CLI context; generic user skill metadata may differ from other CLIs",
+    "workspaceTrust": "exact dedicated research-repository-v2 run only",
+    "usage": {
+      "inputTokens": 151359,
+      "outputTokens": 55150,
+      "cacheReadTokens": 124672,
+      "cacheWriteTokens": 0
+    },
+    "toolCalls": 1,
+    "sourceFiles": 39,
+    "inputDifference": "Frozen commit preserved; architecture-focused source subset, not the complete original readable snapshot. No claim about other models actual transmission."
+  },
+  "outputValidation": {
+    "task": "research-repository-v2",
+    "status": "success",
+    "characters": 2288,
+    "bytes": 3646,
+    "durationMs": 666167,
+    "usage": {
+      "inputTokens": 151359,
+      "outputTokens": 55150,
+      "cacheReadTokens": 124672,
+      "cacheWriteTokens": 0
+    },
+    "toolCalls": 1,
+    "finalAssistantUnmodified": true,
+    "sourceFiles": 39,
+    "envExcluded": true,
+    "lengthTarget": [
+      1200,
+      1800
+    ],
+    "lengthPass": false
+  }
+}

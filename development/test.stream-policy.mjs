@@ -1,0 +1,14 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import {pathToFileURL} from 'node:url';import {setTimeout as delay} from 'node:timers/promises';import {qwenEnvironment} from '../runtime/qwen-stream-policy.mjs';
+const guardFile='C:/Users/PUBLIC_USER/AppData/Local/qwen-code/qwen-code/lib/chunks/chunk-XWRIODPA.js';
+test('child environment disables usage statistics without changing parent or other settings',()=>{
+ const ambient=process.env.QWEN_USAGE_STATISTICS_ENABLED;
+ for(const usage of [undefined,'true','false']){
+  const parent=Object.freeze({QWEN_STREAM_MAX_LIFETIME_MS:'900000',QWEN_STREAM_IDLE_TIMEOUT_MS:'240000',QWEN_TELEMETRY_ENABLED:'false',SAMPLE:'unchanged',...(usage===undefined?{}:{QWEN_USAGE_STATISTICS_ENABLED:usage})});
+  const before={...parent};const child=qwenEnvironment(parent);
+  assert.notEqual(child,parent);assert.equal(child.QWEN_USAGE_STATISTICS_ENABLED,'false');assert.equal(child.QWEN_STREAM_MAX_LIFETIME_MS,'0');
+  const expected={...before,QWEN_STREAM_MAX_LIFETIME_MS:'0',QWEN_USAGE_STATISTICS_ENABLED:'false'};
+  assert.deepEqual(child,expected);assert.deepEqual(parent,before);assert.equal(process.env.QWEN_USAGE_STATISTICS_ENABLED,ambient);
+ }
+});
+test('installed Qwen resolver distinguishes lifetime and idle guards',{skip:!fs.existsSync(guardFile)},async()=>{const {resolveStreamMaxLifetimeMs,resolveStreamIdleTimeoutMs}=await import(pathToFileURL(guardFile));const keys=['QWEN_STREAM_MAX_LIFETIME_MS','QWEN_STREAM_IDLE_TIMEOUT_MS','QWEN_USAGE_STATISTICS_ENABLED'],saved=keys.map(k=>process.env[k]);try{for(const k of keys)delete process.env[k];assert.equal(resolveStreamMaxLifetimeMs({}),900000);assert.equal(resolveStreamIdleTimeoutMs({}),240000);Object.assign(process.env,qwenEnvironment(process.env));assert.equal(resolveStreamMaxLifetimeMs({}),0);assert.equal(resolveStreamIdleTimeoutMs({}),240000);assert.equal(resolveStreamMaxLifetimeMs({streamMaxLifetimeMs:1234}),1234);}finally{keys.forEach((k,i)=>saved[i]===undefined?delete process.env[k]:process.env[k]=saved[i]);}});
+test('installed Qwen guard permits continuing output and still rejects silence',{skip:!fs.existsSync(guardFile)},async()=>{const {withStreamGuards,StreamLifetimeExceededError,StreamInactivityTimeoutError}=await import(pathToFileURL(guardFile));async function* active(){for(let i=0;i<20;i++){await delay(10);yield i;}}const consume=async(source,idle,lifetime)=>{const values=[];for await(const value of withStreamGuards(source,idle,lifetime,()=>{}))values.push(value);return values;};await assert.rejects(consume(active(),500,50),StreamLifetimeExceededError);assert.equal((await consume(active(),500,0)).length,20);async function* silent(){yield 1;await delay(150);yield 2;}await assert.rejects(consume(silent(),40,0),StreamInactivityTimeoutError);});

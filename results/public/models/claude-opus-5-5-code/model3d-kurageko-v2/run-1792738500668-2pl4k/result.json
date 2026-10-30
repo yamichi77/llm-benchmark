@@ -1,0 +1,29 @@
+{
+  "id": "model3d-kurageko-v2--claude-opus-5-5-code--1792738500668-2pl4k",
+  "trialPath": "models/claude-opus-5-5-code/model3d-kurageko-v2/run-1792738500668-2pl4k",
+  "storageModelKey": "claude-opus-5-5-code",
+  "task": "model3d-kurageko-v2",
+  "taskLabel": "画像入力・kurageko立体生成",
+  "type": "model3d",
+  "model": "claude-opus-5-5-code",
+  "status": "permission-required",
+  "promptVersion": "model3d-kurageko-v2-mcp1",
+  "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+  "inputVersion": "kurageko-reference-v2",
+  "durationMs": 483669,
+  "exitCode": 77,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T07:03:04.341Z",
+  "updatedAt": "2026-10-23T07:03:04.341Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 483669,
+  "artifact": "models/claude-opus-5-5-code/model3d-kurageko-v2/run-1792738500668-2pl4k/artifact.glb",
+  "reference": "models/claude-opus-5-5-code/model3d-kurageko-v2/run-1792738500668-2pl4k/reference.png",
+  "artifactRecoveredFromModelFiles": true,
+  "reason": "CLI denied preview-image Read outside the trial. The saved model GLB was preserved without regeneration.",
+  "verification": {
+    "freshBlenderImport": true,
+    "fixedViewsRendered": 6
+  }
+}

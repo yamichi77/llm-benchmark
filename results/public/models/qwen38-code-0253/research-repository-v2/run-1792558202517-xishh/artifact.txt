@@ -1,0 +1,11 @@
+
+
+yamichi-portal（`package.json` name、commit b3a3d35 の固定スナップショット）は、個人向けポータルを想定した React 18 + TypeScript + Vite のフロントエンド単体リポジトリです。画面は遅延読み込みされるルートで構成され、`src/App.tsx`（117〜141行）に Dashboard（`/`）、AI 系の `/chat`・`/ImageGenerate`・`/Img2Img`・`/ImageView`、位置情報系の `/mymarkermap`（Leaflet 地図＋編集）、`/photolist`・`/movementlog`・`/travelchecklist`、エラー用 `/error/403|404|500` が定義されています。
+
+技術構成は MUI v5 + Emotion/styled-components、react-router-dom v6、Recoil、axios、react-hook-form、date-fns、Leaflet、motion など（`package.json` dependencies）。npm workspaces で `packages/*` を含み、`@yamichi/markup`（`packages/markup/package.json`）は原本 HTML を python の http.server（4173）で配信する仕様管理用ワークスペースです。`vite.config.ts` は `envDir:"./src"`、`VITE_API_TARGET` 指定時に `/api`・`/movelog` をプロキシ（ws 対応）、dev ポート 5173 固定です。
+
+認証は本家ログインフォームを持たず、`/api/auth/login` へのリダイレクト方式です（`src/auth/loginUrl.ts` 1行目、`src/pages/IndexPage/presenter.tsx` の handleLogin）。`src/components/auth/AuthInitializer.tsx` が URL のハッシュ/クエリから `access_token` を受け取り sessionStorage と Recoil の `accessTokenState` に保存、JWT を復号して `resource_access["web-app"].roles` を角色化します。未所持時は `POST /api/auth/token/refresh`（credentials 付き）でサイレント更新し、`src/auth/sessionError.ts` の SESSION_INVALID/EXPIRED 等で再設定します。DEV では `window.__E2E_ROLES__` でロールを注入します（156行）。`src/hooks/useBackend.ts` は withCredentials の axios に対し、満了30秒前の先読み更新、401 時の1回リトライ、403/404/500 を各エラーページへ振り分けます。ロールは `useRole.ts`（`isWritePermission` は "write" 判定）経由で、メニューは `presenter.tsx` の auth が dashboard/ai、各 page は `hasRole("read")` 等で ForbiddenPage を返します。状態は Recoil の accessToken/authInitialized/authIssue/roleList/globalLoading の atom で管理します。
+
+開発・検証は `npm run dev`/`build`(tsc+vite build)/`lint`(eslint+tsc)/`test`(Vitest, jsdom, `src/**/*.test`)。E2E は Playwright（Windows は既定 Docker、`e2e:local` でローカル）で、CI（`.github/workflows/ci.yml`、Node20）は品質・必須 E2E・visual parity（3shard）・visual dynamic を集約します。visual は page canary / markup parity / app dynamic の3層です。モックは `VITE_USE_MOCKS=true` で MSW（`src/mocks/`）を有効化します。
+
+制約・未確認事項: サーバ本体は同梱せず、実データ取得には `VITE_API_TARGET` が前提です。OIDC/Keyecloak 等の IdP は JWT の claim 形状からの推定で、識別設定はrepo内にありません。`src/env.d.ts`（8〜9行）は `VITE_LOGIN_TOKEN_COOKIE`/`VITE_REFRESH_TOKEN_COOKIE` を宣言しますが実使用箇所は見つからず、逆に `VITE_USE_MOCKS`/`VITE_API_TARGET` は未宣言です。README の GitHub Pages URL は記載情報であり、リポジトリ名の「-old」との対応は素材からは確認できません。ログイン自体のサーバ挙動も未確認です。

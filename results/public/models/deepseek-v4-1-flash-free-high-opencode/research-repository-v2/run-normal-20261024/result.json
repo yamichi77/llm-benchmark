@@ -1,0 +1,67 @@
+{
+  "id": "research-repository-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+  "task": "research-repository-v2",
+  "type": "research",
+  "model": "deepseek-v4-1-flash-free-high-opencode",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "effectivePromptSha256": "c4f70a32442369c497fbf5c1246a7999b977357cb5e44c801d3833b677fb76b0",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee-grok-reviewed-summary-v2",
+  "artifact": "models/deepseek-v4-1-flash-free-high-opencode/research-repository-v2/run-normal-20261024/artifact.txt",
+  "artifactSha256": "17e75b0ade58ba0f4db4d03576b4142380793a1d166688f95a2b4d5c7cce2a50",
+  "durationMs": 59971,
+  "createdAt": "2026-10-24T00:04:35.574Z",
+  "finishedAt": "2026-10-24T00:05:35.545Z",
+  "exitCode": 0,
+  "effectiveModel": {
+    "id": "deepseek-v4.1-flash-free",
+    "providerID": "opencode",
+    "variant": "high"
+  },
+  "usage": {
+    "input": 105691,
+    "output": 1876,
+    "reasoning": 6199,
+    "cache": {
+      "read": 4096,
+      "write": 0
+    }
+  },
+  "cost": 0,
+  "costSource": "Official persisted session metadata",
+  "attemptCount": 1,
+  "validation": {
+    "unicodeCharacters": 3673,
+    "nonWhitespaceCharacters": 3639,
+    "toolCalls": 0,
+    "rawTextUnchanged": true,
+    "lengthTarget": [
+      1200,
+      1800
+    ],
+    "lengthPass": false,
+    "review": "Substantial length overrun. Clear README/implementation distinction and omitted-scope notes. Spot checks of routes, refresh retries, axios credentials and e2e baseline-update command match cited sources; not an exhaustive factual audit. No tools called."
+  },
+  "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/research-repository-v2/run-normal-20261024",
+  "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+  "modelId": "opencode/deepseek-v4.1-flash-free",
+  "provider": "opencode",
+  "variant": "high",
+  "cliVersion": "2.1.4 (parent verified)",
+  "continuationMode": "initial-user-request-agent-workflow",
+  "generationContract": "One user request; no quality regeneration; source setup attempts retained",
+  "toolCallCount": 0,
+  "assistantTurns": null,
+  "catalogPrice": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+  },
+  "comparisonConditions": {
+    "sourceInputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee-grok-reviewed-summary-v2",
+    "standardContext": true,
+    "sourceScope": "Same 39-file safe frozen-source corpus as Grok; differs from full historical snapshot"
+  }
+}

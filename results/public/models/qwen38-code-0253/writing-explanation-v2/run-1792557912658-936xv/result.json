@@ -1,0 +1,18 @@
+{
+  "id": "writing-explanation-v2--qwen38-code-0253--1792557912658-936xv",
+  "task": "writing-explanation-v2",
+  "taskLabel": "日本語技術解説・KVキャッシュ",
+  "type": "writing",
+  "model": "qwen38-code-0253",
+  "status": "success",
+  "promptVersion": "writing-explanation-v2",
+  "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+  "inputVersion": "facts-writing-v2",
+  "durationMs": 289845,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-21T04:50:02.507Z",
+  "artifact": "models/qwen38-code-0253/writing-explanation-v2/run-1792557912658-936xv/artifact.txt",
+  "storageModelKey": "qwen38-code-0253",
+  "trialPath": "models/qwen38-code-0253/writing-explanation-v2/run-1792557912658-936xv"
+}

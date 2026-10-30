@@ -1,0 +1,46 @@
+{
+  "models": [
+    {
+      "id": "qwen38-code-0253-mcp",
+      "modelId": "qwen3.8-flash-next-orca-uncensored-bf16-mtp",
+      "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+      "args": [
+        "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/qwen-code-run.mjs",
+        "--prompt-version",
+        "{promptVersion}",
+        "--input",
+        "{input}",
+        "--output",
+        "{output}",
+        "--blender-mcp"
+      ],
+      "promptMode": "stdin",
+      "preflight": {
+        "command": "C:\\Users\\PUBLIC_USER\\AppData\\Local\\Programs\\nodejs\\node.exe",
+        "args": [
+          "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/qwen-code-run.mjs",
+          "--models"
+        ]
+      },
+      "storageModelKey": "qwen38-code-0253"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "model3d-kurageko-v2",
+      "label": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "prompt": "model3d-mcp-ja.txt",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "input": "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/private/inputs-v2/kurageko-v2",
+      "inputVersion": "kurageko-reference-v2",
+      "reference": "C:/Users/PUBLIC_USER/Desktop/Projects/model-benchmark/runtime/private/inputs-v2/kurageko-v2/design-turnaround.png"
+    }
+  ],
+  "runContext": {
+    "condition": "official-blender-lab-mcp",
+    "previousAttempt": "model3d-kurageko-v2--qwen38-code-0253--1792563710881-u2iwi",
+    "modelInferenceRunsRequested": 1,
+    "referenceInputsUnchanged": true
+  }
+}

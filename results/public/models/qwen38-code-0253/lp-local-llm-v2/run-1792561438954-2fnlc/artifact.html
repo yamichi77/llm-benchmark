@@ -1,0 +1,1036 @@
+
+
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>ローカルLLMという選択肢 | 自分のPCで動かす</title>
+<meta name="description" content="ローカルLLMを自分のPCで動かす選択肢。手元で試す楽しさ、モデルを選べる自由、データの扱いを自分で設計できること。導入の4ステップと注意点まで。">
+<style>
+/* ============ tokens ============ */
+:root{
+  --bg:#06080f;
+  --bg-2:#0a0e1b;
+  --panel:#0d1224;
+  --ink:#eaf0ff;
+  --ink-2:#aab6d4;
+  --ink-3:#7a87a8;
+  --line:rgba(150,175,225,.18);
+  --acc:#79f2c0;      /* mint */
+  --acc-2:#7fa6ff;    /* blue */
+  --acc-3:#f6c268;    /* amber */
+  --card:rgba(255,255,255,.045);
+  --glow:0 0 0 1px rgba(121,242,192,.25), 0 18px 50px -20px rgba(121,242,192,.35);
+  --sans:"Hiragino Kaku Gothic ProN","BIZ UDPGothic","Yu Gothic UI","Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"SFMono-Regular","Courier New",monospace;
+  --pad:clamp(18px,4.4vw,44px);
+  --maxw:1140px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg);-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--ink);font-family:var(--sans);
+  font-size:clamp(15px,1.02vw,16.5px);line-height:1.85;letter-spacing:.02em;
+  background:
+    radial-gradient(1100px 620px at 78% -10%, rgba(127,166,255,.18), transparent 60%),
+    radial-gradient(900px 700px at 6% 12%, rgba(121,242,192,.14), transparent 62%),
+    var(--bg);
+  overflow-x:hidden;
+}
+h1,h2,h3,p,ul,ol{margin:0;padding:0}
+ul,ol{list-style:none}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{line-height:1.3;font-weight:700;letter-spacing:.01em}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--acc);color:#04121a;padding:10px 16px;font-weight:700}
+.skip:focus{left:12px;top:12px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+
+/* ============ topbar / progress ============ */
+.topbar{
+  position:fixed;inset:0 0 auto 0;z-index:40;display:flex;align-items:center;gap:18px;
+  height:64px;padding-inline:clamp(14px,4vw,34px);
+  background:linear-gradient(180deg, rgba(6,8,15,.92), rgba(6,8,15,.55) 70%, transparent);
+  backdrop-filter:blur(8px);
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--ink-2)}
+.brand svg{width:26px;height:26px;flex:none;filter:drop-shadow(0 0 8px rgba(121,242,192,.5))}
+.brand b{color:var(--ink);font-weight:700}
+.topnav{margin-left:auto;display:flex;gap:6px}
+.topnav a{
+  position:relative;display:block;padding:8px 11px;font-size:12.5px;letter-spacing:.08em;color:var(--ink-3);
+  transition:color .3s ease;
+}
+.topnav a::after{
+  content:"";position:absolute;left:11px;right:11px;bottom:4px;height:1px;background:var(--acc);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.topnav a:hover,.topnav a:focus-visible,.topnav a.active{color:var(--ink)}
+.topnav a:hover::after,.topnav a:focus-visible::after,.topnav a.active::after{transform:scaleX(1)}
+.mbtn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-2);cursor:pointer;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:7px 13px;
+  display:flex;align-items:center;gap:8px;transition:background .3s ease,color .3s ease,border-color .3s ease;
+}
+.mbtn i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc);animation:blink 2.2s ease-in-out infinite}
+.mbtn[aria-pressed="true"] i{background:var(--ink-3);box-shadow:none;animation:none}
+.mbtn:hover{color:var(--ink);border-color:rgba(121,242,192,.5);background:rgba(121,242,192,.08)}
+.progress{position:fixed;inset:64px 0 auto 0;height:2px;z-index:39;background:rgba(255,255,255,.07)}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc-2));transform:scaleX(0);transform-origin:left}
+
+/* ============ hero ============ */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:110px 0 60px;isolation:isolate}
+#net{position:absolute;inset:0;z-index:-2;width:100%;height:100%;opacity:.95}
+.hero-veil{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 50% 40%, transparent 30%, rgba(6,8,15,.6) 70%, var(--bg) 100%),
+    repeating-linear-gradient(90deg, rgba(150,175,225,.07) 0 1px, transparent 1px 88px),
+    repeating-linear-gradient(0deg, rgba(150,175,225,.05) 0 1px, transparent 1px 88px);
+  mask-image:radial-gradient(115% 90% at 50% 42%, #000 40%, transparent 78%);
+}
+.hero-inner{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(26px,4vw,58px);align-items:center;width:100%}
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.3em;color:var(--acc);
+  display:flex;align-items:center;gap:12px;margin-bottom:22px;text-transform:uppercase;
+}
+.eyebrow::before{content:"";width:38px;height:1px;background:linear-gradient(90deg,var(--acc),transparent)}
+h1{font-size:clamp(30px,5.1vw,60px);letter-spacing:0}
+h1 .ln{display:block;overflow:hidden}
+h1 .ln>span{display:block;animation:rise 1.05s cubic-bezier(.19,.86,.24,1) both}
+h1 .ln:nth-child(1)>span{animation-delay:.05s}
+h1 .ln:nth-child(2)>span{animation-delay:.18s}
+h1 .ln:nth-child(3)>span{animation-delay:.31s}
+h1 em{
+  font-style:normal;position:relative;
+  background:linear-gradient(96deg,var(--acc),var(--acc-2) 60%,#fff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+h1 em::after{
+  content:"";position:absolute;left:0;right:0;bottom:.02em;height:.14em;
+  background:linear-gradient(90deg,rgba(121,242,192,.75),rgba(127,166,255,0));
+  transform:scaleX(0);transform-origin:left;animation:swipe 1.1s .8s cubic-bezier(.19,.86,.24,1) forwards;
+}
+.lead{margin-top:22px;color:var(--ink-2);max-width:34em;animation:rise 1s .45s cubic-bezier(.19,.86,.24,1) both}
+.rot{
+  margin-top:18px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;color:var(--ink-3);
+  display:flex;align-items:center;gap:10px;animation:rise 1s .55s cubic-bezier(.19,.86,.24,1) both;
+}
+.rot span.hash{color:var(--acc-2)}
+#rotWord{color:var(--ink);padding:2px 10px;border:1px solid var(--line);border-radius:4px;background:rgba(127,166,255,.08);display:inline-block}
+#rotWord.pop{animation:pop .5s cubic-bezier(.2,.9,.2,1)}
+.cta-row{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px;animation:rise 1s .65s cubic-bezier(.19,.86,.24,1) both}
+.btn{
+  position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;
+  padding:15px 26px;font-weight:700;font-size:14.5px;letter-spacing:.04em;border-radius:6px;
+  border:1px solid transparent;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s ease,border-color .3s ease,color .3s ease;
+}
+.btn svg{width:15px;height:15px;flex:none;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.btn.primary{background:linear-gradient(120deg,var(--acc),#4fdca9);color:#04140e;box-shadow:0 14px 34px -16px rgba(121,242,192,.9)}
+.btn.primary::after{content:"";position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-120%)}
+.btn.primary:hover,.btn.primary:focus-visible{transform:translateY(-3px);box-shadow:0 22px 44px -16px rgba(121,242,192,.85)}
+.btn.primary:hover::after,.btn.primary:focus-visible::after{transform:translateX(360%);transition:transform .75s ease}
+.btn.ghost{border-color:var(--line);color:var(--ink);background:rgba(255,255,255,.04)}
+.btn.ghost:hover,.btn.ghost:focus-visible{transform:translateY(-3px);border-color:rgba(127,166,255,.7);background:rgba(127,166,255,.12)}
+.btn:hover svg,.btn:focus-visible svg{transform:translateX(4px)}
+.hero-notes{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px 10px;animation:rise 1s .75s cubic-bezier(.19,.86,.24,1) both}
+.hero-notes li{
+  font-size:12px;color:var(--ink-2);padding:6px 12px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.03);transition:border-color .3s ease,color .3s ease,transform .3s ease;
+}
+.hero-notes li:hover{border-color:rgba(121,242,192,.5);color:var(--ink);transform:translateY(-2px)}
+
+/* terminal */
+.term-shell{animation:fade 1.2s .5s ease both}
+.term{
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(180deg,rgba(13,18,36,.94),rgba(8,11,22,.96));
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease,border-color .5s ease;
+}
+.term:hover,.term:focus-within{transform:translateY(-6px);border-color:rgba(121,242,192,.4);box-shadow:var(--glow),0 40px 80px -40px rgba(0,0,0,.9)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
+.term-bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}
+.term-bar i:nth-child(1){background:rgba(246,194,104,.8)}
+.term-bar i:nth-child(2){background:rgba(121,242,192,.7)}
+.term-bar .tt{margin-left:6px;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+.term-bar .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--acc);border:1px solid rgba(121,242,192,.35);border-radius:999px;padding:3px 9px}
+.term-body{padding:18px 16px 14px;font-family:var(--mono);font-size:13px;line-height:1.9;min-height:196px}
+.tl{margin:0 0 6px;word-break:break-word}
+.tl.u{color:var(--ink)}
+.tl.u .p{color:var(--acc);margin-right:8px}
+.tl.m{color:var(--ink-3);font-size:11.5px;letter-spacing:.06em;opacity:0;transition:opacity .4s ease}
+.tl.m.on{opacity:1}
+.tl.b{color:var(--acc-2);white-space:pre-wrap}
+.caret{display:inline-block;width:8px;height:1.05em;background:var(--acc);vertical-align:-.18em;margin-left:2px;animation:blink 1.1s steps(1) infinite}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.chips b{
+  font-family:var(--mono);font-weight:400;font-size:10.5px;color:var(--ink-3);
+  border:1px solid var(--line);border-radius:3px;padding:1px 6px;background:rgba(255,255,255,.03);
+  animation:sheen 2.6s ease-in-out infinite;transition:color .3s ease,border-color .3s ease;
+}
+.chips b:hover{color:var(--acc);border-color:rgba(121,242,192,.5)}
+.chips b:nth-child(2n){animation-delay:.3s}
+.chips b:nth-child(3n){animation-delay:.6s}
+.chips b:nth-child(4n){animation-delay:.9s}
+.term-cap{margin-top:12px;font-size:11.5px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.06em}
+.scrollcue{
+  position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:2;
+  font-family:var(--mono);font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-align:center;
+}
+.scrollcue::after{content:"";display:block;width:1px;height:34px;margin:10px auto 0;background:linear-gradient(180deg,var(--acc),transparent);animation:cue 2.2s ease-in-out infinite}
+
+/* ============ sections ============ */
+.section{position:relative;padding:clamp(78px,11vh,132px) 0}
+.section+.section{border-top:1px solid rgba(150,175,225,.09)}
+.band{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.sec-head{display:flex;align-items:flex-end;gap:clamp(14px,3vw,34px);flex-wrap:wrap;margin-bottom:clamp(34px,5vw,58px)}
+.sec-ix{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--acc);padding-bottom:8px}
+.sec-head h2{font-size:clamp(24px,3.4vw,38px);flex:1 1 320px}
+.sec-head p{color:var(--ink-3);max-width:32em;font-size:13.5px;flex:1 1 260px;padding-bottom:4px}
+.rule{height:1px;background:linear-gradient(90deg,var(--acc),rgba(127,166,255,.35),transparent);margin-bottom:clamp(34px,5vw,58px)}
+
+/* cards */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{
+  position:relative;padding:28px 24px 24px;border:1px solid var(--line);border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .45s ease,box-shadow .45s ease;overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;inset:0;opacity:0;transition:opacity .45s ease;pointer-events:none;
+  background:radial-gradient(420px 180px at 30% 0%, rgba(121,242,192,.16), transparent 70%);
+}
+.card::after{content:"";position:absolute;left:24px;right:auto;top:0;height:2px;width:0;background:linear-gradient(90deg,var(--acc),transparent);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.card:hover,.card:focus-within{transform:translateY(-8px);border-color:rgba(121,242,192,.42);box-shadow:0 30px 60px -34px rgba(0,0,0,.95)}
+.card:hover::before,.card:focus-within::before{opacity:1}
+.card:hover::after,.card:focus-within::after{width:64%}
+.glyph{width:46px;height:46px;margin-bottom:18px;color:var(--acc)}
+.glyph svg{width:100%;height:100%}
+.card h3{font-size:18px;margin-bottom:12px}
+.card p{color:var(--ink-2);font-size:14px}
+.card .foot{margin-top:16px;padding-top:14px;border-top:1px dashed rgba(150,175,225,.2);font-size:12px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.05em}
+
+/* pipe */
+.pipe{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:stretch;gap:10px}
+.stage{
+  position:relative;padding:22px 18px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),background .4s ease,border-color .4s ease;
+}
+.stage:hover{transform:translateY(-6px);background:rgba(121,242,192,.09);border-color:rgba(121,242,192,.4)}
+.stage .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--acc)}
+.stage h3{font-size:15.5px;margin:8px 0 8px}
+.stage p{font-size:12.5px;color:var(--ink-3);line-height:1.75}
+.wire{position:relative;align-self:center;width:100%;min-width:26px;height:14px;overflow:hidden}
+.wire i{
+  position:absolute;inset:0;display:block;
+  background:repeating-linear-gradient(90deg,var(--acc) 0 7px,transparent 7px 17px);
+  background-size:17px 100%;opacity:.7;animation:wireflow 1.1s linear infinite;
+}
+.branch{
+  margin-top:18px;display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:12px;
+  border:1px solid rgba(246,194,104,.3);background:rgba(246,194,104,.07);
+}
+.branch svg{width:22px;height:22px;flex:none;color:var(--acc-3)}
+.branch p{font-size:13.5px;color:#f3dfb8}
+.branch b{color:#fff}
+
+/* choose */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tab{
+  font-family:var(--sans);font-size:13.5px;font-weight:700;letter-spacing:.03em;color:var(--ink-3);cursor:pointer;
+  padding:11px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  transition:color .3s ease,border-color .3s ease,background .3s ease,transform .3s ease;
+}
+.tab:hover{color:var(--ink);transform:translateY(-2px)}
+.tab[aria-selected="true"]{color:#04140e;background:linear-gradient(120deg,var(--acc),#57dfae);border-color:transparent}
+.panel{padding:26px 24px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035)}
+.panel.swap{animation:swap .5s cubic-bezier(.2,.8,.2,1)}
+.panel h3{font-size:19px;margin-bottom:10px}
+.panel>p{color:var(--ink-2);font-size:14.5px}
+.panel dl{margin-top:18px;display:grid;gap:12px}
+.panel dl>div{display:grid;grid-template-columns:112px minmax(0,1fr);gap:14px;align-items:baseline;padding-top:12px;border-top:1px dashed rgba(150,175,225,.18)}
+.panel dt{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--acc)}
+.panel dd{margin:0;font-size:14px;color:var(--ink-2)}
+.tiers{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.tier{padding:22px 20px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(127,166,255,.09),rgba(255,255,255,.02));transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s ease}
+.tier:hover{transform:translateY(-6px);border-color:rgba(127,166,255,.55)}
+.tier .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--acc-2)}
+.tier h4{margin:8px 0 10px;font-size:16px}
+.tier ul{display:grid;gap:7px}
+.tier li{position:relative;padding-left:16px;font-size:13px;color:var(--ink-2)}
+.tier li::before{content:"";position:absolute;left:0;top:.75em;width:7px;height:1px;background:var(--acc-2)}
+.membox{margin-top:26px;padding:24px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:22px;align-items:center}
+.membox h4{font-size:15px;margin-bottom:6px}
+.membox .sub{font-size:12.5px;color:var(--ink-3)}
+.memopts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.mem{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);cursor:pointer;padding:9px 15px;border-radius:6px;border:1px solid var(--line);background:rgba(255,255,255,.03);transition:all .3s ease}
+.mem:hover{color:var(--ink);border-color:rgba(121,242,192,.5);transform:translateY(-2px)}
+.mem[aria-pressed="true"]{color:var(--acc);border-color:rgba(121,242,192,.7);background:rgba(121,242,192,.12)}
+#memText{font-size:14px;color:var(--ink-2);min-height:3.4em}
+#memText.flash{animation:swap .45s cubic-bezier(.2,.8,.2,1)}
+
+/* steps */
+.steps{position:relative;padding-left:clamp(30px,5vw,58px);--p:1}
+.steps::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:rgba(150,175,225,.16)}
+.steps::after{content:"";position:absolute;left:8px;top:6px;width:2px;height:calc(var(--p) * 100%);background:linear-gradient(180deg,var(--acc),var(--acc-2));box-shadow:0 0 14px rgba(121,242,192,.6)}
+.step{position:relative;padding:0 0 34px}
+.step:last-child{padding-bottom:0}
+.step .dot{position:absolute;left:calc(-1 * clamp(30px,5vw,58px));top:4px;width:18px;height:18px;border-radius:50%;background:var(--bg-2);border:2px solid var(--acc);box-shadow:0 0 0 4px rgba(121,242,192,.12);transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease}
+.step:hover .dot{transform:scale(1.25);box-shadow:0 0 0 7px rgba(121,242,192,.16)}
+.step .ix{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--acc)}
+.step h3{font-size:18.5px;margin:6px 0 10px}
+.step p{color:var(--ink-2);font-size:14px;max-width:52em}
+.step ul{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.step li{font-size:12px;color:var(--ink-3);border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:rgba(255,255,255,.03);transition:color .3s ease,border-color .3s ease}
+.step li:hover{color:var(--ink);border-color:rgba(121,242,192,.45)}
+
+/* caveat */
+.warn{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px}
+.warn article{padding:24px 22px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03);transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s ease}
+.warn article:hover{transform:translateY(-6px);border-color:rgba(246,194,104,.5)}
+.warn h3{font-size:15.5px;display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.warn h3 svg{width:18px;height:18px;flex:none;color:var(--acc-3)}
+.warn p{font-size:13.5px;color:var(--ink-2)}
+.note{margin-top:22px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--ink-3);border-left:2px solid var(--acc);padding-left:14px}
+
+/* closing */
+.closing{position:relative;padding:clamp(88px,13vh,150px) 0 clamp(70px,10vh,110px);text-align:center;overflow:hidden}
+.closing .halo{position:absolute;left:50%;top:50%;width:min(760px,110vw);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(121,242,192,.16),transparent 62%);animation:breathe 7s ease-in-out infinite;pointer-events:none}
+.closing h2{position:relative;font-size:clamp(26px,4.6vw,48px)}
+.closing p{position:relative;color:var(--ink-2);margin:18px auto 30px;max-width:36em}
+.closing .cta-row{justify-content:center;margin-top:0}
+
+footer{border-top:1px solid rgba(150,175,225,.12);padding:30px 0 44px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-3)}
+.foot a:hover{color:var(--acc)}
+
+/* dots */
+.dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:30;display:none;flex-direction:column;gap:14px}
+.dots a{position:relative;width:9px;height:9px;border-radius:50%;background:rgba(150,175,225,.28);transition:background .3s ease,transform .3s ease}
+.dots a span{position:absolute;right:20px;top:50%;transform:translateY(-50%) translateX(6px);opacity:0;white-space:nowrap;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink);background:rgba(10,14,27,.92);border:1px solid var(--line);border-radius:4px;padding:3px 8px;transition:opacity .3s ease,transform .3s ease}
+.dots a:hover,.dots a.active{background:var(--acc);transform:scale(1.35);box-shadow:0 0 12px rgba(121,242,192,.8)}
+.dots a:hover span,.dots a.active span{opacity:1;transform:translateY(-50%) translateX(0)}
+@media (min-width:1000px){.dots{display:flex}}
+
+/* reveal */
+[data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
+[data-reveal].in{opacity:1;transform:none}
+
+/* keyframes */
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes swipe{to{transform:scaleX(1)}}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes cue{0%,100%{transform:scaleY(.3);opacity:.4;transform-origin:top}50%{transform:scaleY(1);opacity:1;transform-origin:top}}
+@keyframes wireflow{to{background-position-x:17px}}
+@keyframes pop{0%{opacity:0;transform:translateY(8px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes swap{0%{opacity:.2;transform:translateY(10px)}100%{opacity:1;transform:none}}
+@keyframes sheen{0%,100%{opacity:.55}50%{opacity:1;color:var(--acc-2)}}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(.94);opacity:.75}50%{transform:translate(-50%,-50%) scale(1.06);opacity:1}}
+
+/* ============ responsive ============ */
+@media (max-width:980px){
+  .hero-inner{grid-template-columns:1fr}
+  .term-shell{order:2}
+  .hero{padding-top:96px}
+}
+@media (max-width:640px){
+  .topnav{display:none}
+  .pipe{grid-template-columns:1fr;gap:6px}
+  .wire{height:22px;min-width:0}
+  .wire i{background:repeating-linear-gradient(180deg,var(--acc) 0 7px,transparent 7px 17px);background-size:100% 17px;animation:wireflow-v 1.1s linear infinite}
+  .membox{grid-template-columns:1fr}
+  .panel dl>div{grid-template-columns:1fr;gap:4px}
+  .term-body{font-size:12px;min-height:180px}
+  .section{padding-top:66px}
+}
+@keyframes wireflow-v{to{background-position-y:17px}}
+
+/* ============ motion off ============ */
+.motion-off{scroll-behavior:auto}
+.motion-off *,.motion-off *::before,.motion-off *::after{animation:none!important;transition:none!important}
+.motion-off [data-reveal]{opacity:1!important;transform:none!important}
+.motion-off .par{transform:none!important}
+.motion-off .steps::after{height:100%}
+.motion-off .caret{opacity:1}
+.motion-off .tl.m{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  [data-reveal]{opacity:1!important;transform:none!important}
+}
+</style>
+<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}.tl.m{opacity:1!important}</style></noscript>
+</head>
+<body>
+<a class="skip" href="#steps">導入手順へスキップ</a>
+
+<header class="topbar">
+  <div class="brand" aria-hidden="true">
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+      <rect x="6" y="6" width="20" height="20" rx="4" stroke="#79f2c0"/>
+      <rect x="12" y="12" width="8" height="8" rx="2" stroke="#7fa6ff"/>
+      <path d="M16 2v4M16 26v4M2 16h4M26 16h4M8 2v3M24 2v3" stroke="#79f2c0" opacity=".7"/>
+    </svg>
+    <span><b>LOCAL</b> / LLM</span>
+  </div>
+  <nav class="topnav" aria-label="セクション">
+    <a href="#why" data-nav>魅力</a>
+    <a href="#flow" data-nav>仕組み</a>
+    <a href="#choose" data-nav>えらぶ</a>
+    <a href="#steps" data-nav>手順</a>
+    <a href="#caveat" data-nav>注意</a>
+  </nav>
+  <button class="mbtn" id="motionBtn" type="button" aria-pressed="false"><i aria-hidden="true"></i><span id="motionLabel">動きを止める</span></button>
+</header>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+<main>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="top">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div>
+        <p class="eyebrow">Run it on your own machine</p>
+        <h1>
+          <span class="ln"><span>モデルを動かす場所を、</span></span>
+          <span class="ln"><span><em>自分のPC</em>という</span></span>
+          <span class="ln"><span>選択肢にふやす。</span></span>
+        </h1>
+        <p class="lead">ローカルLLMは、サーバーに預けなくても手元の計算機で動く言語モデルです。試す速さ、モデルを選べる自由、データの扱いを自分で設計できる余白があります。特定製品の話ではなく、動かし方の話として。</p>
+        <p class="rot"><span class="hash">&gt;</span>いま試しやすい用途：<span id="rotWord">文章の下書き</span></p>
+        <div class="cta-row">
+          <a class="btn primary" href="#steps">導入の4ステップを見る
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn ghost" href="#choose">用途からモデルをえらぶ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+        </div>
+        <ul class="hero-notes">
+          <li>手元で回す楽しさ</li>
+          <li>モデルを差し替えられる</li>
+          <li>データの行き先を設計できる</li>
+          <li>数値の言い切りなし</li>
+        </ul>
+      </div>
+
+      <div class="term-shell">
+        <div class="term" tabindex="0">
+          <div class="term-bar" aria-hidden="true">
+            <i></i><i></i>
+            <span class="tt">local://session-01</span>
+            <span class="tag">画面内の模擬出力</span>
+          </div>
+          <div class="term-body" aria-hidden="true">
+            <p class="tl u"><span class="p">›</span><span id="tUser">今日の打ち合わせメモ、3行にまとめて</span></p>
+            <p class="tl m on" id="tMeta">推論は端末の内側で完結（模擬）</p>
+            <p class="tl b" id="tBot">要点は「期限・担当・未決」の3つ。各1行の案を出します。</p>
+            <div class="chips"><b>tok</b><b>打ち合わせ</b><b>3行</b><b>要点</b><b>期限</b><b>担当</b><b>未決</b><b>案</b><b>…</b></div>
+          </div>
+        </div>
+        <p class="term-cap">※ 送信も保存もしていない、このページ上の演出です。</p>
+        <p class="sr-only">出力例：打ち合わせメモの要約を頼むと、その場で3行の要約案が返る様子。ページ内で完結する模擬表示で、サーバーへの送信はありません。</p>
+      </div>
+    </div>
+    <p class="scrollcue" aria-hidden="true">SCROLL</p>
+  </section>
+
+  <!-- ===================== WHY ===================== -->
+  <section class="section" id="why">
+    <div class="band" aria-hidden="true">
+      <svg class="par" data-speed="0.08" viewBox="0 0 200 200" width="280" height="280" style="position:absolute;right:-40px;top:40px;opacity:.35">
+        <circle cx="100" cy="100" r="86" fill="none" stroke="rgba(121,242,192,.5)" stroke-width="1" stroke-dasharray="4 9"/>
+        <circle cx="100" cy="100" r="56" fill="none" stroke="rgba(127,166,255,.45)" stroke-width="1"/>
+        <circle cx="100" cy="100" r="4" fill="#79f2c0"/>
+      </svg>
+    </div>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-ix">01 / WHY LOCAL</p>
+        <h2 data-reveal>サーバー前提を、ひとつ外すと見えるもの</h2>
+        <p data-reveal style="--d:80ms">手元で動かせると、試す回数の重さが変わります。待つ・預けるが減るぶん、気軽に触って削ってを繰り返せます。</p>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <div class="grid3">
+        <article class="card" data-reveal tabindex="0">
+          <div class="glyph" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7">
+              <rect x="7" y="9" width="34" height="24" rx="3"/>
+              <path d="M16 39h16M24 33v6"/>
+              <path d="M13 21l4-5 4 7 4-9 4 6 3-3" stroke="#7fa6ff"/>
+            </svg>
+          </div>
+          <h3>手元で試す楽しさ</h3>
+          <p>思いついた入力、言い回しの微調整、昨日の失敗のやり直し。起動しておけば、思い立ってから結果を見るまでの距離が短くなります。</p>
+          <p class="foot">何度やり直しても気にならない環境</p>
+        </article>
+        <article class="card" data-reveal tabindex="0" style="--d:90ms">
+          <div class="glyph" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M10 12h28M10 24h28M10 36h28"/>
+              <circle cx="19" cy="12" r="4.2" fill="#0a0e1b"/>
+              <circle cx="30" cy="24" r="4.2" fill="#0a0e1b"/>
+              <circle cx="16" cy="36" r="4.2" fill="#0a0e1b"/>
+            </svg>
+          </div>
+          <h3>用途に合わせて選べる</h3>
+          <p>軽くして速さ寄り、重くして品質寄り、長い文脈を狙うなど、モデルと設定の組み合わせを替えられます。固定の1択に縛られません。</p>
+          <p class="foot">サイズ・量子化・設定が選択肢として残る</p>
+        </article>
+        <article class="card" data-reveal tabindex="0" style="--d:180ms">
+          <div class="glyph" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7">
+              <rect x="12" y="21" width="24" height="18" rx="3"/>
+              <path d="M17 21v-5a7 7 0 0114 0v5" stroke="#7fa6ff"/>
+              <path d="M24 28v5"/>
+            </svg>
+          </div>
+          <h3>データの扱いを設計できる</h3>
+          <p>何を入力し、どこに置き、誰と共有するか。自分たちの運用に合わせて決めやすくなります。判断の材料を自分で持てるのが利点です。</p>
+          <p class="foot">運用ルールを後から説明しやすい</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FLOW ===================== -->
+  <section class="section" id="flow">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-ix">02 / HOW IT RUNS</p>
+        <h2 data-reveal>入力から応答まで、端末の中で起きること</h2>
+        <p data-reveal style="--d:80ms">仕組みは単純な流れの繰り返しです。外に出る工程を自分で把握できるのが、ローカル実行の性質です。</p>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <ol class="pipe">
+        <li class="stage" data-reveal>
+          <span class="n">STAGE 01</span>
+          <h3>入力を受け取る</h3>
+          <p>依頼文と、必要なら手元の資料やコードの抜粋を渡します。</p>
+        </li>
+        <li class="wire" aria-hidden="true"><i></i></li>
+        <li class="stage" data-reveal style="--d:80ms">
+          <span class="n">STAGE 02</span>
+          <h3>ばらして考える</h3>
+          <p>入力を書片の小さな単位に分解し、モデル内の演算を順に通します。</p>
+        </li>
+        <li class="wire" aria-hidden="true" aria-hidden="true"><i></i></li>
+        <li class="stage" data-reveal style="--d:160ms">
+          <span class="n">STAGE 03</span>
+          <h3>手元で計算</h3>
+          <p>CPUやGPUが積まれたモデルの重みに沿って、次の書片を決めていきます。</p>
+        </li>
+        <li class="wire" aria-hidden="true"><i></i></li>
+        <li class="stage" data-reveal style="--d:240ms">
+          <span class="n">STAGE 04</span>
+          <h3>応答を返す</h3>
+          <p>出てきた文章を自分の環境で確認し、必要なら貼り直して続けます。</p>
+        </li>
+      </ol>
+      <div class="branch" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v11M12 18v3M4 10l8-7 8 7" /><circle cx="12" cy="18" r="1.6" fill="currentColor" stroke="none"/></svg>
+        <p><b>ただし「ローカルだけ」が条件ではありません。</b>検索・API連携・同期などの機能をつけると、その分工夫はしますが通信が発生します。どの工程を外に出すかを設定で決める、という考え方になります。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHOOSE ===================== -->
+  <section class="section" id="choose">
+    <div class="band" aria-hidden="true">
+      <svg class="par" data-speed="0.1" viewBox="0 0 120 120" width="180" height="180" style="position:absolute;left:-30px;bottom:20px;opacity:.3">
+        <path d="M10 110V10M10 110h100" stroke="rgba(127,166,255,.6)" stroke-width="1"/>
+        <path d="M10 92c22 0 26-40 48-40s26 24 48 24" fill="none" stroke="rgba(121,242,192,.7)" stroke-width="1.6"/>
+      </svg>
+    </div>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-ix">03 / CHOOSE</p>
+        <h2 data-reveal>「何をしたいか」から逆算してえらぶ</h2>
+        <p data-reveal style="--d:80ms">性能の言い比べより、用途に合う形を選ぶほうが近道です。タブで想定を変えてお試しください。</p>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+
+      <div class="tabs" role="tablist" aria-label="用途でえらぶ">
+        <button class="tab" role="tab" id="tb1" aria-controls="tp1" aria-selected="true" tabindex="0">文章の下書き</button>
+        <button class="tab" role="tab" id="tb2" aria-controls="tp2" aria-selected="false" tabindex="-1">コードの相談</button>
+        <button class="tab" role="tab" id="tb3" aria-controls="tp3" aria-selected="false" tabindex="-1">手元資料の整理</button>
+      </div>
+
+      <div class="panel" role="tabpanel" id="tp1" aria-labelledby="tb1" tabindex="0">
+        <h3>自分の書き出しを、置いて戻される相手として使う</h3>
+        <p>一から書かせると迷う場面も、元の文を渡せば直線の相談になります。短い文を何度も行き来する使い方なら、軽く動きやすい構成から始めると続きやすいです。</p>
+        <dl>
+          <div><dt>入り口の練習</dt><dd>書けた段落を1つ貼り、「トーン違いの案を3つ」と頼む。</dd></div>
+          <div><dt>向けやすい形</dt><dd>軽量〜中程度・応答が早い構成。長い指示より短い指示を繰り返す。</dd></div>
+          <div><dt>やめどきの目安</dt><dd>直したい箇所が毎回同じなら、モデルより指示文を直したほうが早い。</dd></div>
+        </dl>
+      </div>
+      <div class="panel" role="tabpanel" id="tp2" aria-labelledby="tb2" tabindex="0" hidden>
+        <h3>エラー文と断片を貼って、見当 together に相談する</h3>
+        <p>ファイル全体を渡すより、疑わしい範囲とエラーの全文を渡すほうが展開が速くなります。文脈を長く持つほど端末の負担は増えるので、載せる範囲を絞る工夫が効きます。</p>
+        <dl>
+          <div><dt>入り口の練習</dt><dd>tracebackの全文＋該当数行を貼り、原因の候補を出してもらう。</dd></div>
+          <div><dt>向けやすい形</dt><dd>ある程度まとまった文脈を扱える構成。ログは要点だけ抜く。</dd></div>
+          <div><dt>やめどきの目安</dt><dd>動作確認は自分でする前提で、案の出し手に留めると事故が減る。</dd></div>
+        </dl>
+      </div>
+      <div class="panel" role="tabpanel" id="tp3" aria-labelledby="tb3" tabindex="0" hidden>
+        <h3>手元の資料を、分類と要約の作業台に載せる</h3>
+        <p>ローカルに置いた資料を貼り付けて、見出しごとに分ける・論点だけ抜き出す、という使い方です。外部機能をつなげない構成なら、入力の内容はこの端末の中に留まります。</p>
+        <dl>
+          <div><dt>入り口の練習</dt><dd>1本の資料を貼り、「ラベル3種類で分類して」と頼む。</dd></div>
+          <div><dt>向けやすい形</dt><dd>長め入力を扱える構成。分類基準を先に指定すると再現しやすい。</dd></div>
+          <div><dt>やめどきの目安</dt><dd>検索や連携を入れるときは、通信の有無を先に設定で確認する。</dd></div>
+        </dl>
+      </div>
+
+      <div class="tiers">
+        <article class="tier" data-reveal tabindex="0">
+          <p class="k">TYPE A</p>
+          <h4>軽量・手軽さ寄り</h4>
+          <ul>
+            <li>短い入力の往復に向く</li>
+            <li>古い端末でも狙いやすい</li>
+            <li>長い文脈や凝った指定は苦手になりやすい</li>
+          </ul>
+        </article>
+        <article class="tier" data-reveal tabindex="0" style="--d:90ms">
+          <p class="k">TYPE B</p>
+          <h4>バランス寄り</h4>
+          <ul>
+            <li>用途を絞った実用に合わせやすい</li>
+            <li>差し替えの比較基準にしやすい</li>
+            <li>設定を詰めると急に重くなる余地あり</li>
+          </ul>
+        </article>
+        <article class="tier" data-reveal tabindex="0" style="--d:180ms">
+          <p class="k">TYPE C</p>
+          <h4>品質・長文脈寄り</h4>
+          <ul>
+            <li>長い資料や凝った指示に強い狙い</li>
+            <li>メモリと計算の余裕が前提</li>
+            <li>応答まで待つ前提の運用になる</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="membox" data-reveal>
+        <div>
+          <h4>搭載メモリから見る、はじめ方</h4>
+          <p class="sub">あくまではじめ方の目安です。実際の必要量と体感は、モデル・量子化・設定・機器で動きます。</p>
+        </div>
+        <div>
+          <div class="memopts" role="group" aria-label="搭載メモリで絞り込む">
+            <button class="mem" type="button" data-mem="0" aria-pressed="true">8GB</button>
+            <button class="mem" type="button" data-mem="1" aria-pressed="false">16GB</button>
+            <button class="mem" type="button" data-mem="2" aria-pressed="false">32GB以上</button>
+          </div>
+          <p id="memText">小さめ・量子化されたモデルから試すのが近道です。長文脈や重い設定は苦手にしやすいので、用途を1つに絞って1つずつ確かめる形になります。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STEPS ===================== -->
+  <section class="section" id="steps">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-ix">04 / STEPS</p>
+        <h2 data-reveal>導入は、4つの順番で考える</h2>
+        <p data-reveal style="--d:80ms">機器から決めると用途が歪みます。用件のほうを先に決めるのが、遠回りの少ない流れです。</p>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <ol class="steps" id="stepList">
+        <li class="step" data-reveal>
+          <span class="dot" aria-hidden="true"></span>
+          <p class="ix">STEP 01</p>
+          <h3>用途を決める</h3>
+          <p>「下書きの手伝い」「コードの相談」「手元資料の整理」のどれを主にするか、一文で書いておきます。ここが曖昧だと、之后的な選択が全部ブレます。</p>
+          <ul><li>任せたいことを一文で</li><li>1日何回使う想定か</li><li>失敗しても困らない範囲から</li></ul>
+        </li>
+        <li class="step" data-reveal style="--d:80ms">
+          <span class="dot" aria-hidden="true"></span>
+          <p class="ix">STEP 02</p>
+          <h3>機器と必要メモリを確認する</h3>
+          <p>搭載メモリ、グラフィックスの有無、使えるディスク容量を数えます。ここが次のモデル選びの上限になるので、推測で進めません。</p>
+          <ul><li>メモリ搭載量</li><li>GPUの有無とVRAM</li><li>モデル分の空き容量</li></ul>
+        </li>
+        <li class="step" data-reveal style="--d:160ms">
+          <span class="dot" aria-hidden="true"></span>
+          <p class="ix">STEP 03</p>
+          <h3>利用条件を読んでモデルを選ぶ</h3>
+          <p>モデルには使い方・再配布・商用利用の条件が添えられていることがあります。全モデルが無料で商用利用できるとは限らないため、公開されている条件文と説明を確認してから選びます。</p>
+          <ul><li>条件文を読む</li><li>対応言語や入力長を見る</li><li>必要なら複数候補を持つ</li></ul>
+        </li>
+        <li class="step" data-reveal style="--d:240ms">
+          <span class="dot" aria-hidden="true"></span>
+          <p class="ix">STEP 04</p>
+          <h3>小さく試す</h3>
+          <p>短い入力で1往復。待つ時間が耐えられるか、出る文章が実用になるかを見て、必要ならモデルか設定だけを差し替えます。変えるものは一度に1つにすると原因が残ります。</p>
+          <ul><li>短い入力で1往復</li><li>変えるのは一度に1つ</li><li>失敗例もメモしておく</li></ul>
+        </li>
+      </ol>
+      <p class="note" data-reveal>ページ内のCTAはこの手順までを結ぶリンクで、入力内容や個人情報をどこかへ送る仕組みはありません。</p>
+    </div>
+  </section>
+
+  <!-- ===================== CAVEAT ===================== -->
+  <section class="section" id="caveat">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-ix">05 / CAUTION</p>
+        <h2 data-reveal>かっこよさの裏に、決めておくこと</h2>
+        <p data-reveal style="--d:80ms">このページでは未測定の数値や順位は置いていません。代わりに、始める前に効いてくる注意を残します。</p>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <div class="warn">
+        <article data-reveal tabindex="0">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>速さとメモリは依存する</h3>
+          <p>体感の速さも必要な容量も、モデル・機器・設定で変わります。人の環境をそのまま自分の想定に持ち込まないほうが安全です。</p>
+        </article>
+        <article data-reveal tabindex="0" style="--d:90ms">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 10h16M9 14h6"/></svg>無料・商用利用とは限らない</h3>
+          <p>手元で動くことと、使い方の条件は別の話です。モデルごとに公開された条件を確認し、業務利用なら記録を残しておきます。</p>
+        </article>
+        <article data-reveal tabindex="0" style="--d:180ms">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M12 3l8 4v6c0 4-4 7-8 8-4-1-8-4-8-8V7z"/><path d="M9 12h6"/></svg>秘密保持は自動ではない</h3>
+          <p>外部連携や設定の選び方次第で通信は起きます。完全な内側で完結させるには、どこで通信するかを自分で点検する必要があります。</p>
+        </article>
+        <article data-reveal tabindex="0" style="--d:270ms">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M5 19V5h14"/><path d="M8 15l4-6 3 4 3-6"/></svg>成功と精度も条件付き</h3>
+          <p>うまくいくかも、出た文章が使えるかも、用途とモデルに依存します。小さく試して自分で確かめる順番を大事にしてください。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CLOSING ===================== -->
+  <section class="closing" id="closing">
+    <div class="halo" aria-hidden="true"></div>
+    <div class="wrap">
+      <h2 data-reveal>まずは、用途を一文書いてみる。</h2>
+      <p data-reveal style="--d:90ms">場所の選択肢が増えると、試す回数が増えます。回数が増えると、自分の使い方が決まります。</p>
+      <div class="cta-row" data-reveal style="--d:180ms">
+        <a class="btn primary" href="#steps">STEP 01 から始める
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn ghost" href="#top">最初の画面へ戻る
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>LOCAL / LLM — テーマ紹介ページ（特定製品の販売サイトではありません）</span>
+    <span>数値・実績の断定なし / ページ内で完結 / <a href="#top">PAGE TOP</a></span>
+  </div>
+</footer>
+
+<nav class="dots" aria-label="セクション送り">
+  <a href="#top" data-nav aria-label="先頭へ"><span>TOP</span></a>
+  <a href="#why" data-nav aria-label="魅力へ"><span>WHY</span></a>
+  <a href="#flow" data-nav aria-label="仕組みへ"><span>HOW</span></a>
+  <a href="#choose" data-nav aria-label="えらぶへ"><span>CHOOSE</span></a>
+  <a href="#steps" data-nav aria-label="手順へ"><span>STEPS</span></a>
+  <a href="#caveat" data-nav aria-label="注意へ"><span>CAUTION</span></a>
+</nav>
+
+<script>
+(function(){
+  'use strict';
+  var root = document.documentElement;
+  var rmq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : {matches:false, addEventListener:null};
+  var motionOn = !rmq.matches;
+  var motionBtn = document.getElementById('motionBtn');
+  var motionLabel = document.getElementById('motionLabel');
+
+  /* ---------- 1. hero canvas: token graph ---------- */
+  var cv = document.getElementById('net');
+  var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+  var W = 0, H = 0, NODES = [], LINKS = [], PULSES = [], raf = 0, last = 0;
+  var ptr = {x:0.5, y:0.5}, ptrTarget = {x:0.5, y:0.5};
+
+  function sizeCanvas(){
+    if(!ctx) return;
+    var host = cv.parentNode;
+    W = Math.max(320, host.clientWidth);
+    H = Math.max(320, host.clientHeight);
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    build();
+  }
+  function build(){
+    NODES = []; LINKS = []; PULSES = [];
+    var cols = W < 640 ? 4 : 7, rows = W < 640 ? 7 : 5;
+    for(var c=0; c<cols; c++){
+      for(var r=0; r<rows; r++){
+        NODES.push({
+          x:(c+.5)/cols*W + (Math.random()-.5)*W/cols*.75,
+          y:(r+.5)/rows*H + (Math.random()-.5)*H/rows*.75,
+          ph:Math.random()*6.28, nb:[]
+        });
+      }
+    }
+    for(var i=0;i<NODES.length;i++){
+      var d=[];
+      for(var j=0;j<NODES.length;j++){
+        if(i===j) continue;
+        var dx=NODES[i].x-NODES[j].x, dy=NODES[i].y-NODES[j].y;
+        d.push({k:dx*dx+dy*dy, j:j});
+      }
+      d.sort(function(a,b){return a.k-b.k;});
+      for(var t=0;t<2 && t<d.length;t++){
+        var to=d[t].j, lo=Math.min(i,to), hi=Math.max(i,to), key=lo+'-'+hi, found=-1;
+        for(var m=0;m<LINKS.length;m++){ if(LINKS[m].key===key){ found=m; break; } }
+        if(found<0){ LINKS.push({key:key,a:lo,b:hi}); found=LINKS.length-1; }
+        NODES[i].nb.push(found);
+      }
+    }
+    for(var p=0;p<Math.min(16, LINKS.length);p++){
+      PULSES.push({li:Math.floor(Math.random()*LINKS.length), t:Math.random(), sp:.22+Math.random()*.5, hue:Math.random()<.35?0:1});
+    }
+  }
+  function paint(dt){
+    if(!ctx) return;
+    ctx.clearRect(0,0,W,H);
+    ptr.x += (ptrTarget.x-ptr.x)*.06;
+    ptr.y += (ptrTarget.y-ptr.y)*.06;
+    ctx.save();
+    ctx.translate((ptr.x-.5)*22, (ptr.y-.5)*14);
+    var i, a, b;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(150,175,225,.13)';
+    ctx.beginPath();
+    for(i=0;i<LINKS.length;i++){
+      a=NODES[LINKS[i].a]; b=NODES[LINKS[i].b];
+      ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+    }
+    ctx.stroke();
+    var t = last/1000;
+    for(i=0;i<NODES.length;i++){
+      var n=NODES[i], br=.28+Math.sin(t*1.4+n.ph)*.18;
+      ctx.fillStyle='rgba(127,166,255,'+br.toFixed(3)+')';
+      ctx.beginPath(); ctx.arc(n.x,n.y,1.9,0,6.283); ctx.fill();
+    }
+    for(i=0;i<PULSES.length;i++){
+      var p=PULSES[i];
+      p.t += dt*p.sp;
+      if(p.t>=1){
+        var cur=LINKS[p.li], at=p.hue===1?cur.b:cur.a, nb=NODES[at].nb;
+        if(nb.length){ p.li=nb[Math.floor(Math.random()*nb.length)]; }
+        p.t=0; p.sp=.22+Math.random()*.5;
+      }
+      var L=LINKS[p.li]; if(!L) continue;
+      var A=NODES[L.a], B=NODES[L.b];
+      var x=A.x+(B.x-A.x)*p.t, y=A.y+(B.y-A.y)*p.t;
+      var col = p.hue ? 'rgba(127,166,255,' : 'rgba(121,242,192,';
+      ctx.shadowBlur=14; ctx.shadowColor=col+'.85)';
+      ctx.fillStyle=col+'.95)';
+      ctx.beginPath(); ctx.arc(x,y,2.4,0,6.283); ctx.fill();
+      ctx.shadowBlur=0;
+      var gt=ctx.createRadialGradient(x,y,0,x,y,34);
+      gt.addColorStop(0,col+'.20)'); gt.addColorStop(1,col+'0)');
+      ctx.fillStyle=gt; ctx.beginPath(); ctx.arc(x,y,34,0,6.283); ctx.fill();
+    }
+    ctx.restore();
+  }
+  function frame(ts){
+    var dt = Math.min(40, (ts - last) || 16) / 1000;
+    last = ts || 0;
+    paint(dt);
+    raf = requestAnimationFrame(frame);
+  }
+  function startCanvas(){
+    if(!ctx || raf) return;
+    last = performance.now ? performance.now() : 0;
+    raf = requestAnimationFrame(frame);
+  }
+  function stopCanvas(){ if(raf){ cancelAnimationFrame(raf); raf = 0; } }
+  if(ctx){
+    sizeCanvas();
+    paint(0);
+    window.addEventListener('resize', function(){
+      var was = !!raf; stopCanvas(); sizeCanvas(); paint(0); if(motionOn && !was) startCanvas(); else if(motionOn) startCanvas();
+    });
+    window.addEventListener('pointermove', function(e){
+      ptrTarget.x = e.clientX / (window.innerWidth || 1);
+      ptrTarget.y = e.clientY / (window.innerHeight || 1);
+    }, {passive:true});
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ stopCanvas(); } else if(motionOn){ startCanvas(); }
+    });
+  }
+
+  /* ---------- 2. terminal typing ---------- */
+  var SCRIPTS = [
+    {u:'今日の打ち合わせメモ、3行にまとめて', m:'推論は端末の内側で完結（模擬）', b:'要点は「期限・担当・未決」の3つ。各1行の案を出します。'},
+    {u:'この例外、直し所の見当をつけて', m:'抜粋とエラー文だけを渡す構成（模擬）', b:'tracebackの行番号付近と、渡している型を確かめたいです。'},
+    {u:'手元の資料を論点ごとに分類して', m:'通信なしの構成 / 設定は確認ずみ（模擬）', b:'見出し単位で分けます。ラベル名を先に指定すると再現します。'}
+  ];
+  var tU = document.getElementById('tUser'), tM = document.getElementById('tMeta'), tB = document.getElementById('tBot');
+  var sIdx = 0, phase = 0, cursor = 0, timer = 0;
+  function stopType(){ if(timer){ clearTimeout(timer); timer = 0; } }
+  function resetTerm(){ tU.textContent=''; tB.textContent=''; tM.classList.remove('on'); phase=0; cursor=0; }
+  function showStatic(){
+    var s = SCRIPTS[sIdx];
+    tU.textContent = s.u; tM.textContent = s.m; tM.classList.add('on'); tB.textContent = s.b;
+  }
+  function typeStep(){
+    if(!motionOn) return;
+    var s = SCRIPTS[sIdx];
+    if(phase === 0){
+      cursor++; tU.textContent = s.u.slice(0, cursor);
+      if(cursor >= s.u.length){ phase = 1; cursor = 0; timer = setTimeout(typeStep, 340); return; }
+      timer = setTimeout(typeStep, 34);
+    } else if(phase === 1){
+      tM.textContent = s.m; tM.classList.add('on'); phase = 2; timer = setTimeout(typeStep, 420);
+    } else if(phase === 2){
+      cursor++; tB.textContent = s.b.slice(0, cursor);
+      if(cursor >= s.b.length){ phase = 3; timer = setTimeout(typeStep, 2600); return; }
+      timer = setTimeout(typeStep, 26);
+    } else {
+      sIdx = (sIdx + 1) % SCRIPTS.length;
+      resetTerm(); timer = setTimeout(typeStep, 260);
+    }
+  }
+  function startType(){ if(motionOn && !timer){ resetTerm(); timer = setTimeout(typeStep, 400); } }
+  if(!motionOn) showStatic();
+
+  /* ---------- 3. rotator ---------- */
+  var WORDS = ['文章の下書き','コードの相談','手元資料の整理','要案の書き直し'], wI = 0;
+  var rot = document.getElementById('rotWord'), rotTimer = 0;
+  function rotTick(){
+    if(!motionOn) return;
+    wI = (wI + 1) % WORDS.length;
+    rot.textContent = WORDS[wI];
+    rot.classList.remove('pop');
+    void rot.offsetWidth;
+    rot.classList.add('pop');
+  }
+  function startRot(){ if(motionOn && !rotTimer) rotTimer = setInterval(rotTick, 2600); }
+  function stopRot(){ if(rotTimer){ clearInterval(rotTimer); rotTimer = 0; } }
+
+  /* ---------- 4. reveal + active nav ---------- */
+  var revealEls = [].slice.call(document.querySelectorAll('[data-reveal]'));
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.08, rootMargin:'0px 0px -10% 0px'});
+    revealEls.forEach(function(el, i){
+      if(!el.style.getPropertyValue('--d')) el.style.setProperty('--d', (i % 4) * 70 + 'ms');
+      io.observe(el);
+    });
+    var links = [].slice.call(document.querySelectorAll('[data-nav]'));
+    var so = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, {rootMargin:'-45% 0px -45% 0px'});
+    [].forEach.call(document.querySelectorAll('main section[id]'), function(s){ so.observe(s); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- 5. scroll linked ---------- */
+  var bar = document.getElementById('bar');
+  var stepList = document.getElementById('stepList');
+  var pars = [].slice.call(document.querySelectorAll('.par'));
+  function onScroll(){
+    var vh = window.innerHeight || 1;
+    var max = document.documentElement.scrollHeight - vh;
+    var st = window.pageYOffset || document.documentElement.scrollTop || 0;
+    if(bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, Math.max(0, st / max)) : 1).toFixed(4) + ')';
+    if(stepList){
+      var r = stepList.getBoundingClientRect();
+      var p = (vh * .82 - r.top) / (r.height + 1);
+      stepList.style.setProperty('--p', Math.min(1, Math.max(0, p)).toFixed(3));
+    }
+    for(var i=0;i<pars.length;i++){
+      var el = pars[i], rr = el.getBoundingClientRect();
+      var c = (rr.top + rr.height/2 - vh/2) / vh;
+      var sp = parseFloat(el.getAttribute('data-speed') || '.06');
+      el.style.transform = 'translate3d(0,' + (-c * sp * 200).toFixed(1) + 'px,0)';
+    }
+  }
+  var queued = false;
+  window.addEventListener('scroll', function(){
+    if(queued) return;
+    queued = true;
+    requestAnimationFrame(function(){ queued = false; onScroll(); });
+  }, {passive:true});
+  onScroll();
+
+  /* ---------- 6. tabs ---------- */
+  var tabs = [].slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels = [].slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  function selectTab(tab, move){
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach(function(p){ p.hidden = p.id !== tab.getAttribute('aria-controls'); });
+    var act = document.getElementById(tab.getAttribute('aria-controls'));
+    if(act && motionOn){ act.classList.remove('swap'); void act.offsetWidth; act.classList.add('swap'); }
+    if(move) tab.focus();
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ selectTab(t, false); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key, n = null;
+      if(k === 'ArrowRight') n = tabs[(i+1) % tabs.length];
+      else if(k === 'ArrowLeft') n = tabs[(i-1+tabs.length) % tabs.length];
+      else if(k === 'Home') n = tabs[0];
+      else if(k === 'End') n = tabs[tabs.length-1];
+      if(n){ e.preventDefault(); selectTab(n, true); }
+    });
+  });
+
+  /* ---------- 7. memory widget ---------- */
+  var MEM = [
+    '小さめ・量子化されたモデルから試すのが近道です。長文脈や重い設定は苦手にしやすいので、用途を1つに絞って1つずつ確かめる形になります。',
+    '中くらいの規模まで狙えます。用途を絞って1つずつ試す定番の土台ですが、長文をまとめて扱う設定に寄せると急に余裕がなくなります。',
+    '大きめ・長文脈にも挑戦できます。ただし計算装置の種別や設定の効きが強く、環境を揃えてから比較しないと判断がぶれます。'
+  ];
+  var memBtns = [].slice.call(document.querySelectorAll('.mem'));
+  var memText = document.getElementById('memText');
+  memBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      memBtns.forEach(function(o){ o.setAttribute('aria-pressed', String(o === b)); });
+      memText.textContent = MEM[parseInt(b.getAttribute('data-mem'), 10) || 0];
+      if(motionOn){ memText.classList.remove('flash'); void memText.offsetWidth; memText.classList.add('flash'); }
+    });
+  });
+
+  /* ---------- 8. motion switch ---------- */
+  function applyMotion(){
+    root.classList.toggle('motion-off', !motionOn);
+    motionBtn.setAttribute('aria-pressed', String(!motionOn));
+    motionLabel.textContent = motionOn ? '動きを止める' : '動きを再開する';
+    if(motionOn){
+      if(!document.hidden) startCanvas();
+      startType(); startRot();
+    } else {
+      stopCanvas(); stopType(); stopRot();
+      if(ctx){ last = 0; paint(0); }
+      showStatic();
+    }
+  }
+  motionBtn.addEventListener('click', function(){ motionOn = !motionOn; applyMotion(); });
+  if(rmq.addEventListener) rmq.addEventListener('change', function(e){ motionOn = !e.matches; applyMotion(); });
+  applyMotion();
+})();
+</script>
+</body>
+</html>

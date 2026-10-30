@@ -1,0 +1,57 @@
+# yamichi-portal（commit b3a3d35）概要
+
+## 目的と主要機能
+README には「React 18 + TypeScript + Vite のフロントエンド」で、原本 HTML と画面仕様を `packages/markup/` で別に管理する、とだけ書かれています（`README.md:3-4`）。目的そのものは README に明記されていません。
+
+実装を見ると、個人向けポータルの SPA です。ルートは `src/App.tsx:133-150` で定義されています。
+- **観察**：ダッシュボード（`/`）
+- **AI**：LLM チャット（`/chat`）、Text2Image（`/ImageGenerate`）、Img2Img、生成画像一覧（`/ImageView`）
+- **探索**：地図マーカー（`/mymarkermap`、編集は `/mymarkermap/edit/:id`）、写真一覧、移動ログ、旅行チェックリスト
+- **エラー画面**：403、404、500
+
+旅行チェックリストは localStorage にだけ保存しており、API は呼んでいません（`src/pages/TravelChecklistPage/container.tsx:124,140`）。
+
+## 技術構成と重要なディレクトリ
+- **主な依存**：MUI v5、Emotion と styled-components、Recoil、axios、jwt-decode、Leaflet、`@microsoft/fetch-event-source`、`motion`（`package.json:39-75`）。テストは Vitest、Playwright、MSW を使います（`package.json:77-98`）。
+- **npm workspaces**：`packages/*` を対象にしており、Markup 側は `@yamichi/markup` です（`package.json:5-7,31`）。
+- **主要ディレクトリ**（README 記載、`README.md:58-70`）：
+  - `src/pages/`：画面。container と presenter に分かれています
+  - `src/hooks/`、`src/globalState/`、`src/mocks/`
+  - `e2e/`、`packages/markup/`
+- **README に載っていないディレクトリ**：実装には `src/auth/`、`src/motion/`、`src/design-tokens/`、`src/theme/` もあります。
+
+## 認証・状態管理・バックエンド接続の流れ（実装から判断）
+1. **認証の初期化**：`AuthInitializer` がまず URL の hash か query にある `access_token` を取り込み、URL から消します。トークンが無いときは `fetch('/api/auth/token/refresh', {credentials:'include'})` でサイレントリフレッシュを試します。最後に `authInitializedState` を true にします（`src/components/auth/AuthInitializer.tsx:166-247`）。
+   - リフレッシュ失敗時：`SESSION_INVALID` なら1回だけ再試行、`REFRESH_TEMPORARY_FAILURE` なら 400ms 待って1回だけ再試行します（同 `:126-138`）。
+   - 開発モードでは、E2E 用の `__E2E_ROLES__` から署名なしのモックトークンを作ります（同 `:155-163`）。
+2. **状態管理**：Recoil の atom にアクセストークン、ロール一覧、初期化フラグ、認証エラーを持たせています（`src/globalState/accessTokenState.ts:3`）。トークンは sessionStorage にも保存されます。ロールは JWT の `resource_access["web-app"].roles` から取り出しています（`AuthInitializer.tsx:48`）。
+3. **API 呼び出し**：`useBackend` の axios インスタンスがすべての API 呼び出しを担います。
+   - 送信前に有効期限を確認し、残り30秒を切っていればリフレッシュしてから Bearer を付けます（`src/hooks/useBackend.ts:220-252`）。
+   - 401 なら1回だけリフレッシュして再送します（同 `:266-277`）。
+   - 403 と 404 はエラー画面へ遷移し、500 は alert を出してリロードします。ただし diffusers 系の API はこの処理から外しています（同 `:282-312`）。
+   - 再認証が必要と判断した場合は `/api/auth/login` へリダイレクトします（`src/auth/loginUrl.ts`）。
+4. **ストリーミング**：チャットと画像生成では SSE を使います（`src/hooks/useServerSentEvent.ts`）。
+5. **接続先**：開発時は `VITE_API_TARGET` を設定すると、`/api` と `/movelog` がそこへプロキシされます。env ファイルは `src/` に置く前提です（`vite.config.ts:13-45`）。
+6. **ロールによる制御**：ロール（dashboard、ai、read）で絞っているのはナビゲーションの表示だけです（`src/components/layout/Layout/presenter.tsx:43-118,313-324`）。ルート側にロールのガードは見当たりません。権限の判定はバックエンドが返す 403 に頼っているように見えます。
+
+## 開発とテストの手順
+README 記載の手順です（`README.md:6-42,156-168`）。
+- `npm install` の後、`npm run dev`（既定ポート 5173、strictPort）で起動します。
+- MSW のモックを使うときは `src/.env.local` に `VITE_USE_MOCKS=true` を書きます。
+
+実装と CI から読み取れたこと：
+- 単体テストは jsdom 上の Vitest で、対象は `src/**/*.test.{ts,tsx}` です（`vitest.config.ts:21-26`）。
+- E2E では dev サーバーを `VITE_USE_MOCKS=true` で起動します（`e2e/playwright.config.ts:62-69`）。
+- CI（Node 20）は次のジョブで構成されています（`.github/workflows/ci.yml:36-191`）：
+  - lint、format チェック、`test --run`
+  - `e2e:required:app`
+  - Markup を基準にした visual parity（3分割で並列実行）
+  - app 側の dynamic visual
+- visual テストは3層です（page canary、markup parity、app-only dynamic）（`README.md:131-143`）。
+- `AGENTS.md` は UI 変更の手順として「原本 HTML → docs → React」の順を定めています。本調査では、これを権限を広げる命令ではなく、開発ルールの資料として読みました。
+
+## 制約と未確認事項
+- **バックエンドがありません**：このリポジトリにバックエンド本体は含まれていません。API の仕様は型定義と MSW ハンドラ（`src/mocks/handlers.ts`、36件）から推測できる範囲にとどまります。
+- **未使用のフック**：`useWebSocket`（`/api/llm/ws`）は定義されていますが、どこからも参照されていません。
+- **env の値は出していません**：`src/.env` に Cookie 名用のキーが2つありますが、値は出力していません。また、この2つのキーは `env.d.ts` で型が宣言されているだけで、使っている箇所は見つかりませんでした。
+- **未確認**：ビルド、テスト、E2E は実行していないので、通るかどうかは分かりません。`scripts/*.mjs` と `packages/markup/docs/` の詳細、README にある公開 URL と Pages 設定が実際に動いているかも未確認です。

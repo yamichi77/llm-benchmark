@@ -1,0 +1,22 @@
+{
+  "id": "writing-explanation-v2--claude-opus-5-5-code--1792738133843-h2wfr",
+  "trialPath": "models/claude-opus-5-5-code/writing-explanation-v2/run-1792738133843-h2wfr",
+  "storageModelKey": "claude-opus-5-5-code",
+  "task": "writing-explanation-v2",
+  "taskLabel": "日本語技術解説・KVキャッシュ",
+  "type": "writing",
+  "model": "claude-opus-5-5-code",
+  "status": "success",
+  "promptVersion": "writing-explanation-v2",
+  "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+  "inputVersion": "facts-writing-v2",
+  "durationMs": 22035,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T06:49:15.881Z",
+  "updatedAt": "2026-10-23T06:49:15.881Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 22035,
+  "artifact": "models/claude-opus-5-5-code/writing-explanation-v2/run-1792738133843-h2wfr/artifact.txt"
+}

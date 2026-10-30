@@ -1,0 +1,31 @@
+{
+  "id": "model3d-kurageko-v2--gpt-6-astra-code--1792742634494-sb5c6",
+  "trialPath": "models/gpt-6-astra-code/model3d-kurageko-v2/run-1792742634494-sb5c6",
+  "storageModelKey": "gpt-6-astra-code",
+  "task": "model3d-kurageko-v2",
+  "taskLabel": "画像入力・kurageko立体生成",
+  "type": "model3d",
+  "model": "gpt-6-astra-code",
+  "status": "success",
+  "promptVersion": "model3d-kurageko-v2-mcp1",
+  "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+  "inputVersion": "kurageko-reference-v2",
+  "durationMs": 304856,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T08:08:59.352Z",
+  "updatedAt": "2026-10-23T08:08:59.352Z",
+  "continuationMode": "restart-after-policy-fix",
+  "attemptCount": 1,
+  "activeDurationMs": 304856,
+  "artifact": "models/gpt-6-astra-code/model3d-kurageko-v2/run-1792742634494-sb5c6/artifact.glb",
+  "reference": "models/gpt-6-astra-code/model3d-kurageko-v2/run-1792742634494-sb5c6/reference.png",
+  "executionPolicy": "astra-trial-write-v1",
+  "retryOf": "model3d-kurageko-v2--gpt-6-astra-code--1792741327860-wvwuf",
+  "verification": {
+    "freshBlenderImport": true,
+    "fixedViewsRendered": 6,
+    "invalidVertices": 0,
+    "degenerateFaces": 0
+  }
+}

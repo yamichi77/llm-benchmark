@@ -1,0 +1,52 @@
+{
+  "id": "lp-local-llm-v2--qwen38-code-0253--1792561438954-2fnlc",
+  "task": "lp-local-llm-v2",
+  "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+  "type": "lp",
+  "model": "qwen38-code-0253",
+  "status": "permission-required",
+  "promptVersion": "lp-local-llm-v2",
+  "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+  "inputVersion": "facts-lp-v2",
+  "durationMs": 738817,
+  "exitCode": 77,
+  "exitSignal": null,
+  "createdAt": "2026-10-21T05:56:17.774Z",
+  "artifact": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/artifact.html",
+  "artifactRecoveredFromFinalText": true,
+  "artifactStatus": "saved-unmodified",
+  "generationStatus": "completed-with-tool-denials",
+  "permissionDenials": [
+    {
+      "tool": "read_file",
+      "executed": false
+    },
+    {
+      "tool": "list_directory",
+      "executed": false
+    }
+  ],
+  "reason": "Two tool requests were denied noninteractively. The complete final HTML response was saved unchanged; CLI exit code 77 remains recorded.",
+  "previewMedia": {
+    "pc": {
+      "image": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/pc.png",
+      "video": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/pc.mp4",
+      "width": 1024,
+      "height": 768
+    },
+    "mobile": {
+      "image": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/mobile.png",
+      "video": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/mobile.mp4",
+      "width": 390,
+      "height": 844
+    }
+  },
+  "recording": {
+    "durationSeconds": 6,
+    "fps": 10,
+    "offline": true,
+    "externalRequests": 0
+  },
+  "storageModelKey": "qwen38-code-0253",
+  "trialPath": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc"
+}

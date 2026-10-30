@@ -1,0 +1,23 @@
+{
+  "id": "model3d-kurageko-v2--gpt-6-1-sol-code--1792738225057-8sajd",
+  "trialPath": "models/gpt-6-1-sol-code/model3d-kurageko-v2/run-1792738225057-8sajd",
+  "storageModelKey": "gpt-6-1-sol-code",
+  "task": "model3d-kurageko-v2",
+  "taskLabel": "画像入力・kurageko立体生成",
+  "type": "model3d",
+  "model": "gpt-6-1-sol-code",
+  "status": "success",
+  "promptVersion": "model3d-kurageko-v2-mcp1",
+  "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+  "inputVersion": "kurageko-reference-v2",
+  "durationMs": 275063,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-23T06:55:00.129Z",
+  "updatedAt": "2026-10-23T06:55:00.129Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "activeDurationMs": 275063,
+  "artifact": "models/gpt-6-1-sol-code/model3d-kurageko-v2/run-1792738225057-8sajd/artifact.glb",
+  "reference": "models/gpt-6-1-sol-code/model3d-kurageko-v2/run-1792738225057-8sajd/reference.png"
+}

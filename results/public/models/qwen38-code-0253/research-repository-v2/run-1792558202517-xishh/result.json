@@ -1,0 +1,18 @@
+{
+  "id": "research-repository-v2--qwen38-code-0253--1792558202517-xishh",
+  "task": "research-repository-v2",
+  "taskLabel": "指定リポジトリの固定版要約",
+  "type": "research",
+  "model": "qwen38-code-0253",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+  "durationMs": 342812,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-21T04:55:45.331Z",
+  "artifact": "models/qwen38-code-0253/research-repository-v2/run-1792558202517-xishh/artifact.txt",
+  "storageModelKey": "qwen38-code-0253",
+  "trialPath": "models/qwen38-code-0253/research-repository-v2/run-1792558202517-xishh"
+}

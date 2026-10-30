@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#131b21">
+<title>LOCAL / 自分のPCに、AIという可能性。</title>
+<style>
+:root{--paper:#f1f0e8;--ink:#172027;--muted:#606b6d;--line:#cdd0c8;--lime:#cefa72;--dark:#131b21;--mono:Consolas,"Courier New",monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+a:focus-visible,button:focus-visible{outline:3px solid #708d31;outline-offset:6px}
+::selection{background:var(--lime);color:var(--dark)}
+.wrap{max-width:1280px;margin:auto;padding-inline:6vw}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.12em}
+header{height:76px;border-bottom:1px solid var(--line);position:relative;z-index:10}
+.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-family:var(--mono);font-size:25px;font-weight:bold;letter-spacing:-1px;display:flex;gap:10px;align-items:center}
+.logo-mark{display:inline-block;width:21px;height:21px;border:2px solid;position:relative}
+.logo-mark:after{content:"";position:absolute;width:7px;height:7px;background:var(--ink);left:5px;top:5px}
+.nav-links{display:flex;gap:28px;align-items:center;font-size:11px;font-weight:bold}
+.nav-links a{position:relative;padding-block:8px}
+.nav-links a:after{content:"";height:1px;position:absolute;bottom:0;left:0;width:0;background:var(--ink);transition:width .25s}
+.nav-links a:hover:after{width:100%}
+.nav-links .nav-start{border:1px solid var(--ink);padding:10px 16px}
+.progress{position:fixed;left:0;top:0;height:3px;background:#8caf43;width:0;z-index:99;pointer-events:none}
+.hero{overflow:hidden;position:relative}
+.hero-main{min-height:565px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:20px;padding-top:52px;padding-bottom:58px}
+.eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;font-weight:bold}
+.dot{width:7px;height:7px;display:inline-block;border-radius:50%;background:#6e8b38;box-shadow:0 0 0 4px #6e8b3810}
+h1{font-size:clamp(40px,4.8vw,68px);font-weight:800;letter-spacing:-.055em;line-height:1.35;margin:24px 0 19px}
+h1 .highlight{position:relative;display:inline-block;z-index:0}
+h1 .highlight:after{content:"";position:absolute;left:0;right:-7px;bottom:9px;height:19px;background:var(--lime);z-index:-1;transform:rotate(-1.5deg)}
+.hero-copy{font-size:13px;line-height:2.1;max-width:390px;color:var(--muted)}
+.actions{margin-top:27px;display:flex;align-items:center;gap:22px}
+.button{display:inline-flex;align-items:center;justify-content:space-between;gap:34px;font-size:12px;font-weight:bold;background:var(--ink);color:var(--paper);padding:17px 22px;border:1px solid var(--ink);transition:background .2s,transform .2s}
+.button:hover{background:#344437;transform:translateY(-3px)}
+.button span{font-size:18px;line-height:1}
+.text-link{font-size:11px;border-bottom:1px solid var(--ink);padding:6px 0}
+.hero-note{font-family:var(--mono);font-size:9px;letter-spacing:.06em;margin-top:21px;color:var(--muted)}
+.machine{height:415px;position:relative;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.machine:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#a6afa7 1px,transparent 1px);background-size:17px 17px;mask-image:radial-gradient(ellipse,black 30%,transparent 70%);opacity:.6}
+.orbit{position:absolute;width:360px;height:360px;border:1px solid #b7bdb0;border-radius:50%;transform:rotateX(54deg) rotate(-30deg);animation:orbit 24s linear infinite}
+.orbit.two{width:410px;height:410px;transform:rotateY(56deg) rotate(25deg);animation:orbit2 30s linear infinite;border-style:dashed}
+.orbit:after{content:"";position:absolute;top:47%;left:-5px;width:9px;height:9px;background:#6e8b38;border:3px solid var(--paper);border-radius:50%;box-shadow:0 0 0 1px #6e8b38}
+.core-stack{position:relative;width:220px;height:220px;transform:rotate(-12deg);animation:float 7s ease-in-out infinite}
+.plate{position:absolute;inset:0;border:1px solid #89918b;border-radius:24px;transform:translate(19px,24px);background:#d4d7cd}
+.plate.second{transform:translate(10px,12px);background:#e5e6dd}
+.core{position:absolute;inset:0;border-radius:24px;background:var(--dark);border:1px solid #566260;box-shadow:0 16px 40px #15241c20;display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--lime);overflow:hidden}
+.core:before{content:"";position:absolute;inset:12px;border:1px solid #44513e;border-radius:15px}
+.core:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 20%,#ffffff09 48%,transparent 65%);transform:translateX(-100%);animation:shine 8s ease-in-out infinite}
+.core-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;margin-bottom:5px}
+.core-big{font-size:64px;letter-spacing:-6px;font-family:var(--mono);font-weight:bold;line-height:1.2}
+.core-line{height:1px;width:130px;background:#435239;margin:15px 0 11px}
+.core-footer{font-family:var(--mono);font-size:8px;letter-spacing:.13em;color:#c1c8b9}
+.corner{position:absolute;width:5px;height:5px;background:#75866b;border-radius:50%}
+.c1{top:21px;left:21px}.c2{top:21px;right:21px}.c3{bottom:21px;left:21px}.c4{bottom:21px;right:21px}
+.machine-label{position:absolute;border:1px solid #c6cbc0;background:#f1f0e8e8;padding:10px 12px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;box-shadow:4px 4px 0 #dce0d3}
+.ml-one{left:0;top:46px}.ml-two{right:0;bottom:53px}.ml-three{right:5px;top:84px;color:#58634a;font-size:8px;border:0;background:none;box-shadow:none}
+.machine-index{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--muted)}
+.hero-bottom{border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding-block:16px;font-size:9px;letter-spacing:.08em}
+.hero-bottom .features{display:flex;gap:28px;font-family:var(--mono)}
+.hero-bottom .features span:before{content:"+";margin-right:9px;color:#718743}
+.scroll-cue{font-family:var(--mono);display:flex;gap:15px;align-items:center}
+.scroll-cue b{display:inline-block;animation:down 2s ease-in-out infinite}
+.intro{padding-top:80px;padding-bottom:86px;border-top:1px solid var(--line)}
+.section-head{display:grid;grid-template-columns:1fr 1.5fr;gap:40px;margin-bottom:42px}
+.section-no{font-family:var(--mono);font-size:10px;letter-spacing:.13em;display:flex;align-items:center;gap:14px;padding-top:9px}
+.section-no:before{content:"";height:1px;width:28px;background:currentColor}
+h2{font-size:clamp(26px,3.1vw,40px);letter-spacing:-.04em;line-height:1.55;margin:0 0 15px}
+.section-desc{font-size:12px;line-height:2;color:var(--muted);margin:0;max-width:540px}
+.principles{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.principle{padding:29px 26px 30px;transition:background .25s}
+.principle:first-child{padding-left:0}
+.principle+.principle{border-left:1px solid var(--line)}
+.principle:hover{background:#e5e9db}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;color:var(--muted)}
+.icon{width:38px;height:38px;stroke:var(--ink);fill:none;stroke-width:1.4}
+h3{font-size:17px;letter-spacing:-.03em;margin:0 0 12px}
+.principle p{font-size:12px;line-height:2;color:var(--muted);margin:0}
+.lab{background:var(--dark);color:var(--paper);position:relative;overflow:hidden;padding-top:76px;padding-bottom:76px}
+.lab:before{content:"";position:absolute;right:-180px;top:-260px;width:650px;height:650px;border:1px solid #cffa7216;border-radius:50%;pointer-events:none}
+.lab .section-no{color:var(--lime)}
+.lab .section-desc{color:#a7b0b0}
+.lab-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center}
+.use-list{display:flex;flex-direction:column;gap:0}
+.use-tab{background:none;color:#aab2b4;border:0;border-bottom:1px solid #394247;cursor:pointer;text-align:left;padding:22px 0;display:grid;grid-template-columns:26px 1fr 20px;gap:12px;align-items:center;transition:color .25s,padding .25s}
+.use-tab:first-child{border-top:1px solid #394247}
+.use-tab .number{font-family:var(--mono);font-size:10px}
+.use-tab strong{font-size:17px;display:block;margin-bottom:6px}
+.use-tab small{font-size:10px;line-height:1.8;color:#a7b0b0;display:block}
+.use-tab .arrow{transition:transform .25s}
+.use-tab[aria-selected=true]{color:var(--lime)}
+.use-tab:hover{padding-left:7px;color:var(--lime)}
+.use-tab[aria-selected=true] .arrow{transform:rotate(-40deg)}
+.terminal{border:1px solid #465048;background:#1b2429;box-shadow:12px 12px 0 #0e1519;min-height:306px;position:relative}
+.terminal-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #3a4443;color:#a5aeac;font-family:var(--mono);font-size:9px}
+.lights{display:flex;gap:5px}.lights i{display:block;width:5px;height:5px;background:#68766c;border-radius:50%}.lights i:first-child{background:var(--lime)}
+.terminal-body{padding:25px 25px 22px;font-size:12px;line-height:1.9}
+.prompt-label{color:var(--lime);font-family:var(--mono);font-size:9px;letter-spacing:.1em}
+.prompt{margin:9px 0 22px}
+.response{border-left:2px solid #718b47;padding-left:15px;color:#c0cac5;min-height:78px;margin-top:9px}
+.response p{margin:0}
+.terminal-foot{display:flex;justify-content:space-between;border-top:1px solid #394247;padding:13px 18px;color:#9caaa2;font-size:8px;font-family:var(--mono)}
+.lab-note{font-size:10px;color:#a7b0b0;line-height:1.9;margin-top:27px}
+.start{padding-top:82px;padding-bottom:80px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:step}
+.step{border-top:2px solid var(--ink);padding:20px 14px 21px 0;position:relative}
+.step-num{font-family:var(--mono);font-size:45px;line-height:1;letter-spacing:-3px;color:#acb4a2;display:block;margin-bottom:29px;transition:color .3s,transform .3s}
+.step:hover .step-num{color:#5e7734;transform:translateX(5px)}
+.step h3{font-size:14px;line-height:1.8}
+.step p{font-size:11px;line-height:2;color:var(--muted);margin:0}
+.step-tag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.08em;padding:5px 8px;background:#e2e5d9;margin-top:16px}
+.checklist{border:1px solid #bfc6b4;background:#e8ecdf;margin-top:30px;padding:24px;display:flex;gap:22px;align-items:center;justify-content:space-between}
+.check-heading{font-size:12px;font-weight:bold;margin:0 0 7px}
+.check-hint{font-size:10px;color:var(--muted);margin:0;line-height:1.8}
+.checks{display:flex;gap:7px;flex-wrap:wrap}
+.check{border:1px solid #aab59b;background:transparent;padding:9px 12px;cursor:pointer;font-size:10px;display:flex;gap:7px;align-items:center;transition:background .2s}
+.check:before{content:"";display:inline-block;width:11px;height:11px;border:1px solid #7c8c6c}
+.check[aria-pressed=true]{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.check[aria-pressed=true]:before{content:"✓";border-color:var(--lime);font-size:10px;line-height:10px;text-align:center}
+.notes{border-top:1px solid var(--line);padding-top:35px;margin-top:49px;display:grid;grid-template-columns:1fr 2fr;gap:40px}
+.notes-title{font-size:14px;font-weight:bold;line-height:1.8}
+.notes-title span{display:block;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.12em;margin-bottom:9px}
+.notes-list{display:grid;gap:15px}
+.note{display:grid;grid-template-columns:25px 1fr;gap:9px;font-size:11px;line-height:1.9;color:var(--muted)}
+.note b{font-family:var(--mono);font-size:9px;color:var(--ink);padding-top:3px}
+.note p{margin:0}.note strong{color:var(--ink);font-weight:bold}
+.closing{background:var(--lime);padding:46px 6vw 40px;position:relative;overflow:hidden}
+.closing-inner{max-width:1126px;margin:auto;display:flex;justify-content:space-between;gap:28px;align-items:center}
+.closing p{font-size:11px;margin:0 0 12px}
+.closing h2{font-size:clamp(25px,3.3vw,43px);margin:0}
+.closing a{border:1px solid var(--ink);width:53px;height:53px;border-radius:50%;display:grid;place-items:center;font-size:24px;flex-shrink:0;transition:background .2s,color .2s,transform .2s}
+.closing a:hover{background:var(--ink);color:var(--lime);transform:translateY(-4px)}
+footer{padding-block:23px}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.footer-logo{font-family:var(--mono);font-weight:bold;font-size:19px;letter-spacing:-1px}
+footer p{font-size:9px;color:var(--muted);margin:0;text-align:right;line-height:1.8}
+.reveal{transition:transform .7s cubic-bezier(.2,.65,.3,1),opacity .7s}
+.js .reveal.pending{opacity:.25;transform:translateY(22px)}
+@keyframes float{0%,100%{transform:translateY(-6px) rotate(-12deg)}50%{transform:translateY(7px) rotate(-9deg)}}
+@keyframes orbit{from{transform:rotateX(54deg) rotate(-30deg)}to{transform:rotateX(54deg) rotate(330deg)}}
+@keyframes orbit2{from{transform:rotateY(56deg) rotate(25deg)}to{transform:rotateY(56deg) rotate(385deg)}}
+@keyframes shine{0%,45%{transform:translateX(-100%)}75%,100%{transform:translateX(100%)}}
+@keyframes down{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@media(min-width:1400px){.wrap{padding-inline:70px}}
+@media(max-width:800px){
+.wrap{padding-inline:6vw}.hero-main{grid-template-columns:1.1fr 1fr;gap:0}
+h1{font-size:43px}.machine{transform:scale(.85);margin-inline:-25px}.hero-copy{font-size:12px}
+.actions{gap:15px}.button{gap:20px;padding:15px}.text-link{font-size:10px}
+.lab-layout{gap:30px}.section-head{grid-template-columns:.7fr 1.5fr}
+.checklist{align-items:flex-start;flex-direction:column;gap:17px}
+}
+@media(max-width:600px){
+header{height:66px}.nav-links{gap:15px}.nav-links>a:not(.nav-start){display:none}.logo{font-size:23px}.nav-links .nav-start{font-size:10px;padding:9px 12px}
+.hero-main{display:flex;flex-direction:column;align-items:stretch;padding-top:35px;padding-bottom:18px;gap:0;min-height:0}
+.eyebrow{font-size:9px}h1{font-size:42px;margin:21px 0 15px;line-height:1.3;letter-spacing:-.06em}
+h1 .highlight:after{height:14px;bottom:6px}
+.hero-copy{font-size:12px;line-height:2;margin:0;max-width:320px}.actions{margin-top:22px;gap:23px}
+.button{font-size:11px;padding:14px 18px;gap:24px}.hero-note{font-size:8px;margin-top:14px}
+.machine{height:287px;margin-top:7px;transform:none;margin-inline:0}
+.core-stack{width:157px;height:157px}.core{border-radius:19px}.plate{border-radius:19px;transform:translate(14px,17px)}.plate.second{transform:translate(7px,9px)}
+.core-big{font-size:47px;letter-spacing:-4px}.core-label{font-size:7px}.core-line{width:90px;margin:10px 0 8px}.core-footer{font-size:6px}.core:before{inset:9px;border-radius:12px}.corner{width:3px;height:3px}
+.orbit{width:257px;height:257px}.orbit.two{width:292px;height:292px}
+.machine-label{font-size:7px;padding:7px 8px}.ml-one{top:34px;left:3px}.ml-two{bottom:38px;right:0}.ml-three{right:0;top:53px;font-size:6px}
+.machine-index{font-size:6px;bottom:3px}.hero-bottom{padding-block:14px}.hero-bottom .features{gap:10px;font-size:7px}.hero-bottom .features span:before{margin-right:4px}.scroll-cue{font-size:7px;gap:7px}
+.intro,.start{padding-top:53px;padding-bottom:53px}
+.section-head{display:block;margin-bottom:27px}.section-no{margin-bottom:22px;padding-top:0;font-size:9px}
+h2{font-size:27px;margin-bottom:14px}.section-desc{font-size:12px}
+.principles{grid-template-columns:1fr}.principle,.principle:first-child{padding:24px 0}.principle+.principle{border-left:0;border-top:1px solid var(--line)}.card-top{margin-bottom:17px}.icon{width:32px;height:32px}.principle h3{font-size:18px}.principle p{font-size:12px}
+.lab{padding-top:52px;padding-bottom:47px}.lab-layout{grid-template-columns:1fr;gap:27px}.use-tab{padding-block:17px}.use-tab strong{font-size:15px}.use-tab small{font-size:10px}
+.terminal{min-height:300px;box-shadow:7px 7px 0 #0e1519}.terminal-body{padding:22px 18px;font-size:11px}.terminal-bar{font-size:8px;padding-inline:14px}.terminal-foot{font-size:7px;padding-inline:14px}.lab-note{font-size:10px;margin-top:23px}
+.steps{grid-template-columns:1fr 1fr;gap:20px 17px}.step{padding-top:17px;padding-right:0}.step-num{font-size:39px;margin-bottom:18px}.step h3{font-size:14px}.step p{font-size:11px}
+.checklist{padding:19px;gap:15px;margin-top:18px}.checks{gap:6px}.check{padding:8px 9px;font-size:9px}
+.notes{grid-template-columns:1fr;gap:22px;margin-top:33px;padding-top:28px}.notes-title span{margin-bottom:5px}.note{font-size:11px}
+.closing{padding-block:34px}.closing p{font-size:9px}.closing h2{font-size:26px;line-height:1.5}.closing a{width:43px;height:43px;font-size:20px}.footer-inner{align-items:flex-start}footer p{font-size:8px;max-width:230px}
+}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+*,*:before,*:after{animation:none!important;transition:none!important}
+.js .reveal.pending{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<header id="top">
+<nav class="nav wrap" aria-label="メインナビゲーション">
+<a href="#top" class="logo" aria-label="LOCAL トップ"><span class="logo-mark" aria-hidden="true"></span>LOCAL<span style="color:#77885d">/</span></a>
+<div class="nav-links">
+<a href="#why">ローカルという選択</a>
+<a href="#play">できること</a>
+<a class="nav-start" href="#start">はじめ方を見る ↗</a>
+</div>
+</nav>
+</header>
+<main>
+<section class="hero wrap" aria-labelledby="hero-title">
+<div class="hero-main">
+<div>
+<div class="eyebrow"><span class="dot" aria-hidden="true"></span> A SMALL INTRODUCTION TO LOCAL LLM</div>
+<h1 id="hero-title">AIの居場所を、<br><span class="highlight">自分のPCに。</span></h1>
+<p class="hero-copy">いつもの生成AI。その「動かす場所」を変えてみる。<br>モデルを選び、手元で動かし、自分の使い方を探す。<br>ローカルLLMという、もうひとつの選択肢。</p>
+<div class="actions">
+<a class="button" href="#start">小さく、はじめよう <span aria-hidden="true">↗</span></a>
+<a class="text-link" href="#why">どんなところが面白い？ ↓</a>
+</div>
+<p class="hero-note">YOUR MACHINE. YOUR MODELS. YOUR POSSIBILITIES.</p>
+</div>
+<div class="machine" role="img" aria-label="自分のコンピューターを中心にモデルが広がる、ローカルLLMのイメージ">
+<div class="orbit" aria-hidden="true"></div><div class="orbit two" aria-hidden="true"></div>
+<div class="core-stack" aria-hidden="true">
+<div class="plate"></div><div class="plate second"></div>
+<div class="core">
+<span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+<div class="core-label">RUN IT YOUR WAY</div><div class="core-big">LLM</div>
+<div class="core-line"></div><div class="core-footer">ON YOUR OWN MACHINE</div>
+</div>
+</div>
+<span class="machine-label ml-one" aria-hidden="true">↳ LOCATION : YOUR PC</span>
+<span class="machine-label ml-two" aria-hidden="true">[ A NEW PLACE FOR AI ]</span>
+<span class="machine-label ml-three" aria-hidden="true">MODEL<br>↓<br>MEMORY<br>↓<br>POSSIBILITY</span>
+<div class="machine-index" aria-hidden="true"><span>FIG. 01 — THE LOCAL CORE</span><span>CONCEPTUAL VIEW / NOT A LIVE STATUS</span></div>
+</div>
+</div>
+<div class="hero-bottom">
+<div class="features"><span>EXPLORE</span><span>CHOOSE</span><span>MAKE IT YOURS</span></div>
+<a href="#why" class="scroll-cue">SCROLL TO EXPLORE <b aria-hidden="true">↓</b></a>
+</div>
+</section>
+
+<section class="intro wrap" id="why" aria-labelledby="why-title">
+<div class="section-head reveal">
+<div class="section-no">01 / WHY LOCAL?</div>
+<div>
+<h2 id="why-title">「使う」の、その先へ。<br>AIを動かす側になろう。</h2>
+<p class="section-desc">ローカルLLMは、大規模言語モデルを自分のPCや手元の計算機で動かす方法。クラウドを使う選択肢に、手元で試せる自由が加わります。</p>
+</div>
+</div>
+<div class="principles">
+<article class="principle reveal">
+<div class="card-top"><span class="mono">01 — EXPLORE</span><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="7" width="30" height="22" rx="2"/><path d="M13 35h14M20 29v6M12 14l5 4-5 4M21 22h7"/></svg></div>
+<h3>手元で動く。それが楽しい。</h3>
+<p>指示を少し変えて、返事を見比べる。自分の環境で試行錯誤する時間が、AIの得意・不得意を知る入口になります。</p>
+</article>
+<article class="principle reveal">
+<div class="card-top"><span class="mono">02 — CHOOSE</span><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 12h30M5 20h30M5 28h30"/><rect x="12" y="8" width="5" height="8" fill="#f1f0e8"/><rect x="25" y="16" width="5" height="8" fill="#f1f0e8"/><rect x="9" y="24" width="5" height="8" fill="#f1f0e8"/></svg></div>
+<h3>用途に合うモデルを選ぶ。</h3>
+<p>文章を書く、コードを考える、日本語で相談する。用途や機器に合わせてモデルを選び、相性を確かめられます。</p>
+</article>
+<article class="principle reveal">
+<div class="card-top"><span class="mono">03 — DESIGN</span><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4l13 5v11c0 8-13 15-13 15S7 28 7 20V9z"/><path d="M14 19l4 4 9-10"/></svg></div>
+<h3>データの扱いを、自分で設計。</h3>
+<p>何を読み込み、どこに保存し、何と連携するか。データの通り道を意識して、自分に合った環境をつくれます。</p>
+</article>
+</div>
+</section>
+
+<section class="lab" id="play" aria-labelledby="play-title">
+<div class="wrap">
+<div class="section-head reveal">
+<div class="section-no">02 / YOUR EVERYDAY LAB</div>
+<div><h2 id="play-title">いつもの作業が、実験場に。</h2><p class="section-desc">まずは、身近なひとつの作業から。<br>完成を任せるより、考えるための相棒として。</p></div>
+</div>
+<div class="lab-layout reveal">
+<div class="use-list" role="tablist" aria-label="用途別の入力例" aria-orientation="vertical">
+<button class="use-tab" id="tab-writing" role="tab" aria-selected="true" aria-controls="example" data-use="writing"><span class="number">01</span><span><strong>文章の下書き</strong><small>最初の一行を、一緒につくる。</small></span><span class="arrow" aria-hidden="true">→</span></button>
+<button class="use-tab" id="tab-code" role="tab" aria-selected="false" aria-controls="example" tabindex="-1" data-use="code"><span class="number">02</span><span><strong>コードの相談</strong><small>別の視点で、実装を考える。</small></span><span class="arrow" aria-hidden="true">→</span></button>
+<button class="use-tab" id="tab-notes" role="tab" aria-selected="false" aria-controls="example" tabindex="-1" data-use="notes"><span class="number">03</span><span><strong>手元資料の整理</strong><small>散らばった情報に、見通しを。</small></span><span class="arrow" aria-hidden="true">→</span></button>
+</div>
+<div class="terminal" id="example" role="tabpanel" aria-labelledby="tab-writing" tabindex="0">
+<div class="terminal-bar"><div class="lights" aria-hidden="true"><i></i><i></i><i></i></div><span>LOCAL WORKSPACE / IDEA PREVIEW</span><span aria-hidden="true">↗</span></div>
+<div class="terminal-body" aria-live="polite" aria-atomic="true">
+<div class="prompt-label">YOU / こんなふうに聞いてみる</div>
+<p class="prompt" id="prompt">「読書会のお知らせを書きたい。気軽に参加できる雰囲気で、短い下書きを3案考えて。」</p>
+<div class="prompt-label">TRY / 試すときのヒント</div>
+<div class="response"><p id="hint">相手・目的・文体を添えてみよう。出てきた案を比べながら、自分の言葉に整えていく。</p></div>
+</div>
+<div class="terminal-foot"><span>ILLUSTRATIVE EXAMPLE</span><span>入力例です・AIは実行していません</span></div>
+</div>
+</div>
+<p class="lab-note">※ 得られる結果や精度は、用途とモデルに依存します。内容の事実確認やコードの動作確認は自分で行いましょう。</p>
+</div>
+</section>
+
+<section class="start wrap" id="start" aria-labelledby="start-title">
+<div class="section-head reveal">
+<div class="section-no">03 / GET STARTED</div>
+<div><h2 id="start-title">最初の一歩は、小さくていい。</h2><p class="section-desc">いきなり大きな環境をつくらなくても大丈夫。<br>ひとつの用途、ひとつのモデルから、順番に。</p></div>
+</div>
+<div class="steps">
+<article class="step reveal"><span class="step-num">01</span><h3>用途を決める</h3><p>「短いメールを下書きする」など、試したい作業をひとつ選ぶ。よい結果の条件も決めておこう。</p><span class="step-tag">DEFINE YOUR TASK</span></article>
+<article class="step reveal"><span class="step-num">02</span><h3>機器とメモリを確認</h3><p>PCのメモリ、GPUがあればVRAM、空き容量を確認。実行ツールとモデルの動作要件を照合する。</p><span class="step-tag">CHECK YOUR MACHINE</span></article>
+<article class="step reveal"><span class="step-num">03</span><h3>利用条件を読み、選ぶ</h3><p>用途と言語、必要メモリに合うモデルを探す。ライセンスや商用利用の条件を読んでから入手する。</p><span class="step-tag">CHOOSE YOUR MODEL</span></article>
+<article class="step reveal"><span class="step-num">04</span><h3>小さく試す</h3><p>対応する実行ツールで読み込み、機密情報を含まない短い入力から開始。回答と待ち時間を確かめる。</p><span class="step-tag">RUN A SMALL TEST</span></article>
+</div>
+<div class="checklist reveal">
+<div><p class="check-heading">試す前の、準備チェック。</p><p class="check-hint" id="check-status" role="status">確認できた項目をタップ。チェックはこのページ内だけで使います。</p></div>
+<div class="checks" aria-label="導入準備のチェック">
+<button class="check" aria-pressed="false">用途を決めた</button>
+<button class="check" aria-pressed="false">機器を確認した</button>
+<button class="check" aria-pressed="false">条件を読んだ</button>
+</div>
+</div>
+<aside class="notes reveal" aria-labelledby="notes-title">
+<div class="notes-title" id="notes-title"><span>BEFORE YOU RUN</span>自由に試すために、<br>知っておきたいこと。</div>
+<div class="notes-list">
+<div class="note"><b>01</b><p><strong>速度や必要メモリは一律ではありません。</strong><br>モデルの規模、機器、設定によって変わります。自分の環境で無理なく動く範囲から試しましょう。</p></div>
+<div class="note"><b>02</b><p><strong>すべてのモデルが無料・商用利用可能とは限りません。</strong><br>利用条件はモデルごとに異なります。配布元のライセンスと制限を確認してください。</p></div>
+<div class="note"><b>03</b><p><strong>ローカル実行だけで、完全な秘密保持は保証されません。</strong><br>外部連携や設定によって通信が発生します。入力データ、ログの保存先、通信設定まで確認しましょう。</p></div>
+</div>
+</aside>
+</section>
+
+<section class="closing" aria-labelledby="closing-title">
+<div class="closing-inner">
+<div><p class="mono">THE NEXT EXPERIMENT IS YOURS.</p><h2 id="closing-title">あなたの机から、<br>AIの可能性を広げよう。</h2></div>
+<a href="#start" aria-label="導入手順に戻る">↗</a>
+</div>
+</section>
+</main>
+<footer class="wrap">
+<div class="footer-inner"><a class="footer-logo" href="#top" aria-label="LOCAL トップに戻る">LOCAL /</a><p>ローカルLLMを知るための、小さな入口。<br>特定製品の販売・推奨を目的としたサイトではありません。</p></div>
+</footer>
+<script>
+(function(){
+"use strict";
+const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
+const progress=document.querySelector(".progress");
+let queued=false;
+function updateProgress(){
+const height=document.documentElement.scrollHeight-window.innerHeight;
+progress.style.width=(height>0?Math.min(100,Math.max(0,window.scrollY/height*100)):0)+"%";
+queued=false;
+}
+function onScroll(){if(!queued){queued=true;requestAnimationFrame(updateProgress)}}
+window.addEventListener("scroll",onScroll,{passive:true});
+window.addEventListener("resize",onScroll);
+updateProgress();
+if("IntersectionObserver" in window && !reduced.matches){
+document.documentElement.classList.add("js");
+const observer=new IntersectionObserver(function(entries){
+entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.remove("pending");observer.unobserve(entry.target)}});
+},{threshold:.1});
+document.querySelectorAll(".reveal").forEach(function(el){
+if(el.getBoundingClientRect().top>window.innerHeight){el.classList.add("pending");observer.observe(el)}
+});
+reduced.addEventListener("change",function(e){
+if(e.matches){document.querySelectorAll(".pending").forEach(function(el){el.classList.remove("pending")});observer.disconnect()}
+});
+}
+const examples={
+writing:{prompt:"「読書会のお知らせを書きたい。気軽に参加できる雰囲気で、短い下書きを3案考えて。」",hint:"相手・目的・文体を添えてみよう。出てきた案を比べながら、自分の言葉に整えていく。"},
+code:{prompt:"「この関数の処理を順番に説明して。空の入力が来た場合に、見落としている点はある？」",hint:"短いコードと期待する動作を添えてみよう。提案はそのまま採用せず、テストして確かめる。秘密鍵などは入力しない。"},
+notes:{prompt:"「このメモを『決まったこと』『未決定のこと』『次の作業』に分けて。書かれていない内容は補わないで。」",hint:"まずは機密情報を含まない短いメモから。整理した内容を原文と照合し、抜けや取り違えがないか確認する。"}
+};
+const tabs=Array.from(document.querySelectorAll(".use-tab"));
+function selectTab(tab){
+tabs.forEach(function(t){const selected=t===tab;t.setAttribute("aria-selected",String(selected));t.tabIndex=selected?0:-1});
+const data=examples[tab.dataset.use];
+document.getElementById("prompt").textContent=data.prompt;
+document.getElementById("hint").textContent=data.hint;
+document.getElementById("example").setAttribute("aria-labelledby",tab.id);
+}
+tabs.forEach(function(tab,index){
+tab.addEventListener("click",function(){selectTab(tab)});
+tab.addEventListener("keydown",function(e){
+let next;
+if(e.key==="ArrowDown")next=(index+1)%tabs.length;
+if(e.key==="ArrowUp")next=(index-1+tabs.length)%tabs.length;
+if(e.key==="Home")next=0;
+if(e.key==="End")next=tabs.length-1;
+if(next!==undefined){e.preventDefault();selectTab(tabs[next]);tabs[next].focus()}
+});
+});
+const checks=Array.from(document.querySelectorAll(".check"));
+checks.forEach(function(button){
+button.addEventListener("click",function(){
+button.setAttribute("aria-pressed",String(button.getAttribute("aria-pressed")!=="true"));
+const count=checks.filter(function(b){return b.getAttribute("aria-pressed")==="true"}).length;
+document.getElementById("check-status").textContent=count===3?"3 / 3 確認できました。機密情報を含まない短い入力で、最初の実験へ。":count+" / 3 確認済み。チェックは保存・送信されません。";
+});
+});
+})();
+</script>
+</body>
+</html>

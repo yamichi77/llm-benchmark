@@ -1,0 +1,95 @@
+{
+  "id": "lp-local-llm-v2--grok-4-7-high-cursor-standard--20261024-lp-standard1",
+  "trialPath": "models/grok-4-7-high-cursor-standard/lp-local-llm-v2/run-20261024-lp-standard1",
+  "storageModelKey": "grok-4-7-high-cursor-standard",
+  "task": "lp-local-llm-v2",
+  "type": "lp",
+  "model": "grok-4-7-high-cursor-standard",
+  "status": "success",
+  "promptVersion": "lp-local-llm-v2",
+  "inputVersion": "facts-lp-v2",
+  "createdAt": "2026-10-23T23:48:27.428Z",
+  "durationMs": 1286193,
+  "activeDurationMs": 1286193,
+  "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+  "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+  "exitCode": 0,
+  "exitSignal": null,
+  "updatedAt": "2026-10-24T00:09:58.814Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "artifact": "models/grok-4-7-high-cursor-standard/lp-local-llm-v2/run-20261024-lp-standard1/artifact.html",
+  "artifactRecoveredFromFinalText": true,
+  "extractionCorrection": "Cursor result concatenates intermediate assistant messages; final assistant event copied byte-for-byte; original aggregate and complete event stream preserved",
+  "executionConditions": {
+    "cli": "Cursor 2026.10.22-27dcf5f",
+    "mode": "ask",
+    "modelId": "grok-4.7-high",
+    "effectiveModel": "Grok 4.7 256K High",
+    "speed": "standard",
+    "effort": "high",
+    "context": "Standard CLI context; generic user skill metadata may differ from other CLIs",
+    "workspaceTrust": "exact dedicated lp-local-llm-v2 run only",
+    "usage": {
+      "inputTokens": 17319,
+      "outputTokens": 89444,
+      "cacheReadTokens": 21376,
+      "cacheWriteTokens": 0
+    },
+    "toolCalls": 1
+  },
+  "outputValidation": {
+    "task": "lp-local-llm-v2",
+    "status": "success",
+    "characters": 27931,
+    "bytes": 31271,
+    "durationMs": 1286193,
+    "usage": {
+      "inputTokens": 17319,
+      "outputTokens": 89444,
+      "cacheReadTokens": 21376,
+      "cacheWriteTokens": 0
+    },
+    "toolCalls": 1,
+    "finalAssistantUnmodified": true,
+    "startsDoctype": true,
+    "inlineScripts": 1,
+    "inlineScriptSyntaxErrors": 0,
+    "externalResourceReferences": 0
+  },
+  "browserVerification": {
+    "method": "CLI + Playwright protocol to a new headless Edge process, GPU disabled; sandboxed iframe; offline and abort all network; no CUA, desktop input, focus or foreground interaction",
+    "viewports": [
+      {
+        "name": "pc",
+        "width": 1024,
+        "height": 768,
+        "overflow": false,
+        "brokenAnchorTargets": 0,
+        "pageErrors": 0,
+        "networkRequests": 0,
+        "animations": 22
+      },
+      {
+        "name": "mobile",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "brokenAnchorTargets": 0,
+        "pageErrors": 0,
+        "networkRequests": 0,
+        "animations": 22
+      },
+      {
+        "name": "mobile-reduced",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "brokenAnchorTargets": 0,
+        "pageErrors": 0,
+        "networkRequests": 0,
+        "animations": 0
+      }
+    ]
+  }
+}

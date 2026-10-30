@@ -1,0 +1,20 @@
+{
+  "name": "model-benchmark",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "node development/demo.mjs",
+    "test": "node --test --test-concurrency=1 development/test.mjs development/test.entry.mjs development/test.stdout.mjs development/test.stream-policy.mjs development/test.mcp-policy.mjs development/test.opus-policy.mjs development/test.resume.mjs",
+    "run": "node runtime/runner.mjs",
+    "view": "node runtime/serve.mjs",
+    "entry": "node runtime/navigation.mjs",
+    "compare": "node runtime/comparison.mjs",
+    "test:gemini": "node --test development/test.gemini.mjs"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "playwright-core": "1.56.1"
+  }
+}

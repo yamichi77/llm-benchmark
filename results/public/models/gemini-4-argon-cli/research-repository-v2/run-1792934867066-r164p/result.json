@@ -1,0 +1,109 @@
+{
+  "id": "research-repository-v2--gemini-4-argon-cli--1792934867066-r164p",
+  "trialPath": "models/gemini-4-argon-cli/research-repository-v2/run-1792934867066-r164p",
+  "storageModelKey": "gemini-4-argon-cli",
+  "task": "research-repository-v2",
+  "taskLabel": "指定リポジトリの固定版要約",
+  "type": "research",
+  "model": "gemini-4-argon-cli",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+  "durationMs": 79993,
+  "exitCode": 0,
+  "exitSignal": null,
+  "createdAt": "2026-10-25T13:29:07.061Z",
+  "updatedAt": "2026-10-25T13:29:07.061Z",
+  "continuationMode": "restart-after-tool-registration-fix",
+  "attemptCount": 1,
+  "activeDurationMs": 79993,
+  "artifact": "models/gemini-4-argon-cli/research-repository-v2/run-1792934867066-r164p/artifact.txt",
+  "retryOf": "research-repository-v2--gemini-4-argon-cli--1792932250558-x021t",
+  "retryOrdinal": 1,
+  "firstAttemptEvaluation": false,
+  "campaignId": "gemini-research-retry-20261025",
+  "sameSessionResume": false,
+  "modelId": "gemini-4-argon",
+  "thinking": "MEDIUM",
+  "startedAt": "2026-10-25T13:27:49.250Z",
+  "finishedAt": "2026-10-25T13:29:07.044Z",
+  "usage": {
+    "total_tokens": 302446,
+    "input_tokens": 298095,
+    "output_tokens": 3507,
+    "cached": 231873,
+    "input": 66222,
+    "duration_ms": 76310,
+    "tool_calls": 34,
+    "models": {
+      "gemini-4-argon": {
+        "total_tokens": 302446,
+        "input_tokens": 298095,
+        "output_tokens": 3507,
+        "cached": 231873,
+        "input": 66222
+      }
+    }
+  },
+  "blenderPort": null,
+  "artifactStatus": "saved-unmodified",
+  "comparisonEligible": true,
+  "generationContract": "One explicitly authorized retry after input-tool registration repair; no human follow-up or output edits",
+  "outputExtraction": {
+    "source": "gemini-attempt-1.stdout.jsonl",
+    "modelTextUnchanged": true,
+    "rawStdoutPreserved": true,
+    "wrapperDiagnosticsAbsent": true
+  },
+  "outputValidation": {
+    "characters": 5093,
+    "nonWhitespaceCharacters": 4835,
+    "lengthTarget": [
+      1200,
+      1800
+    ],
+    "lengthPass": false
+  },
+  "executionConditions": {
+    "fixedPromptMatchesInitial": true,
+    "inputVersionMatchesInitial": true,
+    "successfulToolCalls": 34,
+    "successfulBodyReads": 33,
+    "toolErrors": 0
+  },
+  "recordedUsageCostEstimate": {
+    "usd": 0.1991413,
+    "rateDate": "2026-10-25",
+    "basis": "Standard rates: uncached input $2/M; cached $0.10/M; total-minus-input output including thinking $10/M",
+    "taxAndFxExcluded": true,
+    "invoiceVerified": false
+  },
+  "billingPolicy": {
+    "mode": "existing-provider-prepay",
+    "ownerReportedBalanceJpy": 900,
+    "ownerReportedAutoRecharge": false,
+    "billingSettingsVerified": false,
+    "clientMonetaryCap": false,
+    "additionalChargeAuthorized": false,
+    "onProviderLimit": "stop-no-retry",
+    "balanceReportScope": "900 JPY was the initial owner report, not a verified current balance",
+    "currentBalanceVerified": false
+  },
+  "outputSha256": "1e3d8672138dc605bfe9817c5dffd719bddef676b1309a6f8c0323d4795333e7",
+  "generationStatus": "success",
+  "instructionCompliance": {
+    "status": "failed",
+    "annotation": "指示の無視（指定字数超過）",
+    "requirement": "出力は1200〜1800字程度。",
+    "expectedCharacters": [
+      1200,
+      1800
+    ],
+    "measuredCharacters": 5093,
+    "nonWhitespaceCharacters": 4835,
+    "utf8Bytes": 8109,
+    "countingMethod": "保存された全文のUnicodeコードポイント数。改行・空白・Markdown記号・見出し・ファイルパス・引用表記を含む。別途、全空白を除いた数も併記。"
+  },
+  "reason": "指示の無視（指定字数超過）。指定「出力は1200〜1800字程度。」に対し全文5,093字、空白除去4,835字。数え方：全文のUnicodeコードポイント数（改行・空白・Markdown・パス表記を含む）。生成は成功、指示遵守は失敗。本文は未改変。"
+}

@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "config": "runtime/benchmarks/v2/config.json",
+  "model3dConfig": "runtime/benchmarks/v2/config-3d-mcp1.json",
+  "output": "results/public"
+}

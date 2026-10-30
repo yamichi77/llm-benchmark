@@ -1,0 +1,97 @@
+{
+  "id": "model3d-kurageko-v2--grok-4-7-high-cursor-standard--20261024-3d-standard1",
+  "trialPath": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1",
+  "storageModelKey": "grok-4-7-high-cursor-standard",
+  "task": "model3d-kurageko-v2",
+  "type": "model3d",
+  "model": "grok-4-7-high-cursor-standard",
+  "status": "success",
+  "createdAt": "2026-10-24T00:25:04.486Z",
+  "durationMs": 2674283,
+  "activeDurationMs": 2674283,
+  "taskLabel": "画像入力・kurageko立体生成",
+  "promptVersion": "model3d-kurageko-v2-mcp1",
+  "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+  "inputVersion": "kurageko-reference-v2",
+  "exitCode": 0,
+  "exitSignal": null,
+  "updatedAt": "2026-10-24T01:09:43.972Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "artifact": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/artifact.glb",
+  "reference": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/reference.png",
+  "modelId": "grok-4.7-high",
+  "effort": "high",
+  "speed": "standard",
+  "effectiveModel": "Grok 4.7 256K High",
+  "usage": {
+    "inputTokens": 288839,
+    "outputTokens": 175790,
+    "cacheReadTokens": 3913088,
+    "cacheWriteTokens": 0
+  },
+  "generationContract": "One user request with internal agent/model/tool turns; no human quality repair or regeneration",
+  "executionConditions": {
+    "imageReferences": 4,
+    "imageAttachment": "official --image",
+    "workspaceTrust": "exact dedicated 3D run only",
+    "mcp": "existing dedicated background Blender / six approved functions",
+    "toolCalls": 36,
+    "toolCallTypes": {
+      "getMcpToolsToolCall": 1,
+      "readToolCall": 9,
+      "mcpToolCall": 25,
+      "editToolCall": 1
+    },
+    "nativeToolErrors": {
+      "readToolCall": 9,
+      "editToolCall": 1
+    },
+    "context": "Standard CLI context; native read/write and shell deny rules retained",
+    "blender": {
+      "background": true,
+      "build_hash": "d13f752e3b9c",
+      "version": "5.2.2 LTS",
+      "version_tuple": [
+        5,
+        2,
+        2
+      ]
+    },
+    "nativeToolErrorsNote": "Nine native reads and one source edit were refused by read permissions; the scoped MCP workflow completed without overriding those denials."
+  },
+  "validation": {
+    "trianglesAcrossObjects": 246412,
+    "meshObjects": 26,
+    "materials": 19,
+    "embeddedImages": 1,
+    "invalidVertices": 0,
+    "degenerateFaces": 0,
+    "boundaryEdges": 2974,
+    "authoredBoundaryEdges": 64,
+    "glbBytes": 4669064,
+    "selfContained": true,
+    "sha256": "72e4a78e701f21d9daea58b5eefe994fd0658c945729f6a2b7ec22bf9ebe4ef7"
+  },
+  "verification": {
+    "freshBlenderImport": true,
+    "authoredAndGlbMetricsChecked": true,
+    "matchingTriangleCount": true,
+    "fixedViewsRendered": 6,
+    "heroAndContactSheetOpened": true,
+    "noCamerasOrLightsInGlb": true,
+    "sourcePresent": true,
+    "artifactUnmodified": true
+  },
+  "previewMedia": {
+    "front": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/front.png",
+    "threeQuarter": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/perspective.png",
+    "side": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/right.png",
+    "back": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/back.png"
+  },
+  "visualObservations": [
+    "Recognizable jellyfish cap, hair, layered dress, boots and mole are present.",
+    "Compared with fixed front reference, the export has a wider dress silhouette, a large rounded cap, round protruding eyes and visibly darker face/legs.",
+    "These are retained benchmark output differences; no geometry/material/source corrections made."
+  ]
+}

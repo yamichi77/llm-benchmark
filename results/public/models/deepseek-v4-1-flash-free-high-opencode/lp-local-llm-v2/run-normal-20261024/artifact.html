@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0d0b">
+<title>LOCAL / LLM — そのAI、手元で走らせよう。</title>
+<meta name="description" content="ローカルLLMを、自分のPCや手元の計算機で動かすための入門ガイド。用途を決め、機器と利用条件を確かめ、小さく試す4つの手順を紹介します。">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --ink:#0a0d0b;
+  --ink-2:#0f1410;
+  --ink-3:#141b15;
+  --paper:#efebde;
+  --paper-2:#e3ddcd;
+  --text:#f2f0e7;
+  --muted:#a3aa9f;
+  --faint:#70786e;
+  --lime:#d4ff5f;
+  --forest:#16523a;
+  --line:rgba(242,240,231,.15);
+  --line-strong:rgba(242,240,231,.3);
+  --clay:#bf5b36;
+  --serif:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","Noto Serif JP",serif;
+  --sans:"Yu Gothic UI","Yu Gothic","Hiragino Sans","Noto Sans JP",sans-serif;
+  --mono:"Cascadia Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --pad:clamp(20px,4vw,56px);
+  --ease:cubic-bezier(.2,.75,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 75% 45% at 76% 3%,rgba(212,255,95,.075),transparent 65%)}
+svg{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit}
+::selection{background:var(--lime);color:var(--ink)}
+:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+.skip-link{position:fixed;left:16px;top:-80px;z-index:1000;background:var(--lime);color:var(--ink);padding:10px 16px;font-weight:700;text-decoration:none;transition:top .2s}
+.skip-link:focus{top:12px}
+.container{width:100%;max-width:1280px;margin-inline:auto;padding-inline:var(--pad)}
+.section{position:relative;padding-block:clamp(84px,10vw,150px);scroll-margin-top:88px}
+.section-kicker{display:flex;align-items:center;gap:12px;margin:0;font-family:var(--mono);font-size:10px;line-height:1.4;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.section-kicker .sec-index{color:var(--lime);font-weight:700}
+.section-kicker::after{content:"";width:46px;height:1px;background:currentColor;opacity:.4}
+.section-title{margin:18px 0 0;font-family:var(--serif);font-weight:500;font-size:clamp(2.2rem,4.3vw,4.4rem);line-height:1.22;letter-spacing:.005em}
+.section-title em{font-style:normal;color:var(--lime)}
+.section-lead{margin:0;max-width:34em;color:var(--muted);font-size:clamp(14px,1.2vw,16px);line-height:2}
+.section-head{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);gap:clamp(28px,5vw,72px);align-items:end}
+.reveal{transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0ms)}
+.js .reveal{opacity:0;transform:translateY(28px)}
+.js .reveal.is-visible{opacity:1;transform:none}
+.js .reveal-stagger>*{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i,0)*80ms)}
+.js .reveal-stagger.is-visible>*{opacity:1;transform:none}
+.d1{--d:80ms}.d2{--d:160ms}.d3{--d:240ms}
+
+/* header */
+.scroll-progress{position:fixed;inset:0 0 auto;z-index:210;height:2px;background:rgba(255,255,255,.04)}
+.scroll-progress span{display:block;height:100%;background:var(--lime);transform:scaleX(0);transform-origin:left;will-change:transform}
+.site-header{position:fixed;inset:0 0 auto;z-index:200;height:76px;padding-inline:var(--pad);display:flex;align-items:center;gap:clamp(18px,3vw,40px);transition:background .35s,border-color .35s,height .35s}
+.site-header.is-scrolled{height:64px;background:rgba(8,11,9,.82);border-bottom:1px solid var(--line);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex:none}
+.brand-mark{width:34px;height:34px;border:1px solid var(--line-strong);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:-.12em;color:var(--lime);transition:background .3s,color .3s}
+.brand:hover .brand-mark{background:var(--lime);color:var(--ink)}
+.brand-copy{display:block;font-family:var(--mono);font-size:10px;line-height:1.35;letter-spacing:.16em}
+.brand-copy small{display:block;font-size:7px;letter-spacing:.22em;color:var(--faint)}
+.site-nav{display:flex;align-items:center;gap:clamp(16px,2.2vw,30px);margin-left:auto}
+.site-nav a{position:relative;text-decoration:none;font-size:12px;letter-spacing:.04em;color:#c2c8bd;padding:6px 0;transition:color .25s}
+.site-nav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--lime);transition:right .3s var(--ease)}
+.site-nav a:hover,.site-nav a:focus-visible{color:var(--text)}
+.site-nav a:hover::after,.site-nav a:focus-visible::after{right:0}
+.header-actions{display:flex;align-items:center;gap:10px;margin-left:clamp(4px,1vw,12px)}
+.motion-toggle{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 9px;border:1px solid var(--line);background:transparent;color:var(--faint);font-family:var(--mono);font-size:8px;letter-spacing:.12em;cursor:pointer;transition:color .25s,border-color .25s}
+.motion-toggle:hover{color:var(--text);border-color:var(--line-strong)}
+.motion-icon{display:flex;gap:2px;align-items:center;height:10px}
+.motion-icon i{display:block;width:2px;height:8px;background:currentColor;transition:height .2s}
+.motion-toggle[aria-checked="false"] .motion-icon i:first-child{height:2px;margin-top:4px}
+.motion-toggle[aria-checked="false"] .motion-icon i:last-child{height:2px;margin-top:4px}
+.header-cta{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 16px;border:1px solid var(--lime);background:var(--lime);color:var(--ink);text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.04em;transition:background .25s,transform .25s}
+.header-cta span{font-family:var(--mono);font-size:13px;transition:transform .25s}
+.header-cta:hover{background:#e3ff98;transform:translateY(-1px)}
+.header-cta:hover span{transform:translate(2px,2px)}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(96px,11vh,132px) 0 36px;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:72px 72px;-webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.65) 62%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.65) 62%,transparent 100%);opacity:.55}
+.hero::after{content:"";position:absolute;z-index:-1;width:70vw;height:70vw;right:-18vw;top:-24vw;border-radius:50%;background:radial-gradient(circle,rgba(212,255,95,.095),rgba(212,255,95,.025) 40%,transparent 68%);filter:blur(10px);pointer-events:none}
+.hero-watermark{position:absolute;left:-1.5vw;bottom:-.19em;z-index:-1;font-family:var(--serif);font-size:min(24vw,360px);line-height:.8;letter-spacing:-.07em;color:transparent;-webkit-text-stroke:1px rgba(242,240,231,.055);pointer-events:none;user-select:none}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1280px;margin:auto;padding-inline:var(--pad);display:grid;grid-template-columns:minmax(0,1.12fr) minmax(350px,.88fr);gap:clamp(28px,4.5vw,68px);align-items:center}
+.hero-copy{position:relative;z-index:2}
+.kicker{display:flex;align-items:center;gap:9px;margin:0 0 clamp(20px,2.8vh,28px);font-family:var(--mono);font-size:9px;line-height:1.4;letter-spacing:.19em;color:#aab1a5;text-transform:uppercase}
+.kicker .status-dot{width:5px;height:5px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(212,255,95,.12);animation:softPulse 2.8s ease-in-out infinite}
+.kicker .slash{color:var(--faint)}
+.hero h1{margin:0 0 clamp(22px,3vh,30px);font-family:var(--serif);font-weight:500;font-size:clamp(2.7rem,5.3vw,5.05rem);line-height:1.16;letter-spacing:.015em;text-wrap:balance}
+.hero h1 em{position:relative;font-style:normal;color:var(--lime);white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:-.02em;bottom:.02em;height:.055em;background:var(--lime);transform:scaleX(0);transform-origin:left;animation:drawLine 1s .9s var(--ease) forwards}
+.hero-lead{max-width:35em;margin:0 0 clamp(26px,3.4vh,34px);color:#c0c6bb;font-size:clamp(13.5px,1.16vw,15.5px);line-height:2}
+.hero-lead strong{color:var(--text);font-weight:600}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:52px;padding:0 20px;border:1px solid transparent;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.03em;line-height:1.3;transition:background .25s,color .25s,border-color .25s,transform .25s;position:relative}
+.btn-icon{width:25px;height:25px;display:grid;place-items:center;border:1px solid currentColor;border-radius:50%;font-family:var(--mono);font-size:11px;line-height:1;transition:transform .3s}
+.btn-primary{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+.btn-primary:hover{background:#e4ff98;transform:translateY(-2px)}
+.btn-primary:hover .btn-icon{transform:translateY(2px)}
+.btn-ghost{border-color:rgba(242,240,231,.23);color:var(--text);background:rgba(255,255,255,.01)}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-2px)}
+.btn-ghost span{font-family:var(--mono);color:var(--lime);transition:transform .3s}
+.btn-ghost:hover span{transform:translateX(3px)}
+.hero-note{display:flex;align-items:center;gap:9px;margin:20px 0 0;color:var(--faint);font-family:var(--mono);font-size:8.5px;line-height:1.6;letter-spacing:.08em}
+.hero-note::before{content:"";width:20px;height:1px;background:var(--line-strong);flex:none}
+.hero-reveal{opacity:0;transform:translateY(18px);animation:riseIn .9s var(--ease) forwards;animation-delay:var(--delay,0s)}
+.hero-scroll{position:absolute;right:var(--pad);bottom:24px;z-index:3;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--faint);writing-mode:vertical-rl}
+.hero-scroll::after{content:"";width:1px;height:38px;background:linear-gradient(var(--lime),transparent);animation:scrollLine 2.4s ease-in-out infinite}
+
+/* core instrument */
+.hero-visual{position:relative;z-index:2;width:100%;max-width:470px;justify-self:end;transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .35s ease-out;will-change:transform}
+.core-shell{position:relative;border:1px solid rgba(212,255,95,.28);background:linear-gradient(155deg,rgba(23,31,23,.97),rgba(7,11,8,.99));box-shadow:0 34px 100px rgba(0,0,0,.55),inset 0 0 80px rgba(212,255,95,.028);overflow:hidden;animation:shellIn 1.3s .15s var(--ease) both}
+.core-shell::before,.core-shell::after{content:"";position:absolute;z-index:4;width:15px;height:15px;border-color:var(--lime);opacity:.75;pointer-events:none}
+.core-shell::before{left:-1px;top:-1px;border-left:1px solid;border-top:1px solid}
+.core-shell::after{right:-1px;bottom:-1px;border-right:1px solid;border-bottom:1px solid}
+.core-topbar{display:flex;align-items:center;justify-content:space-between;height:38px;padding:0 13px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--faint)}
+.core-status{display:flex;align-items:center;gap:7px;color:#c6ccbf}
+.core-status i{width:5px;height:5px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime);animation:softPulse 2.2s infinite}
+.core-stage{position:relative;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 47%,rgba(212,255,95,.055),transparent 45%),repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(255,255,255,.025) 40px),repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(255,255,255,.025) 40px)}
+.core-stage::after{content:"";position:absolute;left:8%;right:8%;top:8%;height:1px;z-index:2;background:linear-gradient(90deg,transparent,rgba(212,255,95,.7),transparent);box-shadow:0 0 12px rgba(212,255,95,.4);animation:scan 6.5s linear infinite;pointer-events:none;opacity:.7}
+.core-map{width:94%;height:94%;overflow:visible}
+.core-map .rotor{transform-box:view-box;transform-origin:50% 50%;animation:spin 46s linear infinite}
+.core-map .rotor-reverse{transform-box:view-box;transform-origin:50% 50%;animation:spinReverse 32s linear infinite}
+.core-map .orbit-copy{font-family:var(--mono);font-size:8.2px;letter-spacing:2.8px;fill:#8e9789}
+.core-map .breath{animation:breathe 4s ease-in-out infinite}
+.core-map .node{animation:softPulse 3s ease-in-out infinite}
+.core-center{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.core-eyebrow{font-family:var(--mono);font-size:7px;letter-spacing:.32em;color:#8d9688;margin-bottom:5px}
+.core-word{display:block;font-family:var(--mono);font-weight:700;font-size:clamp(28px,3.3vw,42px);line-height:.98;letter-spacing:.08em;color:var(--text)}
+.core-llm{display:block;font-family:var(--mono);font-weight:700;font-size:clamp(28px,3.3vw,42px);line-height:1;letter-spacing:.16em;color:var(--lime)}
+.core-sub{margin-top:9px;font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:#798276}
+.core-tag{position:absolute;z-index:5;display:flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid rgba(242,240,231,.15);background:rgba(7,11,8,.7);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-family:var(--mono);font-size:7px;letter-spacing:.13em;color:#b7beb1}
+.core-tag::before{content:"";width:3px;height:3px;border-radius:50%;background:var(--lime)}
+.tag-a{left:4%;top:13%}
+.tag-b{right:4%;top:37%}
+.tag-c{left:9%;bottom:12%}
+.core-footer{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);background:rgba(0,0,0,.14)}
+.core-footer div{padding:10px 10px 11px;border-right:1px solid var(--line);min-width:0}
+.core-footer div:last-child{border-right:0}
+.core-footer span{display:block;margin-bottom:3px;font-family:var(--mono);font-size:6.5px;letter-spacing:.13em;color:#737c71}
+.core-footer b{display:block;font-family:var(--mono);font-weight:400;font-size:7.5px;letter-spacing:.06em;color:#d7dbd0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ticker */
+.ticker{position:relative;z-index:3;overflow:hidden;background:var(--lime);color:#0b0f0b;border-block:1px solid #9ec335}
+.ticker-track{display:flex;width:max-content;animation:marquee 34s linear infinite}
+.ticker-group{display:flex;align-items:center;gap:36px;padding:11px 18px;white-space:nowrap;font-family:var(--mono);font-size:10px;letter-spacing:.13em;font-weight:700}
+.ticker-group i{font-style:normal;font-size:9px;opacity:.55}
+
+/* why */
+.why{background:linear-gradient(180deg,var(--ink) 0%,#0b100c 55%,var(--ink) 100%);overflow:hidden}
+.why .section-title{max-width:12em}
+.value-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:clamp(48px,6vw,76px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.value-card{position:relative;min-height:330px;padding:26px clamp(20px,2.6vw,34px) 30px;border-right:1px solid var(--line);display:flex;flex-direction:column;transition:background .4s}
+.value-card:last-child{border-right:0}
+.value-card::after{content:"";position:absolute;left:0;bottom:-1px;width:0;height:2px;background:var(--lime);transition:width .55s var(--ease)}
+.value-card:hover{background:rgba(212,255,95,.045)}
+.value-card:hover::after{width:100%}
+.card-top{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--faint)}
+.card-top b{font-weight:400;color:var(--lime)}
+.card-icon{width:48px;height:48px;margin-top:36px;color:var(--lime)}
+.card-icon svg{overflow:visible}
+.value-card h3{margin:22px 0 10px;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.1vw,30px);line-height:1.4}
+.value-card p{margin:0 0 24px;color:var(--muted);font-size:13px;line-height:1.95}
+.card-meta{margin-top:auto;display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:8px;letter-spacing:.15em;color:#778073}
+.card-meta::before{content:"";width:18px;height:1px;background:var(--line-strong)}
+.card-arrow{position:absolute;right:24px;bottom:26px;color:var(--lime);font-family:var(--mono);font-size:14px;opacity:0;transform:translate(-5px,5px);transition:opacity .3s,transform .3s}
+.value-card:hover .card-arrow{opacity:1;transform:none}
+.section-note{display:flex;align-items:flex-start;gap:9px;margin:22px 0 0;color:#828a7e;font-size:11.5px;line-height:1.8}
+.section-note::before{content:"※";color:var(--lime);font-family:var(--mono);flex:none}
+
+/* uses */
+.uses{background:var(--ink-2)}
+.uses .section-title{max-width:10em}
+.use-console{margin-top:clamp(42px,5vw,64px);border:1px solid var(--line-strong);background:#080c09;box-shadow:0 30px 80px rgba(0,0,0,.28)}
+.console-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:38px;padding:0 14px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--faint)}
+.console-dots{display:flex;gap:5px}
+.console-dots i{width:5px;height:5px;border:1px solid #5d665a;border-radius:50%}
+.console-dots i:first-child{background:var(--lime);border-color:var(--lime)}
+.console-body{display:grid;grid-template-columns:minmax(270px,.8fr) minmax(0,1.2fr)}
+.use-tabs{display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.use-tab{position:relative;display:grid;grid-template-columns:28px 1fr 16px;gap:12px;align-items:start;width:100%;min-height:132px;padding:24px clamp(18px,2.3vw,28px);border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);text-align:left;cursor:pointer;transition:background .3s,color .3s}
+.use-tab:last-child{border-bottom:0}
+.use-tab::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--lime);transform:scaleY(0);transform-origin:top;transition:transform .35s var(--ease)}
+.use-tab:hover{background:rgba(255,255,255,.035)}
+.use-tab[aria-selected="true"]{background:rgba(212,255,95,.065);color:var(--lime)}
+.use-tab[aria-selected="true"]::before{transform:scaleY(1)}
+.tab-index{padding-top:7px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint)}
+.use-tab[aria-selected="true"] .tab-index{color:var(--lime)}
+.tab-copy strong{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(20px,1.9vw,27px);line-height:1.4;color:var(--text);transition:color .25s}
+.use-tab[aria-selected="true"] .tab-copy strong{color:var(--lime)}
+.tab-copy small{display:block;margin-top:2px;font-family:var(--mono);font-size:7.5px;letter-spacing:.16em;color:var(--faint)}
+.tab-copy span{display:block;margin-top:9px;font-size:11.5px;line-height:1.75;color:#8f988b}
+.tab-arrow{padding-top:8px;color:var(--faint);font-family:var(--mono);font-size:13px;transition:transform .25s,color .25s}
+.use-tab:hover .tab-arrow{transform:translateX(3px);color:var(--text)}
+.use-tab[aria-selected="true"] .tab-arrow{color:var(--lime)}
+.use-stage{position:relative;display:flex;align-items:center;padding:clamp(18px,3vw,38px);background:radial-gradient(circle at 78% 14%,rgba(212,255,95,.07),transparent 46%),#090e0a;overflow:hidden}
+.use-stage::before{content:"CONCEPT";position:absolute;right:-9px;bottom:-24px;font-family:var(--mono);font-size:72px;line-height:1;letter-spacing:.04em;color:rgba(242,240,231,.025);pointer-events:none}
+.use-panel{position:relative;z-index:1;width:100%}
+.use-panel[hidden]{display:none}
+.use-panel.is-entering{animation:panelIn .48s var(--ease) both}
+.preview-head{display:flex;justify-content:space-between;gap:16px;padding-bottom:10px;margin-bottom:16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:7.5px;letter-spacing:.13em;color:var(--faint)}
+.preview-head b{font-weight:400;color:var(--lime)}
+.screen{border:1px solid rgba(242,240,231,.11);background:rgba(255,255,255,.018);padding:clamp(14px,2vw,22px)}
+.screen-row{display:grid;grid-template-columns:46px 1fr;gap:12px;padding:12px 0}
+.screen-row+.screen-row{border-top:1px solid rgba(242,240,231,.08)}
+.screen-role{padding-top:2px;font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;color:var(--faint)}
+.screen-row.local .screen-role{color:var(--lime)}
+.screen p{margin:0;font-size:12px;line-height:1.8;color:#c9cec3}
+.screen-row.user p{color:#e3e5dc}
+.mini-list{display:grid;gap:4px;margin:10px 0 0;padding:0;list-style:none;color:#9ba496;font-size:11px}
+.mini-list li{position:relative;padding-left:12px}
+.mini-list li::before{content:"";position:absolute;left:0;top:.72em;width:4px;height:1px;background:var(--lime)}
+.code-line{font-family:var(--mono);font-size:10.5px;line-height:1.9;color:#c6cdbf;white-space:pre-wrap}
+.code-line .kw{color:var(--lime)}
+.code-line .cm{color:#758071}
+.file-pill{display:inline-flex;align-items:center;gap:7px;margin-bottom:8px;padding:4px 8px;border:1px solid rgba(212,255,95,.24);font-family:var(--mono);font-size:7.5px;letter-spacing:.08em;color:var(--lime)}
+.file-pill::before{content:"";width:4px;height:5px;border:1px solid currentColor}
+.note-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.note-grid span{padding:8px;border:1px solid rgba(242,240,231,.1);font-size:10px;line-height:1.6;color:#9ca697}
+.note-grid b{display:block;margin-bottom:2px;font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:#d6dbd0;font-weight:400}
+.screen-foot{display:flex;justify-content:space-between;gap:12px;margin-top:12px;font-family:var(--mono);font-size:6.8px;letter-spacing:.11em;color:#727b6f}
+
+/* choose */
+.choose{background:var(--paper);color:#121811;border-block:1px solid #cfc8b6;overflow:hidden}
+.choose::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(22,82,58,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(22,82,58,.06) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 92%);mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 92%);pointer-events:none}
+.choose .container{position:relative;z-index:1}
+.choose .section-kicker{color:#687366}
+.choose .sec-index{color:var(--forest)}
+.choose .section-title em{color:var(--forest)}
+.choose .section-lead{color:#4c5a4f}
+.choose-head{align-items:end}
+.choose-direction{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:22px;font-family:var(--mono);font-size:8px;letter-spacing:.09em;color:#556257}
+.choose-direction span{padding:5px 8px;border:1px solid rgba(22,82,58,.2);background:rgba(255,255,255,.3)}
+.choose-direction i{font-style:normal;color:#8d998d}
+.fit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(40px,5vw,62px)}
+.fit-card{position:relative;min-height:410px;padding:24px;border:1px solid rgba(18,40,26,.2);background:rgba(255,255,255,.28);display:flex;flex-direction:column;transition:transform .45s var(--ease),background .45s,box-shadow .45s}
+.fit-card:hover{transform:translateY(-7px);background:rgba(255,255,255,.63);box-shadow:0 22px 50px rgba(28,48,34,.13)}
+.fit-top{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:8px;letter-spacing:.13em;color:#6f7b6f}
+.fit-top b{font-weight:700;color:var(--forest)}
+.fit-visual{height:156px;display:flex;align-items:center;justify-content:center;margin:13px 0 18px;color:var(--forest)}
+.fit-svg{width:100%;height:100%;overflow:visible}
+.fit-card h3{margin:0 0 9px;font-family:var(--serif);font-weight:500;font-size:clamp(23px,2vw,28px);line-height:1.4}
+.fit-card p{margin:0 0 22px;color:#536156;font-size:12.5px;line-height:1.9}
+.fit-meta{margin-top:auto;display:flex;justify-content:space-between;gap:10px;padding-top:12px;border-top:1px solid rgba(18,40,26,.16);font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:#778277}
+.fit-meta span:last-child{color:var(--forest);opacity:0;transform:translateX(-4px);transition:opacity .3s,transform .3s}
+.fit-card:hover .fit-meta span:last-child{opacity:1;transform:none}
+.purpose-needle{transform-box:view-box;transform-origin:110px 116px;transform:rotate(24deg);transition:transform .7s var(--ease)}
+.fit-card:hover .purpose-needle{transform:rotate(47deg)}
+.memory-bars rect{transform-box:fill-box;transform-origin:bottom;transition:transform .55s var(--ease)}
+.fit-card:hover .memory-bars rect:nth-child(2){transform:scaleY(1.18)}
+.fit-card:hover .memory-bars rect:nth-child(3){transform:scaleY(.78)}
+.fit-card:hover .memory-bars rect:nth-child(4){transform:scaleY(1.25)}
+.terms-stamp{transform-box:fill-box;transform-origin:center;transition:transform .45s var(--ease)}
+.fit-card:hover .terms-stamp{transform:rotate(-7deg) scale(1.06)}
+
+/* steps */
+.steps{background:var(--ink);overflow:clip}
+.steps::before{content:"";position:absolute;right:-22vw;top:8%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(212,255,95,.07),transparent 65%);pointer-events:none}
+.steps-layout{display:grid;grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr);gap:clamp(36px,6vw,92px);align-items:start}
+.steps-aside{position:sticky;top:108px;padding-bottom:24px}
+.steps-aside .section-title{font-size:clamp(2.4rem,4.1vw,4.15rem);max-width:8em}
+.steps-aside .section-lead{margin-top:22px;max-width:26em}
+.step-meter{position:relative;width:min(100%,236px);margin-top:38px;--angle:90deg}
+.meter-orbit{position:relative;width:100%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center}
+.meter-orbit::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -90deg,var(--lime) var(--angle),rgba(242,240,231,.1) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px))}
+.meter-orbit::after{content:"";position:absolute;inset:26px;border:1px dashed rgba(242,240,231,.13);border-radius:50%}
+.meter-center{position:relative;z-index:1;text-align:center;display:flex;flex-direction:column;align-items:center}
+.meter-center span{font-family:var(--mono);font-size:7px;letter-spacing:.22em;color:var(--faint)}
+.meter-center strong{font-family:var(--mono);font-size:52px;line-height:1.05;font-weight:400;letter-spacing:-.04em;color:var(--text)}
+.meter-center small{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--faint)}
+.meter-dots{position:absolute;inset:0;pointer-events:none}
+.meter-dots span{position:absolute;width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:var(--ink);border:1px solid var(--line-strong);font-family:var(--mono);font-size:6px;color:var(--faint);transition:background .3s,color .3s,border-color .3s}
+.meter-dots span:nth-child(1){left:50%;top:-9px;transform:translateX(-50%)}
+.meter-dots span:nth-child(2){right:-9px;top:50%;transform:translateY(-50%)}
+.meter-dots span:nth-child(3){left:50%;bottom:-9px;transform:translateX(-50%)}
+.meter-dots span:nth-child(4){left:-9px;top:50%;transform:translateY(-50%)}
+.meter-dots span.is-on{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.meter-label{margin:15px 0 0;text-align:center;font-size:11px;color:#abb2a5}
+.meter-label b{color:var(--lime);font-weight:500}
+.aside-quote{margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);font-family:var(--serif);font-size:15px;line-height:1.8;color:#c4cabf}
+.steps-list{border-top:1px solid var(--line)}
+.step{position:relative;display:grid;grid-template-columns:46px minmax(0,1fr);gap:clamp(14px,2vw,22px);padding:28px 18px 28px 0;border-bottom:1px solid var(--line);transition:background .4s,padding-left .4s}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--lime);transform:scaleY(0);transform-origin:top;transition:transform .4s var(--ease)}
+.step.is-active{background:linear-gradient(90deg,rgba(212,255,95,.055),transparent 80%);padding-left:18px}
+.step.is-active::before{transform:scaleY(1)}
+.step-num{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:50%;font-family:var(--mono);font-size:9px;color:#a4aca0;transition:background .3s,color .3s,border-color .3s}
+.step.is-active .step-num{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.step-body h3{margin:1px 0 8px;font-family:var(--serif);font-weight:500;font-size:clamp(21px,2.1vw,29px);line-height:1.45;color:#e9e8df}
+.step.is-active .step-body h3{color:var(--lime)}
+.step-body p{margin:0;max-width:34em;color:#9ba397;font-size:12.5px;line-height:1.9}
+.step-check{display:inline-flex;align-items:flex-start;gap:7px;margin-top:13px;font-family:var(--mono);font-size:7.5px;line-height:1.7;letter-spacing:.07em;color:#7f887b}
+.step-check::before{content:"CHECK";flex:none;padding:1px 5px;border:1px solid rgba(212,255,95,.23);color:var(--lime);font-size:6.5px;letter-spacing:.1em}
+.steps-after{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:28px;padding-top:19px;border-top:1px solid var(--line);flex-wrap:wrap}
+.steps-after p{margin:0;font-size:11.5px;color:#8d9589}
+.steps-after a{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--lime);text-decoration:none}
+.steps-after a:hover{text-decoration:underline;text-underline-offset:4px}
+
+/* notes */
+.notes{background:var(--paper);color:#151b14;border-block:1px solid #cfc8b6;overflow:hidden}
+.notes .section-kicker{color:#687366}
+.notes .sec-index{color:var(--clay)}
+.notes .section-kicker::after{background:var(--clay);opacity:.45}
+.notes .section-title em{color:var(--clay)}
+.notes .section-lead{color:#4c5a4f}
+.notes-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(40px,5vw,60px)}
+.note-card{position:relative;min-height:285px;padding:23px;border:1px solid rgba(18,40,26,.2);background:rgba(255,255,255,.25);display:flex;flex-direction:column;transition:transform .4s var(--ease),background .4s}
+.note-card:hover{transform:translateY(-5px);background:rgba(255,255,255,.55)}
+.note-card.dark{background:var(--ink);color:var(--text);border-color:var(--ink)}
+.note-top{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;color:#6d786c}
+.note-card.dark .note-top{color:#8d9589}
+.note-top b{color:var(--clay);font-weight:700}
+.note-symbol{width:42px;height:42px;margin:24px 0 20px;color:var(--clay)}
+.note-card.dark .note-symbol{color:var(--lime)}
+.note-card h3{margin:0 0 7px;font-family:var(--serif);font-weight:500;font-size:clamp(21px,1.8vw,26px);line-height:1.45}
+.note-card p{margin:0;color:#536156;font-size:12px;line-height:1.9}
+.note-card.dark p{color:#a8b0a3}
+.note-foot{margin-top:auto;padding-top:18px;font-family:var(--mono);font-size:6.8px;letter-spacing:.12em;color:#7a8579}
+.note-card.dark .note-foot{color:#737c71}
+
+/* launch */
+.launch{position:relative;overflow:hidden;background:var(--lime);color:var(--ink);padding-block:clamp(76px,9vw,130px)}
+.launch::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(10,13,11,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(10,13,11,.07) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(circle at 78% 50%,#000,transparent 64%);mask-image:radial-gradient(circle at 78% 50%,#000,transparent 64%);pointer-events:none}
+.launch-inner{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);align-items:center;gap:clamp(30px,5vw,70px)}
+.launch-kicker{margin:0 0 18px;font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:#31431a}
+.launch h2{margin:0 0 20px;font-family:var(--serif);font-weight:500;font-size:clamp(3.1rem,7vw,6.8rem);line-height:1.06;letter-spacing:.01em}
+.launch p{max-width:29em;margin:0 0 28px;color:#2b381e;font-size:13px;line-height:1.95}
+.launch .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.launch .btn:hover{background:#1b251c;transform:translateY(-2px)}
+.launch .btn-icon{border-color:rgba(239,235,222,.45)}
+.launch-note{margin:17px 0 0;font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:#4e5f36}
+.launch-art{position:relative;justify-self:end;width:min(100%,390px);aspect-ratio:1;color:#17301f}
+.launch-art svg{width:100%;height:100%}
+.launch-rotor{transform-box:view-box;transform-origin:50% 50%;animation:spin 52s linear infinite}
+.launch-art .pulse-dot{animation:softPulse 3.2s infinite}
+
+/* footer */
+.site-footer{background:#070a08;border-top:1px solid var(--line);padding:38px 0 34px}
+.footer-inner{display:flex;justify-content:space-between;gap:28px;align-items:flex-start}
+.footer-brand{display:flex;align-items:center;gap:12px}
+.footer-brand .brand-mark{width:30px;height:30px}
+.footer-brand p{margin:0;font-family:var(--mono);font-size:8px;line-height:1.6;letter-spacing:.1em;color:#8c9488}
+.footer-note{max-width:480px;margin:0;font-size:10px;line-height:1.9;color:#798175}
+.footer-bottom{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:#5e675b}
+.footer-bottom a{text-decoration:none;color:#aab2a4}
+.footer-bottom a:hover{color:var(--lime)}
+
+@keyframes riseIn{to{opacity:1;transform:none}}
+@keyframes shellIn{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes drawLine{to{transform:scaleX(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinReverse{to{transform:rotate(-360deg)}}
+@keyframes softPulse{0%,100%{opacity:.45;transform:scale(.9)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes breathe{0%,100%{opacity:.18;transform:scale(.97)}50%{opacity:.55;transform:scale(1.04)}}
+@keyframes scan{0%{top:8%;opacity:0}10%{opacity:.8}90%{opacity:.8}100%{top:92%;opacity:0}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes scrollLine{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+/* responsive */
+@media(max-width:1040px){
+  .site-nav{gap:16px}
+  .site-nav a{font-size:11px}
+  .motion-toggle .motion-label{display:none}
+  .motion-toggle{padding-inline:8px}
+  .hero-inner{grid-template-columns:minmax(0,1.08fr) minmax(330px,.92fr);gap:34px}
+  .hero h1{font-size:clamp(2.65rem,5.15vw,4.65rem)}
+  .core-tag{font-size:6.5px}
+}
+@media(max-width:900px){
+  .site-nav{display:none}
+  .header-actions{margin-left:auto}
+  .hero-inner{grid-template-columns:1fr;gap:44px;align-items:start}
+  .hero{min-height:auto;padding-top:120px;padding-bottom:60px}
+  .hero-copy{max-width:640px}
+  .hero-visual{max-width:430px;justify-self:start;margin-left:auto;margin-right:auto}
+  .hero-scroll{display:none}
+  .hero-watermark{display:none}
+  .section-head,.choose-head{grid-template-columns:1fr;gap:24px}
+  .section-head .section-lead{max-width:40em}
+  .value-grid{grid-template-columns:1fr;border-bottom:0}
+  .value-card{min-height:0;border-right:0;border-bottom:1px solid var(--line);padding-block:24px}
+  .value-card:last-child{border-bottom:1px solid var(--line)}
+  .card-icon{margin-top:24px}
+  .console-body{grid-template-columns:1fr}
+  .use-tabs{border-right:0;border-bottom:1px solid var(--line)}
+  .use-tab{min-height:0;padding-block:18px;grid-template-columns:24px 1fr 16px}
+  .tab-copy span{margin-top:4px}
+  .fit-grid{grid-template-columns:1fr}
+  .fit-card{min-height:0;display:grid;grid-template-columns:130px 1fr;column-gap:10px;align-items:center}
+  .fit-top{grid-column:1/-1}
+  .fit-visual{grid-row:2/4;height:130px;margin:8px 0;align-self:start}
+  .fit-card h3{margin-top:18px}
+  .fit-card p{margin-bottom:16px}
+  .fit-meta{grid-column:1/-1}
+  .steps-layout{grid-template-columns:1fr;gap:34px}
+  .steps-aside{position:static;display:grid;grid-template-columns:1fr 190px;gap:24px;align-items:center;padding-bottom:0}
+  .steps-aside .section-title,.steps-aside .section-lead{margin-top:14px}
+  .step-meter{margin-top:0;justify-self:end}
+  .aside-quote{grid-column:1/-1;margin-top:0;padding-top:14px}
+  .notes-grid{grid-template-columns:1fr}
+  .note-card{min-height:0}
+  .launch-inner{grid-template-columns:1fr;gap:34px}
+  .launch-art{max-width:300px;justify-self:start}
+}
+@media(max-width:600px){
+  :root{--pad:20px}
+  .site-header{height:64px;gap:10px}
+  .site-header.is-scrolled{height:58px}
+  .brand-copy{font-size:9px}
+  .brand-copy small{font-size:6px}
+  .brand-mark{width:31px;height:31px}
+  .header-cta{height:35px;padding:0 12px;font-size:11px}
+  .header-cta span{display:none}
+  .motion-toggle{height:31px;padding:0 7px}
+  .hero{padding-top:98px;padding-bottom:48px}
+  .hero-inner{gap:34px}
+  .hero h1{font-size:clamp(2.55rem,12.2vw,3.4rem);line-height:1.14;letter-spacing:.01em}
+  .hero h1 .mob{display:block}
+  .hero-lead{font-size:13px;line-height:1.95}
+  .hero-actions{display:grid;grid-template-columns:1fr;gap:9px}
+  .btn{width:100%}
+  .hero-note{align-items:flex-start;font-size:7.5px}
+  .hero-visual{max-width:100%}
+  .core-topbar{height:34px;font-size:7px}
+  .core-footer div{padding:8px 7px}
+  .core-footer b{font-size:6.5px;letter-spacing:0}
+  .core-footer span{font-size:6px}
+  .core-tag{font-size:6px;padding:4px 6px}
+  .tag-b{display:none}
+  .section{padding-block:76px}
+  .section-title{font-size:clamp(1.9rem,8.8vw,2.55rem)}
+  .section-lead{font-size:13px}
+  .value-card{padding-inline:0}
+  .card-arrow{display:none}
+  .console-bar{font-size:7px}
+  .use-tab{grid-template-columns:23px 1fr 12px;gap:8px}
+  .use-stage{padding:14px}
+  .screen{padding:11px}
+  .screen-row{grid-template-columns:38px 1fr;gap:8px;padding:10px 0}
+  .screen p{font-size:11px}
+  .preview-head{font-size:6.5px}
+  .note-grid{grid-template-columns:1fr}
+  .fit-card{display:block}
+  .fit-visual{height:142px;margin:8px 0 12px}
+  .fit-card h3{margin-top:0}
+  .steps-aside{display:block}
+  .step-meter{width:170px;margin:26px auto 0}
+  .meter-center strong{font-size:38px}
+  .step{padding:24px 0 24px;grid-template-columns:34px 1fr;gap:12px}
+  .step.is-active{padding-left:10px}
+  .step-num{width:30px;height:30px;font-size:8px}
+  .step-body h3{font-size:20px}
+  .step-body p{font-size:12px}
+  .step-check{font-size:7px}
+  .steps-after{align-items:flex-start;flex-direction:column;gap:10px}
+  .notes-grid{gap:10px}
+  .note-card{padding:20px}
+  .note-symbol{margin:18px 0 14px}
+  .launch{padding-block:70px}
+  .launch h2{font-size:clamp(3rem,15vw,4.5rem)}
+  .launch-art{max-width:240px;justify-self:center}
+  .footer-inner{display:block}
+  .footer-note{margin-top:20px}
+  .footer-bottom{display:block;line-height:2.2}
+  .footer-bottom a{display:inline-block;margin-top:6px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .js .reveal,.js .reveal-stagger>*{opacity:1!important;transform:none!important}
+  .hero-reveal{opacity:1;transform:none}
+  .hero h1 em::after{transform:scaleX(1)}
+  .core-stage::after{display:none}
+  .motion-toggle{display:none}
+}
+html.motion-off{scroll-behavior:auto}
+html.motion-off *,html.motion-off *::before,html.motion-off *::after{animation:none!important;transition:none!important}
+html.motion-off .js .reveal,html.motion-off .js .reveal-stagger>*,html.motion-off .reveal,html.motion-off .reveal-stagger>*{opacity:1!important;transform:none!important}
+html.motion-off .hero-reveal{opacity:1!important;transform:none!important;animation:none!important}
+html.motion-off .hero h1 em::after{transform:scaleX(1)!important}
+html.motion-off .ticker-track{transform:none!important}
+html.motion-off .core-stage::after{display:none}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="scroll-progress" aria-hidden="true"><span data-progress></span></div>
+
+<header class="site-header" data-header>
+  <a class="brand" href="#top" aria-label="LOCAL / LLM ページ先頭">
+    <span class="brand-mark" aria-hidden="true">L/L</span>
+    <span class="brand-copy">LOCAL / LLM<small>A FIELD GUIDE</small></span>
+  </a>
+  <nav class="site-nav" aria-label="ページ内メニュー">
+    <a href="#why">なぜ手元か</a>
+    <a href="#uses">できること</a>
+    <a href="#choose">選び方</a>
+    <a href="#steps">はじめ方</a>
+  </nav>
+  <div class="header-actions">
+    <button class="motion-toggle" type="button" role="switch" aria-checked="true" aria-label="装飾的な動き" data-motion-toggle>
+      <span class="motion-icon" aria-hidden="true"><i></i><i></i></span>
+      <span class="motion-label">MOTION ON</span>
+    </button>
+    <a class="header-cta" href="#steps">はじめる <span aria-hidden="true">↘</span></a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <span class="hero-watermark" aria-hidden="true">LOCAL</span>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="kicker hero-reveal" style="--delay:.05s"><span class="status-dot" aria-hidden="true"></span> LOCAL LLM <span class="slash">/</span> A FIELD GUIDE <span class="slash">/</span> 2026</p>
+        <h1 id="hero-title" class="hero-reveal" style="--delay:.14s">そのAI、<br><em>手元</em>で<br class="mob">走らせよう。</h1>
+        <p class="hero-lead hero-reveal" style="--delay:.24s">クラウドの向こうにいたAIを、自分のPCや手元の計算機へ。用途を決めて、モデルを選んで、<strong>小さく試す</strong>。ローカルLLMは、AIとの距離を自分で設計するための選択肢です。</p>
+        <div class="hero-actions hero-reveal" style="--delay:.34s">
+          <a class="btn btn-primary" href="#steps">導入手順を見る <span class="btn-icon" aria-hidden="true">↓</span></a>
+          <a class="btn btn-ghost" href="#why">なぜ手元なのか <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="hero-note hero-reveal" style="--delay:.44s">特定製品の販売ページではありません。手元で試すための小さなガイドです。</p>
+      </div>
+
+      <div class="hero-visual" data-tilt aria-hidden="true">
+        <div class="core-shell">
+          <div class="core-topbar">
+            <span class="core-status"><i></i> LOCAL RUNTIME</span>
+            <span>CORE / 01</span>
+          </div>
+          <div class="core-stage">
+            <svg class="core-map" viewBox="0 0 440 440" fill="none" aria-hidden="true">
+              <defs>
+                <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#d4ff5f" stop-opacity=".19"/>
+                  <stop offset="55%" stop-color="#d4ff5f" stop-opacity=".035"/>
+                  <stop offset="100%" stop-color="#d4ff5f" stop-opacity="0"/>
+                </radialGradient>
+                <path id="orbitPath" d="M220,220 m-185,0 a185,185 0 1,1 370,0 a185,185 0 1,1 -370,0"/>
+              </defs>
+              <circle cx="220" cy="220" r="205" fill="url(#coreGlow)"/>
+              <circle cx="220" cy="220" r="209" stroke="#d4ff5f" stroke-opacity=".16" stroke-dasharray="1 9"/>
+              <circle cx="220" cy="220" r="185" stroke="#f2f0e7" stroke-opacity=".1"/>
+              <g class="rotor">
+                <circle cx="220" cy="220" r="185" stroke="#d4ff5f" stroke-width="1.5" stroke-dasharray="92 1070" stroke-linecap="round"/>
+                <circle cx="220" cy="220" r="185" stroke="#f2f0e7" stroke-opacity=".55" stroke-width="1" stroke-dasharray="24 1138" transform="rotate(120 220 220)"/>
+                <text class="orbit-copy">
+                  <textPath href="#orbitPath" startOffset="2%">LOCAL INFERENCE · YOUR MACHINE · YOUR CHOICE · SMALL START · </textPath>
+                </text>
+              </g>
+              <g class="rotor-reverse">
+                <circle cx="220" cy="220" r="156" stroke="#f2f0e7" stroke-opacity=".2" stroke-dasharray="2 12"/>
+              </g>
+              <circle cx="220" cy="220" r="127" stroke="#f2f0e7" stroke-opacity=".13"/>
+              <circle cx="220" cy="220" r="99" fill="#070b08" fill-opacity=".72" stroke="#d4ff5f" stroke-opacity=".45"/>
+              <circle class="breath" cx="220" cy="220" r="99" stroke="#d4ff5f" stroke-opacity=".3"/>
+              <g stroke="#d4ff5f" stroke-opacity=".55">
+                <path d="M220 22v18M220 400v18M22 220h18M400 220h18"/>
+              </g>
+              <g stroke="#f2f0e7" stroke-opacity=".12">
+                <path d="M220 35v28M220 377v28M35 220h28M377 220h28"/>
+              </g>
+              <g class="node" fill="#d4ff5f">
+                <circle cx="220" cy="35" r="3.5"/>
+                <circle cx="405" cy="220" r="2.5"/>
+                <circle cx="220" cy="405" r="2.5"/>
+              </g>
+              <g fill="#f2f0e7" fill-opacity=".65">
+                <circle cx="220" cy="64" r="2"/>
+                <circle cx="376" cy="220" r="2"/>
+                <circle cx="220" cy="376" r="2"/>
+                <circle cx="64" cy="220" r="2"/>
+              </g>
+            </svg>
+            <div class="core-center">
+              <span class="core-eyebrow">ON YOUR MACHINE</span>
+              <span class="core-word">LOCAL</span>
+              <span class="core-llm">LLM</span>
+              <span class="core-sub">SMALL START / YOUR CALL</span>
+            </div>
+            <span class="core-tag tag-a">PROMPT</span>
+            <span class="core-tag tag-b">CONTEXT</span>
+            <span class="core-tag tag-c">RESPONSE</span>
+          </div>
+          <div class="core-footer">
+            <div><span>MODE</span><b>LOCAL RUNTIME</b></div>
+            <div><span>CHOICE</span><b>YOURS</b></div>
+            <div><span>NETWORK</span><b>CONFIG DEP.</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">SCROLL TO EXPLORE</div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="ticker-group"><span>RUN IT LOCALLY</span><i>✦</i><span>TRY IT SMALL</span><i>✦</i><span>CHOOSE BY PURPOSE</span><i>✦</i><span>CHECK THE TERMS</span><i>✦</i><span>YOUR MACHINE, YOUR CALL</span><i>✦</i></div>
+      <div class="ticker-group"><span>RUN IT LOCALLY</span><i>✦</i><span>TRY IT SMALL</span><i>✦</i><span>CHOOSE BY PURPOSE</span><i>✦</i><span>CHECK THE TERMS</span><i>✦</i><span>YOUR MACHINE, YOUR CALL</span><i>✦</i></div>
+    </div>
+  </div>
+
+  <section class="section why" id="why" aria-labelledby="why-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-kicker"><span class="sec-index">01</span> WHY LOCAL</p>
+          <h2 class="section-title" id="why-title">クラウドの外側に、<br><em>実験場</em>をつくる。</h2>
+        </div>
+        <p class="section-lead">ローカルLLMは、自分のPCや手元の計算機で言語モデルを動かす選択肢。大きな準備の前に、小さな実験から始められます。</p>
+      </div>
+      <div class="value-grid reveal-stagger">
+        <article class="value-card">
+          <div class="card-top"><span>01 / TINKER</span><b>TRY</b></div>
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="5" y="8" width="38" height="30" rx="1"/><path d="M5 16h38M10 12h1M14 12h1M18 12h1M13 23l5 4-5 4M23 32h9"/></svg>
+          </div>
+          <h3>手元で、試す。</h3>
+          <p>小さく動かして、反応を見る。うまくいかない日も含めて、自分のペースで試行錯誤できます。</p>
+          <span class="card-meta">TINKER &amp; LEARN</span>
+          <span class="card-arrow" aria-hidden="true">↗</span>
+        </article>
+        <article class="value-card">
+          <div class="card-top"><span>02 / SELECT</span><b>FIT</b></div>
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 12h32M8 24h32M8 36h32"/><circle cx="17" cy="12" r="3.5" fill="#0b100c"/><circle cx="32" cy="24" r="3.5" fill="#0b100c"/><circle cx="22" cy="36" r="3.5" fill="#0b100c"/></svg>
+          </div>
+          <h3>用途から、選ぶ。</h3>
+          <p>文章の下書き、コードの相談、手元資料の整理。目的に合わせて、モデルや設定を選ぶ自由があります。</p>
+          <span class="card-meta">PURPOSE FIRST</span>
+          <span class="card-arrow" aria-hidden="true">↗</span>
+        </article>
+        <article class="value-card">
+          <div class="card-top"><span>03 / DESIGN</span><b>YOU</b></div>
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M13 7h17l7 7v27H13z"/><path d="M30 7v8h7M19 24h13M19 30h13M19 36h8"/><circle cx="12" cy="20" r="5" fill="#0b100c"/></svg>
+          </div>
+          <h3>扱いを、設計する。</h3>
+          <p>データの扱いは、モデル・ランタイム・設定の組み合わせで決まる。自分で確認し、自分で決められる余地があります。</p>
+          <span class="card-meta">DESIGN THE FLOW</span>
+          <span class="card-arrow" aria-hidden="true">↗</span>
+        </article>
+      </div>
+      <p class="section-note reveal">ローカルで動かすこと自体が、完全な秘密保持を自動的に保証するわけではありません。外部連携や設定も含めて確認しましょう。</p>
+    </div>
+  </section>
+
+  <section class="section uses" id="uses" aria-labelledby="uses-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-kicker"><span class="sec-index">02</span> IN YOUR DAY</p>
+          <h2 class="section-title" id="uses-title">机の上に、<br><em>三つの窓。</em></h2>
+        </div>
+        <p class="section-lead">特別な仕事だけじゃない。いつもの作業の隣に、ローカルLLMという小さな窓を置いてみる。まずは、そのイメージから。</p>
+      </div>
+
+      <div class="use-console reveal" data-tabs>
+        <div class="console-bar">
+          <span>USE CASES / CONCEPT PREVIEW</span>
+          <span class="console-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+        <div class="console-body">
+          <div class="use-tabs" role="tablist" aria-label="ローカルLLMの用途" aria-orientation="vertical">
+            <button class="use-tab" id="tab-draft" type="button" role="tab" aria-selected="true" aria-controls="panel-draft" tabindex="0">
+              <span class="tab-index">01</span>
+              <span class="tab-copy"><strong>文章の下書き</strong><small>DRAFTING</small><span>目的とトーンを渡して、たたき台をつくる。</span></span>
+              <span class="tab-arrow" aria-hidden="true">→</span>
+            </button>
+            <button class="use-tab" id="tab-code" type="button" role="tab" aria-selected="false" aria-controls="panel-code" tabindex="-1">
+              <span class="tab-index">02</span>
+              <span class="tab-copy"><strong>コードの相談</strong><small>CODING</small><span>エラーや前提を添えて、考え方を聞く。</span></span>
+              <span class="tab-arrow" aria-hidden="true">→</span>
+            </button>
+            <button class="use-tab" id="tab-notes" type="button" role="tab" aria-selected="false" aria-controls="panel-notes" tabindex="-1">
+              <span class="tab-index">03</span>
+              <span class="tab-copy"><strong>手元資料の整理</strong><small>NOTES</small><span>散らかったメモから、要点や次の行動を拾う。</span></span>
+              <span class="tab-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          <div class="use-stage">
+            <div class="use-panel" id="panel-draft" role="tabpanel" aria-labelledby="tab-draft" tabindex="0">
+              <div class="preview-head"><span>CONCEPT / 01</span><b>用途のイメージ</b></div>
+              <div class="screen">
+                <div class="screen-row user"><span class="screen-role">YOU</span><p>新しいサービスの案内文を、少し落ち着いたトーンで下書きしたい。</p></div>
+                <div class="screen-row local"><span class="screen-role">LOCAL</span><div><p>まず、読み手と伝えたいことを整理します。</p><ul class="mini-list"><li>誰に届けるか</li><li>知ってほしいことは何か</li><li>避けたい表現はあるか</li></ul></div></div>
+              </div>
+              <div class="screen-foot"><span>DRAFT / REVIEW REQUIRED</span><span>IMAGE ONLY</span></div>
+            </div>
+
+            <div class="use-panel" id="panel-code" role="tabpanel" aria-labelledby="tab-code" tabindex="0">
+              <div class="preview-head"><span>CONCEPT / 02</span><b>用途のイメージ</b></div>
+              <div class="screen">
+                <div class="screen-row user"><span class="screen-role">YOU</span><p>このエラー、どこから見ればいい？<br><span class="code-line">TypeError: Cannot read properties of undefined</span></p></div>
+                <div class="screen-row local"><span class="screen-role">LOCAL</span><div><p>まず、値が入るタイミングを確認します。</p><div class="code-line"><span class="cm">// 確認する順番</span><br><span class="kw">1.</span> 代入元<br><span class="kw">2.</span> 実行順<br><span class="kw">3.</span> 非同期処理の待ち方</div></div></div>
+              </div>
+              <div class="screen-foot"><span>DEBUG / VERIFY EVERYTHING</span><span>IMAGE ONLY</span></div>
+            </div>
+
+            <div class="use-panel" id="panel-notes" role="tabpanel" aria-labelledby="tab-notes" tabindex="0">
+              <div class="preview-head"><span>CONCEPT / 03</span><b>用途のイメージ</b></div>
+              <div class="screen">
+                <div class="screen-row user"><span class="screen-role">YOU</span><p><span class="file-pill">meeting-notes.txt</span><br>「未決事項」と「次のアクション」を抜き出して。</p></div>
+                <div class="screen-row local"><span class="screen-role">LOCAL</span><div><div class="note-grid"><span><b>未決事項</b>公開日の最終確認</span><span><b>次のアクション</b>担当者へ確認を依頼</span></div></div></div>
+              </div>
+              <div class="screen-foot"><span>NOTES / CHECK THE SOURCE</span><span>IMAGE ONLY</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="section-note reveal">画面は用途を伝えるためのイメージです。できることや精度は、用途・モデル・機器・設定によって変わります。出力は必ず確認してください。</p>
+    </div>
+  </section>
+
+  <section class="section choose" id="choose" aria-labelledby="choose-title">
+    <div class="container">
+      <div class="section-head choose-head reveal">
+        <div>
+          <p class="section-kicker"><span class="sec-index">03</span> CHOOSE YOUR FIT</p>
+          <h2 class="section-title" id="choose-title">選ぶ前に、<br><em>三つ</em>だけ。</h2>
+        </div>
+        <div>
+          <p class="section-lead">モデル名の前に、自分の条件を見る。用途、機器、利用条件。この順番で考えると、選択肢は少しずつ絞れます。</p>
+          <div class="choose-direction" aria-label="確認する順番"><span>用途</span><i>→</i><span>機器</span><i>→</i><span>利用条件</span></div>
+        </div>
+      </div>
+      <div class="fit-grid reveal-stagger">
+        <article class="fit-card">
+          <div class="fit-top"><span>A / PURPOSE</span><b>01</b></div>
+          <div class="fit-visual" aria-hidden="true">
+            <svg class="fit-svg" viewBox="0 0 220 156" fill="none" stroke="currentColor" stroke-width="1.1">
+              <path d="M38 124A78 78 0 0 1 182 124" stroke-dasharray="1 7" opacity=".35"/>
+              <path d="M56 124A60 60 0 0 1 164 124" opacity=".55"/>
+              <path d="M56 124A60 60 0 0 1 90 68" opacity=".3"/>
+              <g opacity=".55">
+                <path d="M110 48v8M69 67l6 6M151 67l-6 6M47 108h9M164 108h9"/>
+              </g>
+              <line class="purpose-needle" x1="110" y1="116" x2="110" y2="50" stroke="#16523a" stroke-width="1.5"/>
+              <circle cx="110" cy="116" r="4" fill="currentColor" stroke="none"/>
+              <circle cx="110" cy="116" r="12" opacity=".25"/>
+              <text x="39" y="146" opacity=".7">WRITE</text>
+              <text x="96" y="146" opacity=".7">CODE</text>
+              <text x="158" y="146" opacity=".7">NOTES</text>
+            </svg>
+          </div>
+          <h3>何を、任せる？</h3>
+          <p>文章か、コードか、整理か。まずは一つの作業に絞る。用途が決まれば、必要なモデルの性格も見えてくる。</p>
+          <div class="fit-meta"><span>START WITH ONE TASK</span><span>→</span></div>
+        </article>
+
+        <article class="fit-card">
+          <div class="fit-top"><span>B / MACHINE</span><b>02</b></div>
+          <div class="fit-visual" aria-hidden="true">
+            <svg class="fit-svg" viewBox="0 0 220 156" fill="none" stroke="currentColor" stroke-width="1.1">
+              <g opacity=".55">
+                <path d="M65 36h-9M65 48h-16M65 60h-9M65 72h-16M65 84h-9M65 96h-16M65 108h-9M64 120h-16"/>
+                <path d="M155 36h9M155 48h16M155 60h9M155 72h16M155 84h9M155 96h16M155 108h9M156 120h16"/>
+              </g>
+              <rect x="65" y="26" width="90" height="104" rx="3"/>
+              <rect x="78" y="39" width="64" height="78" rx="1" opacity=".4"/>
+              <g class="memory-bars" fill="currentColor" stroke="none" opacity=".8">
+                <rect x="85" y="96" width="7" height="12"/>
+                <rect x="95" y="88" width="7" height="20"/>
+                <rect x="105" y="79" width="7" height="29"/>
+                <rect x="115" y="90" width="7" height="18"/>
+                <rect x="125" y="72" width="7" height="36"/>
+              </g>
+              <path d="M78 52h64M78 39v13M78 65h22" opacity=".45"/>
+              <text x="89" y="76" font-size="6" fill="currentColor" stroke="none" opacity=".62">MEM</text>
+            </svg>
+          </div>
+          <h3>どこで、動かす？</h3>
+          <p>必要メモリと速度は、モデル・機器・設定で変わる。手元の環境で動かせる範囲を、最初に確かめる。</p>
+          <div class="fit-meta"><span>CHECK BEFORE YOU LOAD</span><span>→</span></div>
+        </article>
+
+        <article class="fit-card">
+          <div class="fit-top"><span>C / TERMS</span><b>03</b></div>
+          <div class="fit-visual" aria-hidden="true">
+            <svg class="fit-svg" viewBox="0 0 220 156" fill="none" stroke="currentColor" stroke-width="1.1">
+              <path d="M70 20h64l18 18v98H70z"/>
+              <path d="M134 20v20h18" opacity=".65"/>
+              <g opacity=".45">
+                <path d="M84 58h43M84 68h52M84 78h34M84 96h26M84 106h38"/>
+              </g>
+              <g class="terms-stamp">
+                <circle cx="151" cy="112" r="25" stroke-dasharray="2 3" opacity=".8"/>
+                <circle cx="151" cy="112" r="19" opacity=".55"/>
+                <text x="151" y="115" text-anchor="middle" font-size="7" fill="currentColor" stroke="none" letter-spacing="1">READ</text>
+              </g>
+              <path d="M84 128h26" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>どんな条件で、使う？</h3>
+          <p>無料とは限らない。商用利用や再配布、外部連携の扱いもモデルごとに違う。条件を読んでから選ぶ。</p>
+          <div class="fit-meta"><span>READ THE SMALL PRINT</span><span>→</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section steps" id="steps" aria-labelledby="steps-title">
+    <div class="container">
+      <div class="steps-layout">
+        <aside class="steps-aside">
+          <div class="reveal">
+            <p class="section-kicker"><span class="sec-index">04</span> START SMALL</p>
+            <h2 class="section-title" id="steps-title">はじめ方は、<br><em>4つ</em>の手順。</h2>
+            <p class="section-lead">大きな決断より、小さな確認。順番に進めば、ローカルLLMはぐっと身近になります。</p>
+          </div>
+          <div class="step-meter" aria-hidden="true" data-meter>
+            <div class="meter-orbit">
+              <div class="meter-center"><span>STEP</span><strong data-meter-num>01</strong><small>/ 04</small></div>
+              <div class="meter-dots"><span class="is-on">01</span><span>02</span><span>03</span><span>04</span></div>
+            </div>
+            <p class="meter-label">NOW / <b data-meter-label>用途を決める</b></p>
+          </div>
+          <p class="aside-quote reveal">完璧な環境より、<br>観測できる小さな一歩。</p>
+        </aside>
+
+        <div class="steps-list">
+          <article class="step" data-step data-label="用途を決める">
+            <span class="step-num" aria-hidden="true">01</span>
+            <div class="step-body">
+              <h3>用途を決める</h3>
+              <p>まずは、任せたい作業をひとつだけ。短い文章の下書き、コードの相談、手元メモの整理。小さく具体的に。</p>
+              <span class="step-check">例 / 短い案内文を一度だけ下書きする</span>
+            </div>
+          </article>
+          <article class="step" data-step data-label="機器とメモリを確認">
+            <span class="step-num" aria-hidden="true">02</span>
+            <div class="step-body">
+              <h3>機器と必要メモリを確認する</h3>
+              <p>モデルの大きさや実行設定によって、必要なメモリと速度は変わる。空きメモリ、ストレージ、対応する実行環境を見る。</p>
+              <span class="step-check">見る / 空きメモリ・ストレージ・実行環境</span>
+            </div>
+          </article>
+          <article class="step" data-step data-label="利用条件を確認">
+            <span class="step-num" aria-hidden="true">03</span>
+            <div class="step-body">
+              <h3>利用条件を読んでモデルを選ぶ</h3>
+              <p>ライセンスはモデルごと。無料・商用利用可とは限らない。再配布や外部連携の条件も確認してから選ぶ。</p>
+              <span class="step-check">読む / ライセンス・商用利用・通信の扱い</span>
+            </div>
+          </article>
+          <article class="step" data-step data-label="小さく試す">
+            <span class="step-num" aria-hidden="true">04</span>
+            <div class="step-body">
+              <h3>小さく試す</h3>
+              <p>短い入力から始めて、出力と負荷を見る。設定を変えたら、同じ条件で比べる。出力は必ず確認し、必要ならモデルか設定を変える。</p>
+              <span class="step-check">残す / 入力・設定・出力・体感メモ</span>
+            </div>
+          </article>
+          <div class="steps-after">
+            <p>うまくいかないときは、用途か設定を小さくしてもう一度。</p>
+            <a href="#notes">注意点も確認する <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section notes" id="notes" aria-labelledby="notes-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-kicker"><span class="sec-index">05</span> KEEP IT HONEST</p>
+          <h2 class="section-title" id="notes-title">ローカルは、<br><em>魔法じゃない。</em></h2>
+        </div>
+        <p class="section-lead">だから、小さく試して、条件を確かめる。期待と注意をセットで持っておくのが、いちばんいい始め方です。</p>
+      </div>
+      <div class="notes-grid reveal-stagger">
+        <article class="note-card">
+          <div class="note-top"><span>CAUTION / 01</span><b>SPEED</b></div>
+          <div class="note-symbol" aria-hidden="true">
+            <svg viewBox="0 0 42 42" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 31h32M9 31V19M16 31V12M23 31V22M30 31V8M37 31V16"/><path d="M5 36h32" opacity=".35"/></svg>
+          </div>
+          <h3>速度とメモリは、条件次第。</h3>
+          <p>モデル・機器・設定で変わる。数字を決め打ちせず、まずは手元で観測する。</p>
+          <div class="note-foot">MEASURE ON YOUR MACHINE</div>
+        </article>
+        <article class="note-card">
+          <div class="note-top"><span>CAUTION / 02</span><b>LICENSE</b></div>
+          <div class="note-symbol" aria-hidden="true">
+            <svg viewBox="0 0 42 42" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 5h18l7 7v25H9z"/><path d="M27 5v8h7M15 21h13M15 27h10M15 33h7"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>ライセンスは、モデルごと。</h3>
+          <p>全モデルが無料・商用利用可能とは限らない。配布元の条件を読んでから選ぶ。</p>
+          <div class="note-foot">READ EACH MODEL'S TERMS</div>
+        </article>
+        <article class="note-card dark">
+          <div class="note-top"><span>CAUTION / 03</span><b>NETWORK</b></div>
+          <div class="note-symbol" aria-hidden="true">
+            <svg viewBox="0 0 42 42" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="8" cy="12" r="3"/><circle cx="33" cy="8" r="3"/><circle cx="30" cy="31" r="3"/><circle cx="11" cy="32" r="3"/><path d="M11 13l9 7M30 10l-7 9M28 28l-10-5M14 30l8-9" opacity=".6"/><path d="M19 19l5 5" stroke-dasharray="2 3"/></svg>
+          </div>
+          <h3>通信は、設定次第で発生する。</h3>
+          <p>外部連携や設定によっては通信が起こる。ローカル実行だけで完全な秘密保持が自動的に保証されるわけではない。</p>
+          <div class="note-foot">CHECK THE WHOLE FLOW</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section launch" aria-labelledby="launch-title">
+    <div class="container launch-inner">
+      <div class="reveal">
+        <p class="launch-kicker">READY WHEN YOU ARE / 04 STEPS</p>
+        <h2 id="launch-title">まずは、<br>ひとつ。</h2>
+        <p>用途をひとつ決めて、手元の環境を確かめる。導入の流れへ戻って、小さく始めましょう。</p>
+        <a class="btn" href="#steps">導入手順へ <span class="btn-icon" aria-hidden="true">↑</span></a>
+        <p class="launch-note">このページ内で完結するガイドです。入力内容を送信する機能はありません。</p>
+      </div>
+      <div class="launch-art reveal" aria-hidden="true">
+        <svg viewBox="0 0 390 390" fill="none" stroke="currentColor" stroke-width="1.1">
+          <circle cx="195" cy="195" r="172" stroke-dasharray="1 9" opacity=".38"/>
+          <circle cx="195" cy="195" r="135" opacity=".5"/>
+          <g class="launch-rotor">
+            <circle cx="195" cy="195" r="135" stroke-width="1.8" stroke-dasharray="86 762" stroke-linecap="round"/>
+            <circle cx="195" cy="195" r="158" stroke-dasharray="30 963" opacity=".55"/>
+          </g>
+          <circle cx="195" cy="195" r="74" fill="#d4ff5f" stroke="none" opacity=".18"/>
+          <circle cx="195" cy="195" r="74" opacity=".55"/>
+          <circle class="pulse-dot" cx="195" cy="25" r="4" fill="currentColor" stroke="none"/>
+          <g fill="currentColor" stroke="none">
+            <circle cx="195" cy="60" r="2.5"/><circle cx="330" cy="195" r="2.5"/>
+            <circle cx="195" cy="330" r="2.5"/><circle cx="60" cy="195" r="2.5"/>
+          </g>
+          <g fill="currentColor" stroke="none" text-anchor="middle">
+            <text x="195" y="186" font-size="9" letter-spacing="3" opacity=".65">SMALL</text>
+            <text x="195" y="215" font-size="24" letter-spacing="4">START</text>
+          </g>
+          <g fill="currentColor" stroke="none" font-size="6.5" letter-spacing="1.6" opacity=".65">
+            <text x="195" y="92" text-anchor="middle">01 PURPOSE</text>
+            <text x="337" y="198" text-anchor="end">02 MACHINE</text>
+            <text x="195" y="304" text-anchor="middle">03 TERMS</text>
+            <text x="53" y="198">04 TRY</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-mark" aria-hidden="true">L/L</span>
+        <p>LOCAL / LLM<br>A FIELD GUIDE TO RUNNING AI NEARBY.</p>
+      </div>
+      <p class="footer-note">特定製品の販売・推奨を目的とするものではありません。モデルや実行環境の条件は、必ず提供元の情報を確認してください。このページは外部への送信を行いません。</p>
+    </div>
+    <div class="footer-bottom">
+      <span>2026 / EDITION 01 — MADE FOR THE CURIOUS</span>
+      <a href="#top">ページの先頭へ ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var motionToggle = document.querySelector("[data-motion-toggle]");
+  var motionLabel = motionToggle ? motionToggle.querySelector(".motion-label") : null;
+  var tiltTarget = document.querySelector("[data-tilt]");
+  var header = document.querySelector("[data-header]");
+  var progress = document.querySelector("[data-progress]");
+  var revealItems = Array.prototype.slice.call(document.querySelectorAll(".reveal, .reveal-stagger"));
+
+  document.querySelectorAll(".reveal-stagger").forEach(function (group) {
+    Array.prototype.forEach.call(group.children, function (child, index) {
+      child.style.setProperty("--i", index);
+    });
+  });
+
+  function resetTilt() {
+    if (!tiltTarget) return;
+    tiltTarget.style.setProperty("--rx", "0deg");
+    tiltTarget.style.setProperty("--ry", "0deg");
+  }
+
+  function paintMotionSwitch(off) {
+    if (!motionToggle) return;
+    motionToggle.setAttribute("aria-checked", off ? "false" : "true");
+    if (motionLabel) motionLabel.textContent = off ? "MOTION OFF" : "MOTION ON";
+    motionToggle.title = off ? "装飾的な動きを再開する" : "装飾的な動きを止める";
+  }
+
+  function setMotionOff(off) {
+    root.classList.toggle("motion-off", off);
+    paintMotionSwitch(off);
+    if (off) {
+      resetTilt();
+      revealItems.forEach(function (item) { item.classList.add("is-visible"); });
+    }
+  }
+
+  setMotionOff(motionQuery.matches);
+  if (motionQuery.addEventListener) {
+    motionQuery.addEventListener("change", function (event) {
+      if (event.matches) setMotionOff(true);
+    });
+  }
+
+  if (motionToggle) {
+    motionToggle.addEventListener("click", function () {
+      setMotionOff(!root.classList.contains("motion-off"));
+    });
+  }
+
+  if ("IntersectionObserver" in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    revealItems.forEach(function (item) { revealObserver.observe(item); });
+  } else {
+    revealItems.forEach(function (item) { item.classList.add("is-visible"); });
+  }
+
+  var stepsSection = document.getElementById("steps");
+  var steps = Array.prototype.slice.call(document.querySelectorAll("[data-step]"));
+  var meter = document.querySelector("[data-meter]");
+  var meterNum = document.querySelector("[data-meter-num]");
+  var meterLabel = document.querySelector("[data-meter-label]");
+  var meterDots = meter ? Array.prototype.slice.call(meter.querySelectorAll(".meter-dots span")) : [];
+  var activeStep = -1;
+
+  function updateSteps() {
+    if (!steps.length || !stepsSection) return;
+    var bounds = stepsSection.getBoundingClientRect();
+    if (bounds.bottom < 0 || bounds.top > window.innerHeight) return;
+    var focusLine = window.innerHeight * 0.47;
+    var bestIndex = 0;
+    var bestDistance = Infinity;
+    steps.forEach(function (step, index) {
+      var rect = step.getBoundingClientRect();
+      var distance = Math.abs(rect.top + rect.height * 0.5 - focusLine);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = index;
+      }
+    });
+    if (bestIndex === activeStep) return;
+    activeStep = bestIndex;
+    steps.forEach(function (step, index) {
+      step.classList.toggle("is-active", index === bestIndex);
+    });
+    if (meter) {
+      meter.style.setProperty("--angle", ((bestIndex + 1) / steps.length * 360) + "deg");
+    }
+    if (meterNum) meterNum.textContent = String(bestIndex + 1).padStart(2, "0");
+    if (meterLabel) meterLabel.textContent = steps[bestIndex].getAttribute("data-label") || "";
+    meterDots.forEach(function (dot, index) {
+      dot.classList.toggle("is-on", index <= bestIndex);
+    });
+  }
+
+  var scrollQueued = false;
+  function syncScroll() {
+    if (scrollQueued) return;
+    scrollQueued = true;
+    window.requestAnimationFrame(function () {
+      var y = window.scrollY || window.pageYOffset;
+      if (header) header.classList.toggle("is-scrolled", y > 22);
+      if (progress) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
+      }
+      updateSteps();
+      scrollQueued = false;
+    });
+  }
+
+  window.addEventListener("scroll", syncScroll, { passive: true });
+  window.addEventListener("resize", syncScroll);
+  window.addEventListener("load", syncScroll);
+  syncScroll();
+
+  var tabRoot = document.querySelector("[data-tabs]");
+  if (tabRoot) {
+    var tabs = Array.prototype.slice.call(tabRoot.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (tab) { return document.getElementById(tab.getAttribute("aria-controls")); });
+
+    function activateTab(index, moveFocus) {
+      tabs.forEach(function (tab, tabIndex) {
+        var selected = tabIndex === index;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        if (panels[tabIndex]) {
+          panels[tabIndex].hidden = !selected;
+          panels[tabIndex].classList.remove("is-entering");
+        }
+      });
+      if (panels[index]) {
+        void panels[index].offsetWidth;
+        panels[index].classList.add("is-entering");
+      }
+      if (moveFocus && tabs[index]) tabs[index].focus();
+    }
+
+    tabs.forEach(function (tab, index) {
+      if (index > 0 && panels[index]) panels[index].hidden = true;
+      tab.addEventListener("click", function () { activateTab(index, false); });
+      tab.addEventListener("keydown", function (event) {
+        var next = null;
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") next = (index + 1) % tabs.length;
+        else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = tabs.length - 1;
+        if (next !== null) {
+          event.preventDefault();
+          activateTab(next, true);
+        }
+      });
+    });
+  }
+
+  if (tiltTarget && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    var hero = document.querySelector(".hero");
+    if (hero) {
+      hero.addEventListener("pointermove", function (event) {
+        if (root.classList.contains("motion-off") || motionQuery.matches) return;
+        var rect = hero.getBoundingClientRect();
+        var x = (event.clientX - rect.left) / rect.width - 0.5;
+        var y = (event.clientY - rect.top) / rect.height - 0.5;
+        tiltTarget.style.setProperty("--ry", (x * 4.5).toFixed(2) + "deg");
+        tiltTarget.style.setProperty("--rx", (-y * 4.5).toFixed(2) + "deg");
+      });
+      hero.addEventListener("pointerleave", resetTilt);
+    }
+  }
+})();
+</script>
+</body>
+</html>

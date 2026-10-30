@@ -1,0 +1,2135 @@
+{
+  "version": 1,
+  "results": [
+    {
+      "id": "lp-local-llm-v2--claude-opus-5-5-code--1792739067502-juop8",
+      "trialPath": "models/claude-opus-5-5-code/lp-local-llm-v2/run-1792739067502-juop8",
+      "storageModelKey": "claude-opus-5-5-code",
+      "task": "lp-local-llm-v2",
+      "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+      "type": "lp",
+      "model": "claude-opus-5-5-code",
+      "status": "success",
+      "promptVersion": "lp-local-llm-v2",
+      "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "inputVersion": "facts-lp-v2",
+      "durationMs": 290520,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T07:09:18.025Z",
+      "updatedAt": "2026-10-23T07:09:18.026Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 290521,
+      "artifact": "models/claude-opus-5-5-code/lp-local-llm-v2/run-1792739067502-juop8/artifact.html"
+    },
+    {
+      "id": "model3d-kurageko-v2--claude-opus-5-5-code--1792738500668-2pl4k",
+      "trialPath": "models/claude-opus-5-5-code/model3d-kurageko-v2/run-1792738500668-2pl4k",
+      "storageModelKey": "claude-opus-5-5-code",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "claude-opus-5-5-code",
+      "status": "permission-required",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 483669,
+      "exitCode": 77,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T07:03:04.341Z",
+      "updatedAt": "2026-10-23T07:03:04.341Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 483669,
+      "artifact": "models/claude-opus-5-5-code/model3d-kurageko-v2/run-1792738500668-2pl4k/artifact.glb",
+      "reference": "models/claude-opus-5-5-code/model3d-kurageko-v2/run-1792738500668-2pl4k/reference.png",
+      "artifactRecoveredFromModelFiles": true,
+      "reason": "CLI denied preview-image Read outside the trial. The saved model GLB was preserved without regeneration.",
+      "verification": {
+        "freshBlenderImport": true,
+        "fixedViewsRendered": 6
+      }
+    },
+    {
+      "id": "research-repository-v2--claude-opus-5-5-code--1792738156546-cu8ko",
+      "trialPath": "models/claude-opus-5-5-code/research-repository-v2/run-1792738156546-cu8ko",
+      "storageModelKey": "claude-opus-5-5-code",
+      "task": "research-repository-v2",
+      "taskLabel": "指定リポジトリの固定版要約",
+      "type": "research",
+      "model": "claude-opus-5-5-code",
+      "status": "success",
+      "promptVersion": "research-repository-v2",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+      "durationMs": 113158,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T06:51:09.713Z",
+      "updatedAt": "2026-10-23T06:51:09.713Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 113158,
+      "artifact": "models/claude-opus-5-5-code/research-repository-v2/run-1792738156546-cu8ko/artifact.txt"
+    },
+    {
+      "id": "writing-explanation-v2--claude-opus-5-5-code--1792738133843-h2wfr",
+      "trialPath": "models/claude-opus-5-5-code/writing-explanation-v2/run-1792738133843-h2wfr",
+      "storageModelKey": "claude-opus-5-5-code",
+      "task": "writing-explanation-v2",
+      "taskLabel": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "model": "claude-opus-5-5-code",
+      "status": "success",
+      "promptVersion": "writing-explanation-v2",
+      "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "inputVersion": "facts-writing-v2",
+      "durationMs": 22035,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T06:49:15.881Z",
+      "updatedAt": "2026-10-23T06:49:15.881Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 22035,
+      "artifact": "models/claude-opus-5-5-code/writing-explanation-v2/run-1792738133843-h2wfr/artifact.txt"
+    },
+    {
+      "id": "lp-local-llm-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+      "task": "lp-local-llm-v2",
+      "type": "lp",
+      "model": "deepseek-v4-1-flash-free-high-opencode",
+      "status": "success",
+      "promptVersion": "lp-local-llm-v2",
+      "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "effectivePromptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "inputVersion": "facts-lp-v2",
+      "artifact": "models/deepseek-v4-1-flash-free-high-opencode/lp-local-llm-v2/run-normal-20261024/artifact.html",
+      "artifactSha256": "5711765d058dac3cf1c1e1102c24804d662e7d8b26a152355ba541f6ac47c035",
+      "durationMs": 974614,
+      "createdAt": "2026-10-24T00:04:48.907Z",
+      "finishedAt": "2026-10-24T00:21:03.521Z",
+      "exitCode": 0,
+      "effectiveModel": {
+        "id": "deepseek-v4.1-flash-free",
+        "providerID": "opencode",
+        "variant": "high"
+      },
+      "usage": {
+        "input": 824741,
+        "output": 79019,
+        "reasoning": 37450,
+        "cache": {
+          "read": 3176704,
+          "write": 0
+        }
+      },
+      "cost": 0,
+      "costSource": "Official persisted session metadata",
+      "attemptCount": 1,
+      "validation": {
+        "unicodeCharacters": 73264,
+        "nonWhitespaceCharacters": 64302,
+        "toolCalls": 73,
+        "rawTextUnchanged": true,
+        "browser": {
+          "source": "artifact.html",
+          "sourceSha256": "5711765d058dac3cf1c1e1102c24804d662e7d8b26a152355ba541f6ac47c035",
+          "sourceUnmodified": true,
+          "network": "offline + abort all routes",
+          "doctype": true,
+          "reducedMotionRule": true,
+          "reports": [
+            {
+              "name": "pc",
+              "width": 1024,
+              "height": 768,
+              "reducedMotion": false,
+              "scrollWidth": 1024,
+              "innerWidth": 1024,
+              "bodyTextLength": 3292,
+              "h1": [
+                "そのAI、手元で走らせよう。"
+              ],
+              "links": [
+                {
+                  "label": "本文へスキップ",
+                  "href": "#main",
+                  "targetExists": true
+                },
+                {
+                  "label": "L/L\n    LOCAL / LLMA FIELD GUIDE",
+                  "href": "#top",
+                  "targetExists": true
+                },
+                {
+                  "label": "なぜ手元か",
+                  "href": "#why",
+                  "targetExists": true
+                },
+                {
+                  "label": "できること",
+                  "href": "#uses",
+                  "targetExists": true
+                },
+                {
+                  "label": "選び方",
+                  "href": "#choose",
+                  "targetExists": true
+                },
+                {
+                  "label": "はじめ方",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "はじめる ↘",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "導入手順を見る ↓",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "なぜ手元なのか →",
+                  "href": "#why",
+                  "targetExists": true
+                },
+                {
+                  "label": "注意点も確認する ↓",
+                  "href": "#notes",
+                  "targetExists": true
+                },
+                {
+                  "label": "導入手順へ ↑",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "ページの先頭へ ↑",
+                  "href": "#top",
+                  "targetExists": true
+                }
+              ],
+              "animations": 18,
+              "blockedRequests": [],
+              "pageErrors": []
+            },
+            {
+              "name": "mobile",
+              "width": 390,
+              "height": 844,
+              "reducedMotion": false,
+              "scrollWidth": 390,
+              "innerWidth": 390,
+              "bodyTextLength": 3231,
+              "h1": [
+                "そのAI、手元で走らせよう。"
+              ],
+              "links": [
+                {
+                  "label": "本文へスキップ",
+                  "href": "#main",
+                  "targetExists": true
+                },
+                {
+                  "label": "L/L\n    LOCAL / LLMA FIELD GUIDE",
+                  "href": "#top",
+                  "targetExists": true
+                },
+                {
+                  "label": "なぜ手元か",
+                  "href": "#why",
+                  "targetExists": true
+                },
+                {
+                  "label": "できること",
+                  "href": "#uses",
+                  "targetExists": true
+                },
+                {
+                  "label": "選び方",
+                  "href": "#choose",
+                  "targetExists": true
+                },
+                {
+                  "label": "はじめ方",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "はじめる ↘",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "導入手順を見る ↓",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "なぜ手元なのか →",
+                  "href": "#why",
+                  "targetExists": true
+                },
+                {
+                  "label": "注意点も確認する ↓",
+                  "href": "#notes",
+                  "targetExists": true
+                },
+                {
+                  "label": "導入手順へ ↑",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "ページの先頭へ ↑",
+                  "href": "#top",
+                  "targetExists": true
+                }
+              ],
+              "animations": 17,
+              "blockedRequests": [],
+              "pageErrors": []
+            },
+            {
+              "name": "mobile-reduced",
+              "width": 390,
+              "height": 844,
+              "reducedMotion": true,
+              "scrollWidth": 390,
+              "innerWidth": 390,
+              "bodyTextLength": 3231,
+              "h1": [
+                "そのAI、手元で走らせよう。"
+              ],
+              "links": [
+                {
+                  "label": "本文へスキップ",
+                  "href": "#main",
+                  "targetExists": true
+                },
+                {
+                  "label": "L/L\n    LOCAL / LLMA FIELD GUIDE",
+                  "href": "#top",
+                  "targetExists": true
+                },
+                {
+                  "label": "なぜ手元か",
+                  "href": "#why",
+                  "targetExists": true
+                },
+                {
+                  "label": "できること",
+                  "href": "#uses",
+                  "targetExists": true
+                },
+                {
+                  "label": "選び方",
+                  "href": "#choose",
+                  "targetExists": true
+                },
+                {
+                  "label": "はじめ方",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "はじめる ↘",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "導入手順を見る ↓",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "なぜ手元なのか →",
+                  "href": "#why",
+                  "targetExists": true
+                },
+                {
+                  "label": "注意点も確認する ↓",
+                  "href": "#notes",
+                  "targetExists": true
+                },
+                {
+                  "label": "導入手順へ ↑",
+                  "href": "#steps",
+                  "targetExists": true
+                },
+                {
+                  "label": "ページの先頭へ ↑",
+                  "href": "#top",
+                  "targetExists": true
+                }
+              ],
+              "animations": 0,
+              "blockedRequests": [],
+              "pageErrors": []
+            }
+          ]
+        },
+        "review": "See offline screenshots and browser validation; original HTML is retained without fixes.",
+        "fileVsStdout": "Same after whitespace removal, but bytewise different. artifact.html preserves stdout exactly; browser validation rerun on artifact.html.",
+        "storedMessageCount": 51,
+        "assistantTurns": 48,
+        "processNotes": "73 tool calls; ordinary local creation and self-validation. npx --no-install playwright --version failed, no install succeeded. The agent removed its temporary screenshots/test scripts; final benchmark screenshots were recreated after exit."
+      },
+      "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/lp-local-llm-v2/run-normal-20261024",
+      "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+      "modelId": "opencode/deepseek-v4.1-flash-free",
+      "provider": "opencode",
+      "variant": "high",
+      "cliVersion": "2.1.4 (parent verified)",
+      "continuationMode": "initial-user-request-agent-workflow",
+      "generationContract": "One user request; agent workflow with 73 tool calls and 48 assistant turns; not a single inference",
+      "toolCallCount": 73,
+      "assistantTurns": 48,
+      "catalogPrice": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "comparisonConditions": {
+        "sourceInputVersion": "facts-lp-v2",
+        "standardContext": true
+      }
+    },
+    {
+      "id": "model3d-kurageko-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+      "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024",
+      "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成（通常ツール経路・MCP限定条件外）",
+      "type": "model3d",
+      "model": "deepseek-v4-1-flash-free-high-opencode",
+      "status": "success",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 10474322,
+      "activeDurationMs": 10474322,
+      "createdAt": "2026-10-24T01:21:05.774Z",
+      "updatedAt": "2026-10-24T04:15:40.096Z",
+      "exitCode": 0,
+      "attemptCount": 1,
+      "continuationMode": "initial",
+      "artifact": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/artifact.glb",
+      "reference": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/reference.png",
+      "effectiveModel": {
+        "id": "deepseek-v4.1-flash-free",
+        "providerID": "opencode",
+        "variant": "high"
+      },
+      "effort": "high",
+      "usage": {
+        "input": 1298387,
+        "output": 132588,
+        "reasoning": 181734,
+        "cache": {
+          "read": 27067615,
+          "write": 0
+        }
+      },
+      "cost": 0,
+      "sessionId": "public-session-001",
+      "generationContract": "One user request with internal agent turns; no human quality repair or regeneration.",
+      "executionConditions": {
+        "agent": "Default build; normal official CLI and permission checks",
+        "images": "Four fixed PNGs via official --file",
+        "mcpConfigured": "Existing six-tool trial Blender MCP launcher",
+        "toolCalls": 325,
+        "toolCallTypes": {
+          "execute": 6,
+          "read": 99,
+          "shell": 63,
+          "write": 8,
+          "edit": 145,
+          "grep": 4
+        },
+        "contractDeviation": "Model used native tools/shell and a custom TCP helper instead of the requested six MCP tools. Do not treat this as a compliant six-tool MCP condition."
+      },
+      "validation": {
+        "actions": 0,
+        "armatures": 0,
+        "bones": 0,
+        "boundary_edges": 20908,
+        "cameras": 0,
+        "constraints": 0,
+        "degenerate_faces": 0,
+        "edges": 88568,
+        "flat_polygons": 1020,
+        "geometry_nodes_modifiers": 0,
+        "images": 3,
+        "invalid_vertices": 0,
+        "isolated_vertices": 0,
+        "lights": 0,
+        "materials": 18,
+        "mesh_objects": 1,
+        "missing_material_faces": 0,
+        "node_materials": 18,
+        "non_manifold_edges": 20908,
+        "objects": 1,
+        "polygons": 52076,
+        "refinement_modifiers": 0,
+        "rigid_body_objects": 0,
+        "shape_keys": 0,
+        "simulation_modifiers": 0,
+        "smooth_polygons": 51056,
+        "textured_materials": 3,
+        "triangles": 52076,
+        "uv_mapped_meshes": 1,
+        "vertices": 38412,
+        "weighted_meshes": 0,
+        "wire_edges": 0,
+        "zero_length_edges": 0,
+        "glbBytes": 1826964,
+        "selfContained": true,
+        "sha256": "0e49154f899ef0ac9dc305c7532210e8dce8e459cda2e565300438960ddf96af"
+      },
+      "verification": {
+        "freshBlenderImport": true,
+        "fixedViewsRendered": 6,
+        "sourcePreserved": true,
+        "artifactUnmodified": true,
+        "heroAndContactSheetOpened": true,
+        "authoredAndGlbTriangleCountMatch": true
+      },
+      "previewMedia": {
+        "front": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/front.png",
+        "threeQuarter": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/perspective.png",
+        "side": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/right.png",
+        "back": "models/deepseek-v4-1-flash-free-high-opencode/model3d-kurageko-v2/run-normal-20261024/preview/back.png"
+      },
+      "visualObservations": {
+        "classification": "Artifact technically valid; visual deviations retained; strict six-tool MCP condition not met.",
+        "viewsOpened": [
+          "perspective",
+          "front",
+          "back",
+          "left",
+          "right",
+          "top",
+          "contact_sheet"
+        ],
+        "observations": [
+          "Full-body character has a volumetric jellyfish cap, blue bob hair, blue eyes, petal collar, layered skirt and short boots.",
+          "Compared with the fixed reference, the dress silhouette is narrower and straighter, sleeves less full, and the face/eyes more strongly three-dimensional.",
+          "Hat and clothing render nearly white under the pinned neutral evidence lighting; blue markings and pale blue layers remain visible.",
+          "Open surfaces and split export edges are present; no invalid vertices or degenerate faces were measured. No geometry or material corrections were made."
+        ],
+        "strictComparison": {
+          "eligible": false,
+          "reason": "Normal native tools and custom localhost TCP Blender execution were used instead of exclusively the six configured MCP tools."
+        }
+      },
+      "strictConditionMatch": false,
+      "excludedFromStrictMcpScore": true,
+      "comparisonCaveats": [
+        "6ツールMCP限定条件には不適合。通常ツール＋独自localhost TCP経路の成果として表示し、厳密な同条件スコアから除外。"
+      ],
+      "safetyAudit": "deepseek-3d-pc-impact-audit.json"
+    },
+    {
+      "id": "research-repository-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+      "task": "research-repository-v2",
+      "type": "research",
+      "model": "deepseek-v4-1-flash-free-high-opencode",
+      "status": "success",
+      "promptVersion": "research-repository-v2",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "effectivePromptSha256": "c4f70a32442369c497fbf5c1246a7999b977357cb5e44c801d3833b677fb76b0",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee-grok-reviewed-summary-v2",
+      "artifact": "models/deepseek-v4-1-flash-free-high-opencode/research-repository-v2/run-normal-20261024/artifact.txt",
+      "artifactSha256": "17e75b0ade58ba0f4db4d03576b4142380793a1d166688f95a2b4d5c7cce2a50",
+      "durationMs": 59971,
+      "createdAt": "2026-10-24T00:04:35.574Z",
+      "finishedAt": "2026-10-24T00:05:35.545Z",
+      "exitCode": 0,
+      "effectiveModel": {
+        "id": "deepseek-v4.1-flash-free",
+        "providerID": "opencode",
+        "variant": "high"
+      },
+      "usage": {
+        "input": 105691,
+        "output": 1876,
+        "reasoning": 6199,
+        "cache": {
+          "read": 4096,
+          "write": 0
+        }
+      },
+      "cost": 0,
+      "costSource": "Official persisted session metadata",
+      "attemptCount": 1,
+      "validation": {
+        "unicodeCharacters": 3673,
+        "nonWhitespaceCharacters": 3639,
+        "toolCalls": 0,
+        "rawTextUnchanged": true,
+        "lengthTarget": [
+          1200,
+          1800
+        ],
+        "lengthPass": false,
+        "review": "Substantial length overrun. Clear README/implementation distinction and omitted-scope notes. Spot checks of routes, refresh retries, axios credentials and e2e baseline-update command match cited sources; not an exhaustive factual audit. No tools called."
+      },
+      "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/research-repository-v2/run-normal-20261024",
+      "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+      "modelId": "opencode/deepseek-v4.1-flash-free",
+      "provider": "opencode",
+      "variant": "high",
+      "cliVersion": "2.1.4 (parent verified)",
+      "continuationMode": "initial-user-request-agent-workflow",
+      "generationContract": "One user request; no quality regeneration; source setup attempts retained",
+      "toolCallCount": 0,
+      "assistantTurns": null,
+      "catalogPrice": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "comparisonConditions": {
+        "sourceInputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee-grok-reviewed-summary-v2",
+        "standardContext": true,
+        "sourceScope": "Same 39-file safe frozen-source corpus as Grok; differs from full historical snapshot"
+      }
+    },
+    {
+      "id": "writing-explanation-v2--deepseek-v4-1-flash-free-high-opencode--normal-20261024",
+      "task": "writing-explanation-v2",
+      "type": "writing",
+      "model": "deepseek-v4-1-flash-free-high-opencode",
+      "status": "success",
+      "promptVersion": "writing-explanation-v2",
+      "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "effectivePromptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "inputVersion": "facts-writing-v2",
+      "artifact": "models/deepseek-v4-1-flash-free-high-opencode/writing-explanation-v2/run-normal-20261024/artifact.txt",
+      "artifactSha256": "da115258080efd6c5ff0806b086586fb50e1db93524d156d74a1ab3ea581a879",
+      "durationMs": 49757,
+      "createdAt": "2026-10-24T00:03:14.372Z",
+      "finishedAt": "2026-10-24T00:04:04.129Z",
+      "exitCode": 0,
+      "effectiveModel": {
+        "id": "deepseek-v4.1-flash-free",
+        "providerID": "opencode",
+        "variant": "high"
+      },
+      "usage": {
+        "input": 5908,
+        "output": 554,
+        "reasoning": 7652,
+        "cache": {
+          "read": 2816,
+          "write": 0
+        }
+      },
+      "cost": 0,
+      "costSource": "Official persisted session metadata",
+      "attemptCount": 2,
+      "validation": {
+        "unicodeCharacters": 858,
+        "nonWhitespaceCharacters": 846,
+        "toolCalls": 0,
+        "rawTextUnchanged": true,
+        "lengthTarget": [
+          800,
+          1200
+        ],
+        "lengthPass": true,
+        "headings": 3,
+        "review": "Correct broad token/Attention/KV/memory flow, no invented GB or speeds. Minor precision concern: final paragraph groups fixed-capacity caches with discarding old context; fixed preallocation alone does not imply discarding."
+      },
+      "trialPath": "models/deepseek-v4-1-flash-free-high-opencode/writing-explanation-v2/run-normal-20261024",
+      "storageModelKey": "deepseek-v4-1-flash-free-high-opencode",
+      "modelId": "opencode/deepseek-v4.1-flash-free",
+      "provider": "opencode",
+      "variant": "high",
+      "cliVersion": "2.1.4 (parent verified)",
+      "continuationMode": "initial-user-request-agent-workflow",
+      "generationContract": "One user request; no quality regeneration; source setup attempts retained",
+      "toolCallCount": 0,
+      "assistantTurns": null,
+      "catalogPrice": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "comparisonConditions": {
+        "sourceInputVersion": "facts-writing-v2",
+        "standardContext": true
+      }
+    },
+    {
+      "id": "model3d-kurageko-v2--gemini-4-argon-agy-pro-medium--recovered-20261026",
+      "trialPath": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z",
+      "storageModelKey": "gemini-4-argon-agy-pro-medium",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "gemini-4-argon-agy-pro-medium",
+      "modelLabel": "Gemini 4 Argon（agy Pro / MEDIUM）",
+      "modelId": "gemini-4-argon-medium",
+      "thinking": "MEDIUM",
+      "cliVersion": "1.4.7",
+      "authRoute": "Google AI Pro",
+      "useAiCredits": false,
+      "apiKeyRoute": false,
+      "status": "interrupted",
+      "generationStatus": "interrupted",
+      "artifactStatus": "validated",
+      "artifactRecoveredFromModelFiles": true,
+      "reason": "中断後に公式agyで同じ保存会話を1回再開し、最小限の続行指示を1回送信。課題・画像の再送や出来への追加指示はなし。成果は改変せず独立検証済み。最終回答・使用量・純粋な生成時間は未取得。本人了承により品質比較の対象とし、クリーンな一発出しとは区別します。",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "createdAt": "2026-10-26T11:40:08.816Z",
+      "updatedAt": "2026-10-27T14:24:41.893343+00:00",
+      "finishedAt": null,
+      "durationMs": null,
+      "activeDurationMs": null,
+      "exitCode": null,
+      "attemptCount": 1,
+      "continuationMode": "same-conversation-after-interruption",
+      "usage": null,
+      "cost": null,
+      "agentCompletionConfirmed": false,
+      "finalAgentAnswerRecovered": false,
+      "usageRecovered": false,
+      "artifactEvaluationComplete": true,
+      "artifactEvaluationFinishedAt": "2026-10-27T03:07:28.378859+00:00",
+      "qualityComparable": true,
+      "comparisonEligible": true,
+      "strictConditionMatch": false,
+      "comparisonCaveats": [
+        "中断後に公式agyで同じ保存会話を1回再開し、最小限の続行指示を1回送信。課題・画像の再送や出来への追加指示はなし。成果は改変せず独立検証済み。最終回答・使用量・純粋な生成時間は未取得。本人了承により品質比較の対象とし、クリーンな一発出しとは区別します。"
+      ],
+      "comparisonCondition": {
+        "label": "中断・復旧後に続行指示1回あり（初回一発出しとは区別）",
+        "initialSubmissionUtc": "2026-10-26T11:40:08.816Z",
+        "lastKnownCreationApprovalUtc": "2026-10-26T12:06:57.741Z",
+        "interruptionTimeExactKnown": false,
+        "recoveryLaunchUtc": "2026-10-26T12:49:20.989Z",
+        "continuationSubmissionUtc": "2026-10-26T12:59:43.276Z",
+        "continuationMessage": "中断した作業を続けてください",
+        "taskOrImagesResubmitted": false,
+        "qualityHintsAdded": false,
+        "assistantModelCodeModified": false,
+        "newBenchmarkAttempt": false
+      },
+      "artifact": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/artifact.glb",
+      "reference": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/reference.png",
+      "validation": {
+        "status": "import-success",
+        "blenderVersion": "5.2.2 LTS",
+        "meshObjects": 46,
+        "verticesAcrossObjects": 101338,
+        "trianglesAcrossObjects": 200576,
+        "referencedMaterials": 5,
+        "selfContained": true,
+        "glbBytes": 4436700,
+        "sha256": "728ca964c49b330d3d29ea034ea5f88fe2e44ace259bb93009e507c4965c479f",
+        "cameras": 0,
+        "lights": 0,
+        "invalidVertices": 0,
+        "degenerateFaces": 0,
+        "missingMaterialFaces": 0
+      },
+      "verification": {
+        "sourceBlendFreshOpenPass": true,
+        "exportGlbFreshImportPass": true,
+        "fixedViewsRendered": 6,
+        "faceDetailReviewed": true,
+        "artifactUnmodified": true,
+        "sourceExportAppearancePreserved": true,
+        "leftEyeMoleConfirmed": true
+      },
+      "previewMedia": {
+        "front": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/front.png",
+        "threeQuarter": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/perspective.png",
+        "side": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/right.png",
+        "back": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/back.png",
+        "left": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/left.png",
+        "right": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/right.png",
+        "top": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/top.png",
+        "face": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/face.png",
+        "contactSheet": "models/gemini-4-argon-agy-pro-medium/model3d-kurageko-v2/run-prepared-2026-10-26T10-35-07-476Z/preview/contact-sheet.png"
+      },
+      "visualObservations": {
+        "summary": "主要形状・左目下のほくろを確認。共通照明下では参照より白く淡い見え方。成果を修正せず表示。",
+        "lightingCalibratedToReference": false
+      }
+    },
+    {
+      "id": "lp-local-llm-v2--gemini-4-argon-cli--1792932949881-fj7tj",
+      "trialPath": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj",
+      "storageModelKey": "gemini-4-argon-cli",
+      "task": "lp-local-llm-v2",
+      "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+      "type": "lp",
+      "model": "gemini-4-argon-cli",
+      "status": "success",
+      "promptVersion": "lp-local-llm-v2",
+      "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "inputVersion": "facts-lp-v2",
+      "durationMs": 163800,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-25T12:58:33.684Z",
+      "updatedAt": "2026-10-25T12:58:33.684Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 163800,
+      "artifact": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/artifact.html",
+      "artifactStatus": "saved-unmodified",
+      "outputExtraction": {
+        "source": "gemini-attempt-1.stdout.jsonl",
+        "method": "last assistant turn; complete UTF-8 raw bytes",
+        "modelTextUnchanged": true,
+        "wrapperDiagnosticsRemoved": false,
+        "rawStdoutPreserved": true
+      },
+      "outputValidation": {
+        "characters": 48747
+      },
+      "modelId": "gemini-4-argon",
+      "thinking": "MEDIUM",
+      "startedAt": "2026-10-25T12:55:51.431Z",
+      "finishedAt": "2026-10-25T12:58:33.665Z",
+      "usage": {
+        "total_tokens": 23469,
+        "input_tokens": 5053,
+        "output_tokens": 18239,
+        "cached": 0,
+        "input": 5053,
+        "duration_ms": 160933,
+        "tool_calls": 0,
+        "models": {
+          "gemini-4-argon": {
+            "total_tokens": 23469,
+            "input_tokens": 5053,
+            "output_tokens": 18239,
+            "cached": 0,
+            "input": 5053
+          }
+        }
+      },
+      "billingPolicy": {
+        "mode": "existing-provider-prepay",
+        "ownerReportedBalanceJpy": 900,
+        "ownerReportedAutoRecharge": false,
+        "billingSettingsVerified": false,
+        "clientMonetaryCap": false,
+        "additionalChargeAuthorized": false,
+        "onProviderLimit": "stop-no-retry"
+      },
+      "generationContract": "One initial trial per fixed task; no human follow-up, quality repair, or model resend",
+      "executionConditions": {
+        "imageReferences": 0,
+        "imageAttachment": null,
+        "toolCalls": 0,
+        "successfulToolCalls": 0,
+        "toolRegistrationErrors": 0
+      },
+      "comparisonEligible": true,
+      "recordedUsageCostEstimate": {
+        "usd": 0.194266,
+        "rateDate": "2026-10-25",
+        "basis": "Standard public rates; uncached/cached inputs and total-minus-input output including possible thinking",
+        "invoiceVerified": false,
+        "taxAndFxExcluded": true
+      },
+      "browserVerification": {
+        "sourceUnmodified": true,
+        "doctypePresent": true,
+        "method": "Headless Edge; new profile; sandbox allow-scripts without same-origin; CSP denies network; context offline; all requests aborted; no desktop/UI input",
+        "reports": [
+          {
+            "name": "pc",
+            "width": 1024,
+            "height": 768,
+            "bodyTextLength": 2521,
+            "h1": [
+              "生成AIを、\n            自分のPC・手元の計算機で動かすという選択肢。"
+            ],
+            "scrollWidth": 1024,
+            "innerWidth": 1024,
+            "brokenAnchors": 0,
+            "animations": 1,
+            "reducedMotion": false,
+            "overflow": false,
+            "blockedNetworkRequests": 0,
+            "pageErrors": [],
+            "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.png",
+            "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.mp4"
+          },
+          {
+            "name": "mobile",
+            "width": 390,
+            "height": 844,
+            "bodyTextLength": 2500,
+            "h1": [
+              "生成AIを、\n            自分のPC・手元の計算機で動かすという選択肢。"
+            ],
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "brokenAnchors": 0,
+            "animations": 1,
+            "reducedMotion": false,
+            "overflow": false,
+            "blockedNetworkRequests": 0,
+            "pageErrors": [],
+            "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.png",
+            "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.mp4"
+          },
+          {
+            "name": "mobile-reduced",
+            "width": 390,
+            "height": 844,
+            "bodyTextLength": 2517,
+            "h1": [
+              "生成AIを、\n            自分のPC・手元の計算機で動かすという選択肢。"
+            ],
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "brokenAnchors": 0,
+            "animations": 0,
+            "reducedMotion": true,
+            "overflow": false,
+            "blockedNetworkRequests": 0,
+            "pageErrors": [],
+            "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile-reduced.png",
+            "video": null
+          }
+        ]
+      },
+      "previewMedia": {
+        "pc": {
+          "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.png",
+          "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/pc.mp4",
+          "width": 1024,
+          "height": 768
+        },
+        "mobile": {
+          "image": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.png",
+          "video": "models/gemini-4-argon-cli/lp-local-llm-v2/run-1792932949881-fj7tj/preview/mobile.mp4",
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    {
+      "id": "model3d-kurageko-v2--gemini-4-argon-cli--1792932346756-gqqeq",
+      "trialPath": "models/gemini-4-argon-cli/model3d-kurageko-v2/run-1792932346756-gqqeq",
+      "storageModelKey": "gemini-4-argon-cli",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "gemini-4-argon-cli",
+      "status": "incomplete",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 413459,
+      "exitCode": 1,
+      "exitSignal": null,
+      "createdAt": "2026-10-25T12:52:40.219Z",
+      "updatedAt": "2026-10-25T12:52:40.219Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 413459,
+      "modelId": "gemini-4-argon",
+      "thinking": "MEDIUM",
+      "startedAt": "2026-10-25T12:45:48.325Z",
+      "finishedAt": "2026-10-25T12:52:40.200Z",
+      "usage": {
+        "total_tokens": 549299,
+        "input_tokens": 528719,
+        "output_tokens": 20580,
+        "cached": 0,
+        "input": 528719,
+        "duration_ms": 0,
+        "tool_calls": 17,
+        "models": {
+          "gemini-4-argon": {
+            "total_tokens": 549299,
+            "input_tokens": 528719,
+            "output_tokens": 20580,
+            "cached": 0,
+            "input": 528719
+          }
+        }
+      },
+      "billingPolicy": {
+        "mode": "existing-provider-prepay",
+        "ownerReportedBalanceJpy": 900,
+        "ownerReportedAutoRecharge": false,
+        "billingSettingsVerified": false,
+        "clientMonetaryCap": false,
+        "additionalChargeAuthorized": false,
+        "onProviderLimit": "stop-no-retry"
+      },
+      "generationContract": "One initial trial per fixed task; no human follow-up, quality repair, or model resend",
+      "executionConditions": {
+        "imageReferences": 4,
+        "imageAttachment": "native @input/ PNG expansion",
+        "toolCalls": 17,
+        "successfulToolCalls": 17,
+        "toolRegistrationErrors": 0
+      },
+      "initialRunnerStatus": "failed",
+      "comparisonEligible": false,
+      "failureCategory": "transport",
+      "reason": "API通信失敗(fetch failed)により未完。MCP操作17件成功後、GLB保存前に終了。再送なし。",
+      "partialArtifacts": [
+        {
+          "name": "kurageko_atlas.png",
+          "path": "[local-path]/kurageko_atlas.png"
+        },
+        {
+          "name": "partial-scene.blend",
+          "path": "[local-path]/partial-scene.blend"
+        },
+        {
+          "name": "preview_back.png",
+          "path": "[local-path]/preview_back.png"
+        },
+        {
+          "name": "preview_front.png",
+          "path": "[local-path]/preview_front.png"
+        },
+        {
+          "name": "preview_right.png",
+          "path": "[local-path]/preview_right.png"
+        }
+      ],
+      "partialScene": {
+        "path": "[local-path]/partial-scene.blend",
+        "bytes": 353876,
+        "objects": 7,
+        "meshes": 7,
+        "preservedAfterModelFailure": true,
+        "geometryModified": false,
+        "glbExported": false
+      },
+      "usageScope": "CLI-reported partial usage; the final failed HTTP request billing is unknown",
+      "recordedUsageCostEstimate": {
+        "usd": 1.263238,
+        "rateDate": "2026-10-25",
+        "basis": "Standard public rates; uncached/cached inputs and total-minus-input output including possible thinking",
+        "invoiceVerified": false,
+        "taxAndFxExcluded": true
+      }
+    },
+    {
+      "id": "model3d-kurageko-v2--gemini-4-argon-cli--1792935459677-kkacj",
+      "trialPath": "models/gemini-4-argon-cli/model3d-kurageko-v2/run-1792935459677-kkacj",
+      "storageModelKey": "gemini-4-argon-cli",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "gemini-4-argon-cli",
+      "status": "incomplete",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 718307,
+      "exitCode": 1,
+      "exitSignal": null,
+      "createdAt": "2026-10-25T13:49:37.986Z",
+      "updatedAt": "2026-10-25T13:49:37.986Z",
+      "continuationMode": "restart-after-transport-failure",
+      "attemptCount": 1,
+      "activeDurationMs": 718307,
+      "retryOf": "model3d-kurageko-v2--gemini-4-argon-cli--1792932346756-gqqeq",
+      "retryOrdinal": 1,
+      "firstAttemptEvaluation": false,
+      "campaignId": "gemini-3d-retry-20261025",
+      "sameSessionResume": false,
+      "modelId": "gemini-4-argon",
+      "thinking": "MEDIUM",
+      "startedAt": "2026-10-25T13:37:41.230Z",
+      "finishedAt": "2026-10-25T13:49:37.966Z",
+      "usage": {
+        "total_tokens": 1239893,
+        "input_tokens": 1203945,
+        "output_tokens": 35948,
+        "cached": 97018,
+        "input": 1106927,
+        "duration_ms": 0,
+        "tool_calls": 29,
+        "models": {
+          "gemini-4-argon": {
+            "total_tokens": 1239893,
+            "input_tokens": 1203945,
+            "output_tokens": 35948,
+            "cached": 97018,
+            "input": 1106927
+          }
+        }
+      },
+      "blenderPort": 9878,
+      "initialRunnerStatus": "failed",
+      "cliStatus": "failed",
+      "comparisonEligible": false,
+      "failureCategory": "transport",
+      "reason": "API通信失敗（TypeError: fetch failed sending request）により再試行も未完。MCP応答29件は通信上成功、うち4件はPython Tracebackを含む。GLB未保存。未完sceneのみ形状変更なしで保全。追加再試行なし。",
+      "executionConditions": {
+        "imageReferences": 4,
+        "imageAttachment": "native @input/ PNG expansion",
+        "toolCalls": 29,
+        "transportSuccessfulToolResults": 29,
+        "explicitToolResultErrors": 0,
+        "pythonTracebackResponses": 4,
+        "independentFactoryScene": true,
+        "blenderHost": "127.0.0.1",
+        "blenderPort": 9878,
+        "sameFixedPromptAndInputs": true
+      },
+      "generationContract": "One explicitly authorized new retry after transport failure; independent factory scene; no output repair or further model resend",
+      "partialScene": {
+        "path": "[local-path]/partial-scene.blend",
+        "bytes": 672646,
+        "objects": 10,
+        "meshes": 10,
+        "preservedAfterModelFailure": true,
+        "geometryModified": false,
+        "glbExported": false
+      },
+      "partialArtifacts": [
+        {
+          "name": "partial-scene.blend",
+          "path": "[local-path]/partial-scene.blend"
+        }
+      ],
+      "usageScope": "CLI-reported partial usage; billing of the final failed request, actual invoice and remaining balance are unknown",
+      "recordedUsageCostEstimate": {
+        "usd": 2.5830357999999998,
+        "rateDate": "2026-10-25",
+        "basis": "Standard rates: uncached input $2/M; cached $0.10/M; total-minus-input output including thinking $10/M",
+        "taxAndFxExcluded": true,
+        "invoiceVerified": false
+      },
+      "billingPolicy": {
+        "mode": "existing-provider-prepay",
+        "ownerReportedBalanceJpy": 900,
+        "ownerReportedAutoRecharge": false,
+        "billingSettingsVerified": false,
+        "clientMonetaryCap": false,
+        "additionalChargeAuthorized": false,
+        "onProviderLimit": "stop-no-retry",
+        "latestOwnerReportedApproximateBalanceJpy": 600,
+        "latestOwnerBalanceReportScope": "Owner report during the retry, not a verified current balance; no additional charge or subscription authorized",
+        "currentBalanceVerified": false
+      },
+      "finalization": {
+        "modelResent": false,
+        "sceneOnlySavedAfterFailure": true,
+        "noGlbValidationPossible": true,
+        "processInspectionNotPerformed": true,
+        "dedicatedBlenderExitNotRequested": true
+      }
+    },
+    {
+      "id": "research-repository-v2--gemini-4-argon-cli--1792932250558-x021t",
+      "trialPath": "models/gemini-4-argon-cli/research-repository-v2/run-1792932250558-x021t",
+      "storageModelKey": "gemini-4-argon-cli",
+      "task": "research-repository-v2",
+      "taskLabel": "指定リポジトリの固定版要約",
+      "type": "research",
+      "model": "gemini-4-argon-cli",
+      "status": "invalid",
+      "promptVersion": "research-repository-v2",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+      "durationMs": 94503,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-25T12:45:45.065Z",
+      "updatedAt": "2026-10-25T12:45:45.065Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 94503,
+      "artifact": "models/gemini-4-argon-cli/research-repository-v2/run-1792932250558-x021t/artifact.txt",
+      "artifactStatus": "saved-unmodified",
+      "outputExtraction": {
+        "source": "gemini-attempt-1.stdout.jsonl",
+        "method": "last assistant turn; complete UTF-8 raw bytes",
+        "modelTextUnchanged": true,
+        "wrapperDiagnosticsRemoved": true,
+        "rawStdoutPreserved": true
+      },
+      "outputValidation": {
+        "characters": 3626
+      },
+      "modelId": "gemini-4-argon",
+      "thinking": "MEDIUM",
+      "startedAt": "2026-10-25T12:44:12.711Z",
+      "finishedAt": "2026-10-25T12:45:45.048Z",
+      "usage": {
+        "total_tokens": 37386,
+        "input_tokens": 28414,
+        "output_tokens": 1675,
+        "cached": 7960,
+        "input": 20454,
+        "duration_ms": 90926,
+        "tool_calls": 6,
+        "models": {
+          "gemini-4-argon": {
+            "total_tokens": 37386,
+            "input_tokens": 28414,
+            "output_tokens": 1675,
+            "cached": 7960,
+            "input": 20454
+          }
+        }
+      },
+      "billingPolicy": {
+        "mode": "existing-provider-prepay",
+        "ownerReportedBalanceJpy": 900,
+        "ownerReportedAutoRecharge": false,
+        "billingSettingsVerified": false,
+        "clientMonetaryCap": false,
+        "additionalChargeAuthorized": false,
+        "onProviderLimit": "stop-no-retry"
+      },
+      "generationContract": "One initial trial per fixed task; no human follow-up, quality repair, or model resend",
+      "executionConditions": {
+        "imageReferences": 0,
+        "imageAttachment": null,
+        "toolCalls": 6,
+        "successfulToolCalls": 1,
+        "toolRegistrationErrors": 5
+      },
+      "initialRunnerStatus": "success",
+      "cliStatus": "success",
+      "comparisonEligible": false,
+      "failureCategory": "input-tool-registration",
+      "reason": "ファイル一覧のみ取得。本文read_fileはnativeツール名との衝突により5件とも未登録エラー。リポジトリ要約として無効。",
+      "artifactRecoveredFromFinalText": true,
+      "invalidResultPreserved": true,
+      "recordedUsageCostEstimate": {
+        "usd": 0.131424,
+        "rateDate": "2026-10-25",
+        "basis": "Standard public rates; uncached/cached inputs and total-minus-input output including possible thinking",
+        "invoiceVerified": false,
+        "taxAndFxExcluded": true
+      }
+    },
+    {
+      "id": "research-repository-v2--gemini-4-argon-cli--1792934867066-r164p",
+      "trialPath": "models/gemini-4-argon-cli/research-repository-v2/run-1792934867066-r164p",
+      "storageModelKey": "gemini-4-argon-cli",
+      "task": "research-repository-v2",
+      "taskLabel": "指定リポジトリの固定版要約",
+      "type": "research",
+      "model": "gemini-4-argon-cli",
+      "status": "success",
+      "promptVersion": "research-repository-v2",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+      "durationMs": 79993,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-25T13:29:07.061Z",
+      "updatedAt": "2026-10-25T13:29:07.061Z",
+      "continuationMode": "restart-after-tool-registration-fix",
+      "attemptCount": 1,
+      "activeDurationMs": 79993,
+      "artifact": "models/gemini-4-argon-cli/research-repository-v2/run-1792934867066-r164p/artifact.txt",
+      "retryOf": "research-repository-v2--gemini-4-argon-cli--1792932250558-x021t",
+      "retryOrdinal": 1,
+      "firstAttemptEvaluation": false,
+      "campaignId": "gemini-research-retry-20261025",
+      "sameSessionResume": false,
+      "modelId": "gemini-4-argon",
+      "thinking": "MEDIUM",
+      "startedAt": "2026-10-25T13:27:49.250Z",
+      "finishedAt": "2026-10-25T13:29:07.044Z",
+      "usage": {
+        "total_tokens": 302446,
+        "input_tokens": 298095,
+        "output_tokens": 3507,
+        "cached": 231873,
+        "input": 66222,
+        "duration_ms": 76310,
+        "tool_calls": 34,
+        "models": {
+          "gemini-4-argon": {
+            "total_tokens": 302446,
+            "input_tokens": 298095,
+            "output_tokens": 3507,
+            "cached": 231873,
+            "input": 66222
+          }
+        }
+      },
+      "blenderPort": null,
+      "artifactStatus": "saved-unmodified",
+      "comparisonEligible": true,
+      "generationContract": "One explicitly authorized retry after input-tool registration repair; no human follow-up or output edits",
+      "outputExtraction": {
+        "source": "gemini-attempt-1.stdout.jsonl",
+        "modelTextUnchanged": true,
+        "rawStdoutPreserved": true,
+        "wrapperDiagnosticsAbsent": true
+      },
+      "outputValidation": {
+        "characters": 5093,
+        "nonWhitespaceCharacters": 4835,
+        "lengthTarget": [
+          1200,
+          1800
+        ],
+        "lengthPass": false
+      },
+      "executionConditions": {
+        "fixedPromptMatchesInitial": true,
+        "inputVersionMatchesInitial": true,
+        "successfulToolCalls": 34,
+        "successfulBodyReads": 33,
+        "toolErrors": 0
+      },
+      "recordedUsageCostEstimate": {
+        "usd": 0.1991413,
+        "rateDate": "2026-10-25",
+        "basis": "Standard rates: uncached input $2/M; cached $0.10/M; total-minus-input output including thinking $10/M",
+        "taxAndFxExcluded": true,
+        "invoiceVerified": false
+      },
+      "billingPolicy": {
+        "mode": "existing-provider-prepay",
+        "ownerReportedBalanceJpy": 900,
+        "ownerReportedAutoRecharge": false,
+        "billingSettingsVerified": false,
+        "clientMonetaryCap": false,
+        "additionalChargeAuthorized": false,
+        "onProviderLimit": "stop-no-retry",
+        "balanceReportScope": "900 JPY was the initial owner report, not a verified current balance",
+        "currentBalanceVerified": false
+      },
+      "outputSha256": "1e3d8672138dc605bfe9817c5dffd719bddef676b1309a6f8c0323d4795333e7",
+      "generationStatus": "success",
+      "instructionCompliance": {
+        "status": "failed",
+        "annotation": "指示の無視（指定字数超過）",
+        "requirement": "出力は1200〜1800字程度。",
+        "expectedCharacters": [
+          1200,
+          1800
+        ],
+        "measuredCharacters": 5093,
+        "nonWhitespaceCharacters": 4835,
+        "utf8Bytes": 8109,
+        "countingMethod": "保存された全文のUnicodeコードポイント数。改行・空白・Markdown記号・見出し・ファイルパス・引用表記を含む。別途、全空白を除いた数も併記。"
+      },
+      "reason": "指示の無視（指定字数超過）。指定「出力は1200〜1800字程度。」に対し全文5,093字、空白除去4,835字。数え方：全文のUnicodeコードポイント数（改行・空白・Markdown・パス表記を含む）。生成は成功、指示遵守は失敗。本文は未改変。"
+    },
+    {
+      "id": "writing-explanation-v2--gemini-4-argon-cli--1792932229559-3i64i",
+      "trialPath": "models/gemini-4-argon-cli/writing-explanation-v2/run-1792932229559-3i64i",
+      "storageModelKey": "gemini-4-argon-cli",
+      "task": "writing-explanation-v2",
+      "taskLabel": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "model": "gemini-4-argon-cli",
+      "status": "success",
+      "promptVersion": "writing-explanation-v2",
+      "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "inputVersion": "facts-writing-v2",
+      "durationMs": 18751,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-25T12:44:08.314Z",
+      "updatedAt": "2026-10-25T12:44:08.314Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 18752,
+      "artifact": "models/gemini-4-argon-cli/writing-explanation-v2/run-1792932229559-3i64i/artifact.txt",
+      "artifactStatus": "saved-unmodified",
+      "outputExtraction": {
+        "source": "gemini-attempt-1.stdout.jsonl",
+        "method": "last assistant turn; complete UTF-8 raw bytes",
+        "modelTextUnchanged": true,
+        "wrapperDiagnosticsRemoved": true,
+        "rawStdoutPreserved": true
+      },
+      "outputValidation": {
+        "characters": 1466,
+        "lengthTarget": [
+          800,
+          1200
+        ],
+        "nonWhitespaceCharacters": 1440,
+        "lengthPass": false
+      },
+      "modelId": "gemini-4-argon",
+      "thinking": "MEDIUM",
+      "startedAt": "2026-10-25T12:43:51.124Z",
+      "finishedAt": "2026-10-25T12:44:08.294Z",
+      "usage": {
+        "total_tokens": 5864,
+        "input_tokens": 5040,
+        "output_tokens": 664,
+        "cached": 0,
+        "input": 5040,
+        "duration_ms": 15846,
+        "tool_calls": 0,
+        "models": {
+          "gemini-4-argon": {
+            "total_tokens": 5864,
+            "input_tokens": 5040,
+            "output_tokens": 664,
+            "cached": 0,
+            "input": 5040
+          }
+        }
+      },
+      "billingPolicy": {
+        "mode": "existing-provider-prepay",
+        "ownerReportedBalanceJpy": 900,
+        "ownerReportedAutoRecharge": false,
+        "billingSettingsVerified": false,
+        "clientMonetaryCap": false,
+        "additionalChargeAuthorized": false,
+        "onProviderLimit": "stop-no-retry"
+      },
+      "generationContract": "One initial trial per fixed task; no human follow-up, quality repair, or model resend",
+      "executionConditions": {
+        "imageReferences": 0,
+        "imageAttachment": null,
+        "toolCalls": 0,
+        "successfulToolCalls": 0,
+        "toolRegistrationErrors": 0
+      },
+      "comparisonEligible": true,
+      "recordedUsageCostEstimate": {
+        "usd": 0.01832,
+        "rateDate": "2026-10-25",
+        "basis": "Standard public rates; uncached/cached inputs and total-minus-input output including possible thinking",
+        "invoiceVerified": false,
+        "taxAndFxExcluded": true
+      }
+    },
+    {
+      "id": "lp-local-llm-v2--gpt-6-1-sol-code--1792738500610-iklf3",
+      "trialPath": "models/gpt-6-1-sol-code/lp-local-llm-v2/run-1792738500610-iklf3",
+      "storageModelKey": "gpt-6-1-sol-code",
+      "task": "lp-local-llm-v2",
+      "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+      "type": "lp",
+      "model": "gpt-6-1-sol-code",
+      "status": "success",
+      "promptVersion": "lp-local-llm-v2",
+      "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "inputVersion": "facts-lp-v2",
+      "durationMs": 284339,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T06:59:44.959Z",
+      "updatedAt": "2026-10-23T06:59:44.959Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 284339,
+      "artifact": "models/gpt-6-1-sol-code/lp-local-llm-v2/run-1792738500610-iklf3/artifact.html"
+    },
+    {
+      "id": "model3d-kurageko-v2--gpt-6-1-sol-code--1792738225057-8sajd",
+      "trialPath": "models/gpt-6-1-sol-code/model3d-kurageko-v2/run-1792738225057-8sajd",
+      "storageModelKey": "gpt-6-1-sol-code",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "gpt-6-1-sol-code",
+      "status": "success",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 275063,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T06:55:00.129Z",
+      "updatedAt": "2026-10-23T06:55:00.129Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 275063,
+      "artifact": "models/gpt-6-1-sol-code/model3d-kurageko-v2/run-1792738225057-8sajd/artifact.glb",
+      "reference": "models/gpt-6-1-sol-code/model3d-kurageko-v2/run-1792738225057-8sajd/reference.png"
+    },
+    {
+      "id": "research-repository-v2--gpt-6-1-sol-code--1792738156852-9flrh",
+      "trialPath": "models/gpt-6-1-sol-code/research-repository-v2/run-1792738156852-9flrh",
+      "storageModelKey": "gpt-6-1-sol-code",
+      "task": "research-repository-v2",
+      "taskLabel": "指定リポジトリの固定版要約",
+      "type": "research",
+      "model": "gpt-6-1-sol-code",
+      "status": "success",
+      "promptVersion": "research-repository-v2",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+      "durationMs": 67761,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T06:50:24.617Z",
+      "updatedAt": "2026-10-23T06:50:24.617Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 67761,
+      "artifact": "models/gpt-6-1-sol-code/research-repository-v2/run-1792738156852-9flrh/artifact.txt"
+    },
+    {
+      "id": "writing-explanation-v2--gpt-6-1-sol-code--1792738133778-8c0ab",
+      "trialPath": "models/gpt-6-1-sol-code/writing-explanation-v2/run-1792738133778-8c0ab",
+      "storageModelKey": "gpt-6-1-sol-code",
+      "task": "writing-explanation-v2",
+      "taskLabel": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "model": "gpt-6-1-sol-code",
+      "status": "success",
+      "promptVersion": "writing-explanation-v2",
+      "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "inputVersion": "facts-writing-v2",
+      "durationMs": 22625,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T06:49:16.413Z",
+      "updatedAt": "2026-10-23T06:49:16.413Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 22625,
+      "artifact": "models/gpt-6-1-sol-code/writing-explanation-v2/run-1792738133778-8c0ab/artifact.txt"
+    },
+    {
+      "id": "lp-local-llm-v2--gpt-6-astra-code--1792741438500-mcktk",
+      "trialPath": "models/gpt-6-astra-code/lp-local-llm-v2/run-1792741438500-mcktk",
+      "storageModelKey": "gpt-6-astra-code",
+      "task": "lp-local-llm-v2",
+      "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+      "type": "lp",
+      "model": "gpt-6-astra-code",
+      "status": "success",
+      "promptVersion": "lp-local-llm-v2",
+      "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "inputVersion": "facts-lp-v2",
+      "durationMs": 309709,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T07:49:08.212Z",
+      "updatedAt": "2026-10-23T07:49:08.213Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 309710,
+      "artifact": "models/gpt-6-astra-code/lp-local-llm-v2/run-1792741438500-mcktk/artifact.html"
+    },
+    {
+      "id": "model3d-kurageko-v2--gpt-6-astra-code--1792741327860-wvwuf",
+      "trialPath": "models/gpt-6-astra-code/model3d-kurageko-v2/run-1792741327860-wvwuf",
+      "storageModelKey": "gpt-6-astra-code",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "gpt-6-astra-code",
+      "status": "artifact-error",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 26946,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T07:42:34.811Z",
+      "updatedAt": "2026-10-23T07:42:34.811Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 26946,
+      "message": "Expected artifact missing or invalid",
+      "failureCategory": "execution-policy-refusal",
+      "qualityComparable": false,
+      "reason": "The model declined production citing the configured read-only policy. No modeling MCP call and no GLB were produced; not a geometry quality result.",
+      "proposedRemedy": {
+        "task": "model3d only",
+        "currentSandbox": "read-only",
+        "proposedSandbox": "workspace-write limited to trial",
+        "approvalPolicy": "never",
+        "shellTools": "disabled",
+        "mcpTools": "same six",
+        "applied": false
+      }
+    },
+    {
+      "id": "model3d-kurageko-v2--gpt-6-astra-code--1792742634494-sb5c6",
+      "trialPath": "models/gpt-6-astra-code/model3d-kurageko-v2/run-1792742634494-sb5c6",
+      "storageModelKey": "gpt-6-astra-code",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "gpt-6-astra-code",
+      "status": "success",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 304856,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T08:08:59.352Z",
+      "updatedAt": "2026-10-23T08:08:59.352Z",
+      "continuationMode": "restart-after-policy-fix",
+      "attemptCount": 1,
+      "activeDurationMs": 304856,
+      "artifact": "models/gpt-6-astra-code/model3d-kurageko-v2/run-1792742634494-sb5c6/artifact.glb",
+      "reference": "models/gpt-6-astra-code/model3d-kurageko-v2/run-1792742634494-sb5c6/reference.png",
+      "executionPolicy": "astra-trial-write-v1",
+      "retryOf": "model3d-kurageko-v2--gpt-6-astra-code--1792741327860-wvwuf",
+      "verification": {
+        "freshBlenderImport": true,
+        "fixedViewsRendered": 6,
+        "invalidVertices": 0,
+        "degenerateFaces": 0
+      }
+    },
+    {
+      "id": "research-repository-v2--gpt-6-astra-code--1792741259879-inls7",
+      "trialPath": "models/gpt-6-astra-code/research-repository-v2/run-1792741259879-inls7",
+      "storageModelKey": "gpt-6-astra-code",
+      "task": "research-repository-v2",
+      "taskLabel": "指定リポジトリの固定版要約",
+      "type": "research",
+      "model": "gpt-6-astra-code",
+      "status": "success",
+      "promptVersion": "research-repository-v2",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+      "durationMs": 67499,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T07:42:07.383Z",
+      "updatedAt": "2026-10-23T07:42:07.383Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 67499,
+      "artifact": "models/gpt-6-astra-code/research-repository-v2/run-1792741259879-inls7/artifact.txt"
+    },
+    {
+      "id": "writing-explanation-v2--gpt-6-astra-code--1792741223739-8wr8x",
+      "trialPath": "models/gpt-6-astra-code/writing-explanation-v2/run-1792741223739-8wr8x",
+      "storageModelKey": "gpt-6-astra-code",
+      "task": "writing-explanation-v2",
+      "taskLabel": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "model": "gpt-6-astra-code",
+      "status": "success",
+      "promptVersion": "writing-explanation-v2",
+      "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "inputVersion": "facts-writing-v2",
+      "durationMs": 35667,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T07:40:59.410Z",
+      "updatedAt": "2026-10-23T07:40:59.410Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "activeDurationMs": 35667,
+      "artifact": "models/gpt-6-astra-code/writing-explanation-v2/run-1792741223739-8wr8x/artifact.txt"
+    },
+    {
+      "id": "lp-local-llm-v2--grok-4-7-high-cursor-standard--20261024-lp-standard1",
+      "trialPath": "models/grok-4-7-high-cursor-standard/lp-local-llm-v2/run-20261024-lp-standard1",
+      "storageModelKey": "grok-4-7-high-cursor-standard",
+      "task": "lp-local-llm-v2",
+      "type": "lp",
+      "model": "grok-4-7-high-cursor-standard",
+      "status": "success",
+      "promptVersion": "lp-local-llm-v2",
+      "inputVersion": "facts-lp-v2",
+      "createdAt": "2026-10-23T23:48:27.428Z",
+      "durationMs": 1286193,
+      "activeDurationMs": 1286193,
+      "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+      "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "exitCode": 0,
+      "exitSignal": null,
+      "updatedAt": "2026-10-24T00:09:58.814Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "artifact": "models/grok-4-7-high-cursor-standard/lp-local-llm-v2/run-20261024-lp-standard1/artifact.html",
+      "artifactRecoveredFromFinalText": true,
+      "extractionCorrection": "Cursor result concatenates intermediate assistant messages; final assistant event copied byte-for-byte; original aggregate and complete event stream preserved",
+      "executionConditions": {
+        "cli": "Cursor 2026.10.22-27dcf5f",
+        "mode": "ask",
+        "modelId": "grok-4.7-high",
+        "effectiveModel": "Grok 4.7 256K High",
+        "speed": "standard",
+        "effort": "high",
+        "context": "Standard CLI context; generic user skill metadata may differ from other CLIs",
+        "workspaceTrust": "exact dedicated lp-local-llm-v2 run only",
+        "usage": {
+          "inputTokens": 17319,
+          "outputTokens": 89444,
+          "cacheReadTokens": 21376,
+          "cacheWriteTokens": 0
+        },
+        "toolCalls": 1
+      },
+      "outputValidation": {
+        "task": "lp-local-llm-v2",
+        "status": "success",
+        "characters": 27931,
+        "bytes": 31271,
+        "durationMs": 1286193,
+        "usage": {
+          "inputTokens": 17319,
+          "outputTokens": 89444,
+          "cacheReadTokens": 21376,
+          "cacheWriteTokens": 0
+        },
+        "toolCalls": 1,
+        "finalAssistantUnmodified": true,
+        "startsDoctype": true,
+        "inlineScripts": 1,
+        "inlineScriptSyntaxErrors": 0,
+        "externalResourceReferences": 0
+      },
+      "browserVerification": {
+        "method": "CLI + Playwright protocol to a new headless Edge process, GPU disabled; sandboxed iframe; offline and abort all network; no CUA, desktop input, focus or foreground interaction",
+        "viewports": [
+          {
+            "name": "pc",
+            "width": 1024,
+            "height": 768,
+            "overflow": false,
+            "brokenAnchorTargets": 0,
+            "pageErrors": 0,
+            "networkRequests": 0,
+            "animations": 22
+          },
+          {
+            "name": "mobile",
+            "width": 390,
+            "height": 844,
+            "overflow": false,
+            "brokenAnchorTargets": 0,
+            "pageErrors": 0,
+            "networkRequests": 0,
+            "animations": 22
+          },
+          {
+            "name": "mobile-reduced",
+            "width": 390,
+            "height": 844,
+            "overflow": false,
+            "brokenAnchorTargets": 0,
+            "pageErrors": 0,
+            "networkRequests": 0,
+            "animations": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "model3d-kurageko-v2--grok-4-7-high-cursor-standard--20261024-3d-standard1",
+      "trialPath": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1",
+      "storageModelKey": "grok-4-7-high-cursor-standard",
+      "task": "model3d-kurageko-v2",
+      "type": "model3d",
+      "model": "grok-4-7-high-cursor-standard",
+      "status": "success",
+      "createdAt": "2026-10-24T00:25:04.486Z",
+      "durationMs": 2674283,
+      "activeDurationMs": 2674283,
+      "taskLabel": "画像入力・kurageko立体生成",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "exitCode": 0,
+      "exitSignal": null,
+      "updatedAt": "2026-10-24T01:09:43.972Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "artifact": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/artifact.glb",
+      "reference": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/reference.png",
+      "modelId": "grok-4.7-high",
+      "effort": "high",
+      "speed": "standard",
+      "effectiveModel": "Grok 4.7 256K High",
+      "usage": {
+        "inputTokens": 288839,
+        "outputTokens": 175790,
+        "cacheReadTokens": 3913088,
+        "cacheWriteTokens": 0
+      },
+      "generationContract": "One user request with internal agent/model/tool turns; no human quality repair or regeneration",
+      "executionConditions": {
+        "imageReferences": 4,
+        "imageAttachment": "official --image",
+        "workspaceTrust": "exact dedicated 3D run only",
+        "mcp": "existing dedicated background Blender / six approved functions",
+        "toolCalls": 36,
+        "toolCallTypes": {
+          "getMcpToolsToolCall": 1,
+          "readToolCall": 9,
+          "mcpToolCall": 25,
+          "editToolCall": 1
+        },
+        "nativeToolErrors": {
+          "readToolCall": 9,
+          "editToolCall": 1
+        },
+        "context": "Standard CLI context; native read/write and shell deny rules retained",
+        "blender": {
+          "background": true,
+          "build_hash": "d13f752e3b9c",
+          "version": "5.2.2 LTS",
+          "version_tuple": [
+            5,
+            2,
+            2
+          ]
+        },
+        "nativeToolErrorsNote": "Nine native reads and one source edit were refused by read permissions; the scoped MCP workflow completed without overriding those denials."
+      },
+      "validation": {
+        "trianglesAcrossObjects": 246412,
+        "meshObjects": 26,
+        "materials": 19,
+        "embeddedImages": 1,
+        "invalidVertices": 0,
+        "degenerateFaces": 0,
+        "boundaryEdges": 2974,
+        "authoredBoundaryEdges": 64,
+        "glbBytes": 4669064,
+        "selfContained": true,
+        "sha256": "72e4a78e701f21d9daea58b5eefe994fd0658c945729f6a2b7ec22bf9ebe4ef7"
+      },
+      "verification": {
+        "freshBlenderImport": true,
+        "authoredAndGlbMetricsChecked": true,
+        "matchingTriangleCount": true,
+        "fixedViewsRendered": 6,
+        "heroAndContactSheetOpened": true,
+        "noCamerasOrLightsInGlb": true,
+        "sourcePresent": true,
+        "artifactUnmodified": true
+      },
+      "previewMedia": {
+        "front": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/front.png",
+        "threeQuarter": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/perspective.png",
+        "side": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/right.png",
+        "back": "models/grok-4-7-high-cursor-standard/model3d-kurageko-v2/run-20261024-3d-standard1/preview/back.png"
+      },
+      "visualObservations": [
+        "Recognizable jellyfish cap, hair, layered dress, boots and mole are present.",
+        "Compared with fixed front reference, the export has a wider dress silhouette, a large rounded cap, round protruding eyes and visibly darker face/legs.",
+        "These are retained benchmark output differences; no geometry/material/source corrections made."
+      ]
+    },
+    {
+      "id": "research-repository-v2--grok-4-7-high-cursor-standard--20261024-summary-standard1",
+      "trialPath": "models/grok-4-7-high-cursor-standard/research-repository-v2/run-20261024-summary-standard1",
+      "storageModelKey": "grok-4-7-high-cursor-standard",
+      "task": "research-repository-v2",
+      "type": "research",
+      "model": "grok-4-7-high-cursor-standard",
+      "status": "success",
+      "promptVersion": "research-repository-v2",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee-grok-reviewed-summary-v2",
+      "createdAt": "2026-10-24T00:09:59.073Z",
+      "durationMs": 666167,
+      "activeDurationMs": 666167,
+      "taskLabel": "指定リポジトリの固定版要約",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "exitCode": 0,
+      "exitSignal": null,
+      "updatedAt": "2026-10-24T00:21:10.511Z",
+      "continuationMode": "initial",
+      "attemptCount": 1,
+      "artifact": "models/grok-4-7-high-cursor-standard/research-repository-v2/run-20261024-summary-standard1/artifact.txt",
+      "artifactRecoveredFromFinalText": true,
+      "extractionCorrection": "Cursor result concatenates intermediate assistant messages; final assistant event copied byte-for-byte; original aggregate and complete event stream preserved",
+      "executionConditions": {
+        "cli": "Cursor 2026.10.22-27dcf5f",
+        "mode": "ask",
+        "modelId": "grok-4.7-high",
+        "effectiveModel": "Grok 4.7 256K High",
+        "speed": "standard",
+        "effort": "high",
+        "context": "Standard CLI context; generic user skill metadata may differ from other CLIs",
+        "workspaceTrust": "exact dedicated research-repository-v2 run only",
+        "usage": {
+          "inputTokens": 151359,
+          "outputTokens": 55150,
+          "cacheReadTokens": 124672,
+          "cacheWriteTokens": 0
+        },
+        "toolCalls": 1,
+        "sourceFiles": 39,
+        "inputDifference": "Frozen commit preserved; architecture-focused source subset, not the complete original readable snapshot. No claim about other models actual transmission."
+      },
+      "outputValidation": {
+        "task": "research-repository-v2",
+        "status": "success",
+        "characters": 2288,
+        "bytes": 3646,
+        "durationMs": 666167,
+        "usage": {
+          "inputTokens": 151359,
+          "outputTokens": 55150,
+          "cacheReadTokens": 124672,
+          "cacheWriteTokens": 0
+        },
+        "toolCalls": 1,
+        "finalAssistantUnmodified": true,
+        "sourceFiles": 39,
+        "envExcluded": true,
+        "lengthTarget": [
+          1200,
+          1800
+        ],
+        "lengthPass": false
+      }
+    },
+    {
+      "id": "writing-explanation-v2--grok-4-7-high-cursor-standard--1792798072777-5weam",
+      "trialPath": "models/grok-4-7-high-cursor-standard/writing-explanation-v2/run-1792798072777-5weam",
+      "storageModelKey": "grok-4-7-high-cursor-standard",
+      "task": "writing-explanation-v2",
+      "taskLabel": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "model": "grok-4-7-high-cursor-standard",
+      "status": "success",
+      "promptVersion": "writing-explanation-v2",
+      "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "inputVersion": "facts-writing-v2",
+      "durationMs": 225190,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-23T23:27:59.396Z",
+      "updatedAt": "2026-10-23T23:43:13.801Z",
+      "continuationMode": "initial-generation-after-setup-refusals",
+      "attemptCount": 3,
+      "activeDurationMs": 260350,
+      "artifact": "models/grok-4-7-high-cursor-standard/writing-explanation-v2/run-1792798072777-5weam/artifact.txt",
+      "preGenerationStops": [
+        "workspace-trust-required",
+        "backend-workspace-context-exclusion-refused"
+      ],
+      "previousRejectedRequestUsage": "unknown",
+      "executionConditions": {
+        "cli": "Cursor 2026.10.22-27dcf5f",
+        "mode": "ask",
+        "modelId": "grok-4.7-high",
+        "effectiveModel": "Grok 4.7 256K High",
+        "speed": "standard",
+        "effort": "high",
+        "context": "standard CLI context; no hidden options; local generic skill metadata may differ from other CLIs",
+        "workspaceTrust": "exact writing trial only",
+        "toolCalls": 0,
+        "usage": {
+          "inputTokens": 9433,
+          "outputTokens": 20673,
+          "cacheReadTokens": 6016,
+          "cacheWriteTokens": 0
+        }
+      }
+    },
+    {
+      "id": "lp-local-llm-v2--qwen38-code-0253--1792561438954-2fnlc",
+      "task": "lp-local-llm-v2",
+      "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+      "type": "lp",
+      "model": "qwen38-code-0253",
+      "status": "permission-required",
+      "promptVersion": "lp-local-llm-v2",
+      "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+      "inputVersion": "facts-lp-v2",
+      "durationMs": 738817,
+      "exitCode": 77,
+      "exitSignal": null,
+      "createdAt": "2026-10-21T05:56:17.774Z",
+      "artifact": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/artifact.html",
+      "artifactRecoveredFromFinalText": true,
+      "artifactStatus": "saved-unmodified",
+      "generationStatus": "completed-with-tool-denials",
+      "permissionDenials": [
+        {
+          "tool": "read_file",
+          "executed": false
+        },
+        {
+          "tool": "list_directory",
+          "executed": false
+        }
+      ],
+      "reason": "Two tool requests were denied noninteractively. The complete final HTML response was saved unchanged; CLI exit code 77 remains recorded.",
+      "previewMedia": {
+        "pc": {
+          "image": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/pc.png",
+          "video": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/pc.mp4",
+          "width": 1024,
+          "height": 768
+        },
+        "mobile": {
+          "image": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/mobile.png",
+          "video": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc/mobile.mp4",
+          "width": 390,
+          "height": 844
+        }
+      },
+      "recording": {
+        "durationSeconds": 6,
+        "fps": 10,
+        "offline": true,
+        "externalRequests": 0
+      },
+      "storageModelKey": "qwen38-code-0253",
+      "trialPath": "models/qwen38-code-0253/lp-local-llm-v2/run-1792561438954-2fnlc"
+    },
+    {
+      "id": "model3d-kurageko-v2--qwen38-code-0253-mcp--1792569102465-qdzas",
+      "task": "model3d-kurageko-v2",
+      "taskLabel": "画像入力・kurageko立体生成",
+      "type": "model3d",
+      "model": "qwen38-code-0253-mcp",
+      "status": "permission-required",
+      "promptVersion": "model3d-kurageko-v2-mcp1",
+      "promptSha256": "768fe4e732cf3384893d8369bc28c33f48fcf9ee88150791f06b07f53cc1caaa",
+      "inputVersion": "kurageko-reference-v2",
+      "durationMs": 7538960,
+      "exitCode": 77,
+      "exitSignal": null,
+      "createdAt": "2026-10-21T09:57:21.427Z",
+      "generationStatus": "completed-with-read-denial",
+      "artifactStatus": "validated",
+      "artifactRecoveredFromModelFiles": true,
+      "artifact": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/artifact.glb",
+      "reference": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/reference.png",
+      "previewMedia": {
+        "front": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_front.png",
+        "side": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_side.png",
+        "back": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_back.png",
+        "threeQuarter": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_34.png",
+        "face": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_face.png",
+        "backHead": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/prev_backhead.png"
+      },
+      "validation": {
+        "checkedAt": "2026-10-21T09:57:51.986332+00:00",
+        "status": "import-success",
+        "sourceUnmodified": true,
+        "blenderVersion": "5.2.2 LTS",
+        "background": true,
+        "onlineAccess": false,
+        "glbBytes": 863636,
+        "glbVersion": 2,
+        "selfContained": true,
+        "externalResourceUris": [],
+        "meshObjects": 11,
+        "verticesAcrossObjects": 23570,
+        "trianglesAcrossObjects": 45868,
+        "referencedMaterials": 23,
+        "cameras": 0,
+        "lights": 0,
+        "limitations": "Technical fresh-import verification only; visual likeness is for human review. Generated Python was not executed and source GLB was not saved or edited."
+      },
+      "validationArtifact": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas/validation.json",
+      "mcp": {
+        "server": "blender_benchmark",
+        "operations": {
+          "mcp__blender_benchmark__get_objects_summary": {
+            "attempted": 1,
+            "succeeded": 1,
+            "failed": 0,
+            "unknown": 0
+          },
+          "mcp__blender_benchmark__search_api_docs": {
+            "attempted": 3,
+            "succeeded": 3,
+            "failed": 0,
+            "unknown": 0
+          },
+          "mcp__blender_benchmark__execute_blender_code": {
+            "attempted": 37,
+            "succeeded": 37,
+            "failed": 0,
+            "unknown": 0
+          },
+          "mcp__blender_benchmark__render_thumbnail_to_path": {
+            "attempted": 1,
+            "succeeded": 1,
+            "failed": 0,
+            "unknown": 0
+          }
+        },
+        "confirmedResults": [
+          "geometry creation",
+          "editable Python source saved",
+          "GLB exported",
+          "blend saved",
+          "six preview images saved"
+        ]
+      },
+      "nativeProviderRetries": 1,
+      "permissionDenials": [
+        {
+          "tool": "read_file",
+          "reason": "Read of MCP temporary preview outside trial was denied"
+        }
+      ],
+      "reason": "GLB and source completed; one temporary preview read was denied. Original exit code 77 is retained.",
+      "networkObservation": {
+        "hostname": "gb4w8c3ygj-default-sea.rum.aliyuncs.com",
+        "purpose": "Matches installed QwenLogger usage statistics destination",
+        "payloadNotInspected": true,
+        "telemetryFlagWasFalse": true
+      },
+      "storageModelKey": "qwen38-code-0253",
+      "trialPath": "models/qwen38-code-0253/model3d-kurageko-v2/run-1792569102465-qdzas"
+    },
+    {
+      "id": "research-repository-v2--qwen38-code-0253--1792558202517-xishh",
+      "task": "research-repository-v2",
+      "taskLabel": "指定リポジトリの固定版要約",
+      "type": "research",
+      "model": "qwen38-code-0253",
+      "status": "success",
+      "promptVersion": "research-repository-v2",
+      "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+      "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+      "durationMs": 342812,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-21T04:55:45.331Z",
+      "artifact": "models/qwen38-code-0253/research-repository-v2/run-1792558202517-xishh/artifact.txt",
+      "storageModelKey": "qwen38-code-0253",
+      "trialPath": "models/qwen38-code-0253/research-repository-v2/run-1792558202517-xishh"
+    },
+    {
+      "id": "writing-explanation-v2--qwen38-code-0253--1792557912658-936xv",
+      "task": "writing-explanation-v2",
+      "taskLabel": "日本語技術解説・KVキャッシュ",
+      "type": "writing",
+      "model": "qwen38-code-0253",
+      "status": "success",
+      "promptVersion": "writing-explanation-v2",
+      "promptSha256": "4d9eedca90d730d2103370e046688e99922300f76fa366e3cf7d64b9f37d3300",
+      "inputVersion": "facts-writing-v2",
+      "durationMs": 289845,
+      "exitCode": 0,
+      "exitSignal": null,
+      "createdAt": "2026-10-21T04:50:02.507Z",
+      "artifact": "models/qwen38-code-0253/writing-explanation-v2/run-1792557912658-936xv/artifact.txt",
+      "storageModelKey": "qwen38-code-0253",
+      "trialPath": "models/qwen38-code-0253/writing-explanation-v2/run-1792557912658-936xv"
+    }
+  ]
+}

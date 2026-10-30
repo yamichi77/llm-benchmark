@@ -1,0 +1,18 @@
+本要約は提示された固定スナップショットの抜粋のみを根拠とし、READMEの記述と実装の観察を区別する。
+
+## 目的と主要機能
+READMEには製品目的の詳細説明はなく、React 18＋TypeScript＋Viteのフロントエンドで、原本HTMLと画面仕様を`packages/markup/`へ分離する構成だと説明している（`README.md:1-4`）。実装上の画面は、ダッシュボード`/`、LLMチャット`/chat`、Text2Image`/ImageGenerate`、Img2Img`/Img2Img`、生成画像`/ImageView`、マーカー地図と編集、写真一覧、移動履歴、旅行チェックリスト、403/404/500である（`src/App.tsx:133-149`）。共通シェルはAppBar、デスクトップのナビゲーションレール、モバイルのボトムナビを持ち、`dashboard`/`ai`/`read`ロールで項目の表示・有効化を制御する（`src/components/layout/Layout/presenter.tsx:43-118,313-324`）。READMEは原本HTML→仕様→React実装の順で更新する運用を定める（`README.md:72-86`）。
+
+## 技術構成と重要な配置
+主要依存はReact Router、MUI/Emotion、Recoil、axios、react-hook-form、Leaflet、SSE用`@microsoft/fetch-event-source`、Vitest/Playwright/MSWで、`packages/*`をworkspaceにしている（`package.json:5-8,39-75`）。Viteは`src`をenvディレクトリとし、`VITE_API_TARGET`指定時に`/api`と`/movelog`をプロキシし、WebSocketも有効化する（`vite.config.ts:12-45`）。エントリはStrictModeでAppを描画し、開発時かつ`VITE_USE_MOCKS=true`のときだけMSWを起動する（`src/main.tsx:10-27`）。AppはRecoilRoot、テーマ、日付ローカライズ、Router、認証初期化、モーションの順で全体を包み、各ページを遅延読込する（`src/App.tsx:38-103,217-239`）。重要な配置は`src/pages`、`src/components/layout`、`src/globalState`、`src/hooks`、`src/auth`、`e2e/`、`packages/markup/`である（`README.md:58-70`）。
+
+## 認証・状態管理・バックエンド接続
+`AuthInitializer`はURLのハッシュまたはクエリから`access_token`を取得してRecoilとsessionStorageへ保存し、URLからトークン部分を除去する（`src/components/auth/AuthInitializer.tsx:166-194`）。初期化完了までは全画面の認証確認表示となり、完了後にルートを描画する（`src/App.tsx:154-180`）。リロード時はCookieを送る`POST /api/auth/token/refresh`を実行し、`SESSION_INVALID`は1回、`REFRESH_TEMPORARY_FAILURE`は400ms後に1回だけ再試行する（`src/components/auth/AuthInitializer.tsx:107-137`）。JWTの`resource_access["web-app"].roles`をロールとして扱う（同`:47-49`）。
+
+`useBackend`のaxiosは`withCredentials`を使い、要求前に有効期限30秒未満なら更新、401なら更新後に一度だけ再試行する（`src/hooks/useBackend.ts:217-317`）。更新失敗時はセッションエラー種別に応じて`/api/auth/login`へ遷移し、403・404・500はエラーページ等へ誘導するが、diffusers系URLは例外である（同`:138-215,282-312`）。ログインURLはモック時やAPIターゲット未指定時に同一オリジンの`/api/auth/login`となる（`src/auth/loginUrl.ts:1-26`）。ログアウトは`POST /api/auth/logout`後にトークンとロールを消す（`src/hooks/useLogin.ts:11-22`）。状態は認証・ロール・ローディングをRecoil atomで持ち（`src/globalState/authInitializedState.ts:3-6`、`authIssueState.ts:10-18`、`roleListState.ts:3-6`）、画面固有の状態は主にコンポーネント内で管理する。テーマはstateとlocalStorage・カスタムイベントで同期する（`src/App.tsx:184-215`）。バックエンド呼び出しは`/api/dashboard`、`/api/movelog`、`/api/marker`、`/api/photo`、`/api/llm`、`/api/diffusers`に集約され（`src/hooks/useBackend.ts:342-750`）、LLM・画像生成の進捗はSSEで受ける（`src/hooks/useServerSentEvent.ts:6-73`）。`/api/llm/ws`を開くフックもあるが、利用箇所は抜粋から確認できない（`src/hooks/useWebSocket.ts:3-14`）。
+
+## 開発とテスト
+基本手順は`npm install`、`npm run dev`で、アプリは既定5173番・`strictPort`、Markupは4173番、E2Eは通常5174番を使う（`README.md:6-42,88-93`）。LintはESLintと`tsc --noEmit`、テストはVitest、E2EはPlaywrightで、MSW有効化と`/?access_token=...`による認証注入が案内されている（`e2e/README.md:5-37`）。Vitestはjsdomで`src/**/*.test.{ts,tsx}`を対象とする（`vitest.config.ts:21-26`）。ビジュアルテストはpage canary、Markupを正本とするregion単位のparity、アプリ固有dynamicの3層で、Markup側ベースラインとアプリ側を分けて比較する（`e2e/README.md:39-59`）。CIはUbuntu前提で、E2E中心のためTypeScript型検査を実行しない運用と明記される（同`:202-213`）。ただしREADMEが「標準実行」とする`npm run e2e`は、実体としてMarkupベースラインの更新を比較前に行う（`package.json:20`）。意図したUI変更時以外は基準を更新しないという注意（`README.md:144`）に反する事故が起き得る点は運用上の制約である。
+
+## 制約・未確認事項
+Img2Imgのバッチ処理は画面側で「まだ利用できません」と明示されている（`src/pages/Img2Img/container.tsx:451-455`）。旅行チェックリストはlocalStorageのみで保存し（`src/pages/TravelChecklistPage/container.tsx:17,138-141`）、画像生成のお気に入りもlocalStorageに保存する（`src/pages/ImageGenerate/container.tsx:46,148-157`）。画面単位のロール制御は`ai`や`read`、マーカー編集の`write`で確認できるが（`src/pages/ImageView/container.tsx:633-636`、`src/pages/MyMarkerEditPage/container.tsx:569-575`）、全ルートの網羅的なガードやサーバー側認可は未確認である。また、APIの実装・応答契約、型定義、presenter、MSW定義、E2E各spec、`packages/markup/`の内容は抜粋に含まれない。ビルド・テストは実行しておらず、ログイン画面やコールバック処理も抜粋からは確認できない。
