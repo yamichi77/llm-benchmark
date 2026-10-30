@@ -522,7 +522,7 @@ function footer(){
   for(const [k,t] of [['tasks','固定課題'],['review','品質評価'],['readme','使い方']])if(links[k])nav.append(h('a',{class:'btn',href:links[k],target:'_blank',rel:'noopener',text:t}));
   document.getElementById('foot').replaceChildren(
     h('div',{id:'compare'},h('h3',{text:'モデルを並べて比較する'}),h('p',{},'保存済みの結果は ',h('a',{href:L.compareUrl||'results/public/index.html',target:'_blank',rel:'noopener',style:'color:var(--accent)',text:'比較ビューア'}),' で並べて確認できます。'),h('p',{text:'このページはダブルクリックで開くだけで見られます。開いてもモデルは実行されません。'})),
-    h('div',{},h('h3',{text:'課題・レビュー'}),nav,h('p',{style:'margin-top:10px',text:'公開対象は results/public のみ。原記録・入力素材・レビューは公開対象外です。LPはsandbox内で表示し、外部通信をCSPで止めています。'})));
+    h('div',{},h('h3',{text:'課題・レビュー'}),nav,h('p',{style:'margin-top:10px',text:'保存済み成果と自作コードを公開しています。生ログ・非公開入力・レビューは含めません。LPはsandbox内で表示し、外部通信をCSPで止めています。'})));
 }
 function render(){
   for(const f of cleanups.splice(0))try{f();}catch{}
