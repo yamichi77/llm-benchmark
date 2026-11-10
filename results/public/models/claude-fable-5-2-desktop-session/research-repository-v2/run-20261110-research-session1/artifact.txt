@@ -1,0 +1,29 @@
+## 目的と主要機能
+
+READMEは「React 18 + TypeScript + Vite で構成されたフロントエンド」とだけ述べ、用途は書いていません（README.md:3）。ルート定義から判断すると、ダッシュボード、LLMチャット、画像生成と閲覧、移動ログ、写真一覧、旅行チェックリスト、地図マーカーの閲覧・編集を持つポータルSPAです（src/App.tsx:135-148）。
+
+## 技術構成と重要なディレクトリ
+
+UIはMUI、状態管理はRecoil、通信はaxios、地図はLeafletです（README.md:46-56）。`src/pages/` は画面ごとに container.tsx と presenter.tsx を持ちます。API呼び出しは `src/hooks/useBackend.ts` に、Recoilのatomは `src/globalState/` にあります。`packages/markup/` は原本HTMLと画面仕様で、READMEはUI変更を「原本HTML→docs→React実装」の順に行うと定めています（README.md:74-79）。
+
+## 認証・状態管理・バックエンド接続
+
+以下は実装からの判断です。
+
+1. 起動時にAuthInitializerが、URLのハッシュかクエリにあるaccess_tokenを採用します。なければ `/api/auth/token/refresh` へCookie付きでPOSTします（src/components/auth/AuthInitializer.tsx:107-145、166-211）。
+2. トークンはRecoilのaccessTokenStateとsessionStorageに入れ、ロールはJWTの `resource_access["web-app"].roles` から取り出します（同:47-49、176-178）。
+3. 「/」は未ログインならログイン画面、ログイン済みならダッシュボードです（src/pages/IndexPage/container.tsx:38-51）。ログインは `/api/auth/login` へのページ遷移です（src/auth/loginUrl.ts:1）。
+4. useBackendのaxiosインターセプターがBearerトークンを付け、期限まで30秒未満なら先にリフレッシュします。401は1回だけリフレッシュして再送し、403・404と通信失敗はエラーページへ送ります（src/hooks/useBackend.ts:220-315）。
+5. 画面の権限はhasRoleで判定し、確認できたロール名はread・write・aiなどです（src/pages/MyMarkerMap/container.tsx:313,341、src/pages/ImageView/container.tsx:634 ほか）。
+6. 画像生成の応答はSSEで受け取ります（src/hooks/useServerSentEvent.ts:22-37）。開発時は、VITE_API_TARGETがあるときだけ `/api` をプロキシします（vite.config.ts:13-45）。
+
+## 開発とテストの手順
+
+READMEによると、`npm install` の後に `npm run dev`（既定5173）で起動します（README.md:8-16、90）。バックエンドなしで動かすには `src/.env.local` に `VITE_USE_MOCKS=true` を書きます（README.md:158-160）。実装でも、DEVかつこの値のときだけMSWを起動します（src/main.tsx:10-20）。単体テストは `npm run test`（Vitest）、E2Eは `npm run e2e`（Playwright）で、Windowsでは既定でDocker経由です（README.md:34、39、126-127）。
+
+## 制約と未確認事項
+
+- バックエンドは含まれず、APIの仕様は呼び出し側とモックからしか分かりません（src/mocks/handlers.ts:71-396）。
+- useWebSocketは定義だけで、src内に呼び出しは見つかりませんでした（src/hooks/useWebSocket.ts:3-15）。
+- 旅行チェックリストの保存先はlocalStorageです（src/pages/TravelChecklistPage/container.tsx:124,140）。
+- 認証基盤の種類と本番のデプロイ構成は読み取れません。コマンドは実行していないため、ビルドやテストの成否も未確認です。

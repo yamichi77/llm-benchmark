@@ -1,0 +1,64 @@
+{
+  "id": "research-repository-v2--claude-fable-5-2-desktop-session--20261110-research-session2",
+  "trialPath": "models/claude-fable-5-2-desktop-session/research-repository-v2/run-20261110-research-session2",
+  "storageModelKey": "claude-fable-5-2-desktop-session",
+  "task": "research-repository-v2",
+  "taskLabel": "指定リポジトリの固定版要約",
+  "type": "research",
+  "model": "claude-fable-5-2-desktop-session",
+  "modelId": "claude-fable-5-2",
+  "status": "success",
+  "promptVersion": "research-repository-v2",
+  "promptSha256": "035354089ba1d16a33c9f797c63abb59ab2f16bb28759c7e8f3053ba592addcf",
+  "inputVersion": "b3a3d3568846d1b154e891fc4683c1eea73263ee",
+  "durationMs": 9510,
+  "activeDurationMs": 9510,
+  "durationNote": "試行フォルダ作成からartifact.txt書込み完了までの壁時計時間。入力リポジトリは再読取りせず、1回目の試行で読んだ内容をセッション文脈から使った。本文の検討の一部はフォルダ作成より前。他モデルの速度と比較できない",
+  "exitCode": null,
+  "exitSignal": null,
+  "createdAt": "2026-11-10T00:22:00.788Z",
+  "updatedAt": "2026-11-10T00:22:10.298Z",
+  "continuationMode": "second-trial-same-session",
+  "attemptCount": 1,
+  "artifact": "models/claude-fable-5-2-desktop-session/research-repository-v2/run-20261110-research-session2/artifact.txt",
+  "artifactSha256": "8905a2fbcade8161d0470aae22368633860d284c33c7fdaf6fef133be248a35b",
+  "generationContract": "本人の指示による2回目の試行。1回目（指定字数超過・2,011字）の結果と本文を知ったうえで、同じ対話セッション内でartifact.txtを1回の書込みで制作。書込み後の修正・再生成なし。字数は書込み後に初めて機械計測した。1回目は未改変で保持。一発出しではない",
+  "executionConditions": {
+    "cli": "Claude desktop app (Code tab) interactive session",
+    "modelId": "claude-fable-5-2",
+    "mode": "interactive agent session; file and shell tools available",
+    "effort": "session default; not recorded",
+    "context": "セッション既定のシステムプロンプトとツール定義あり。制作前にREADME・設定・課題文・他モデルのresult.json（メタ情報のみ）を読んだ。他モデルの要約成果物・品質レビューは読んでいない。入力は runtime/private/inputs-v2 の完全な固定スナップショット（読取りのみ）",
+    "output": "標準出力ではなくWriteツールでファイルへ直接保存",
+    "usage": null,
+    "costUsd": null,
+    "sourceScope": "完全な固定スナップショット（553ファイル）から約30ファイルを読取り・検索。src/.env はキー名のみ読み、値は読んでいない",
+    "repositoryCommandsExecuted": false
+  },
+  "comparisonConditions": {
+    "cleanOneShot": false,
+    "differsFromRunner": [
+      "runner/CLIアダプタ非経由",
+      "ツールあり・safe-modeなし",
+      "対話セッションの文脈あり（同一セッションで2課題を続けて制作）",
+      "usage・費用・正確な生成時間は未取得",
+      "1回目の字数超過を知ったうえでの2回目（選別ではなく両方を保持）"
+    ]
+  },
+  "outputValidation": {
+    "task": "research-repository-v2",
+    "status": "success",
+    "characters": 1649,
+    "charactersWithoutWhitespace": 1575,
+    "bytes": 2999,
+    "countMethod": "全文のUnicodeコードポイント数（改行・空白・Markdown・パス表記を含む）",
+    "lengthTarget": [
+      1200,
+      1800
+    ],
+    "lengthPass": true,
+    "artifactUnmodifiedAfterWrite": true
+  },
+  "trialNumber": 2,
+  "previousTrial": "research-repository-v2--claude-fable-5-2-desktop-session--20261110-research-session1"
+}

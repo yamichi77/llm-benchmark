@@ -1,0 +1,98 @@
+{
+  "id": "lp-local-llm-v2--claude-fable-5-2-desktop-session--20261110-lp-session1",
+  "trialPath": "models/claude-fable-5-2-desktop-session/lp-local-llm-v2/run-20261110-lp-session1",
+  "storageModelKey": "claude-fable-5-2-desktop-session",
+  "task": "lp-local-llm-v2",
+  "taskLabel": "ローカルLLM紹介・デザインとアニメーション",
+  "type": "lp",
+  "model": "claude-fable-5-2-desktop-session",
+  "modelId": "claude-fable-5-2",
+  "status": "success",
+  "promptVersion": "lp-local-llm-v2",
+  "promptSha256": "b1b803bf83d4f1a94b74d3f22229b4eab01e0ca783cb205ac75180faf32cc321",
+  "inputVersion": "facts-lp-v2",
+  "durationMs": 151252,
+  "activeDurationMs": 151252,
+  "durationNote": "試行フォルダ作成からartifact.html書込み完了までの壁時計時間。設計の思考を含むが、事前のリポジトリ確認と経路確認の時間は含まない",
+  "exitCode": null,
+  "exitSignal": null,
+  "createdAt": "2026-11-10T00:05:50.873Z",
+  "updatedAt": "2026-11-10T00:07:31.442Z",
+  "continuationMode": "initial",
+  "attemptCount": 1,
+  "artifact": "models/claude-fable-5-2-desktop-session/lp-local-llm-v2/run-20261110-lp-session1/artifact.html",
+  "artifactSha256": "42ad34de198bc8d03d81451cffc385f6b49c0831efdc82d9863f321c7ccc551f",
+  "generationContract": "本人の指示により、Claudeデスクトップアプリ（Codeタブ）の対話セッション内でFable 5.2が固定課題を読み、artifact.htmlを1回の書込みで制作。書込み後の修正・再生成・選別なし。runner/CLIアダプタ非経由のため、ツールなし・safe-modeの一発出しではない",
+  "executionConditions": {
+    "cli": "Claude desktop app (Code tab) interactive session",
+    "modelId": "claude-fable-5-2",
+    "mode": "interactive agent session; file and shell tools available",
+    "effort": "session default; not recorded",
+    "context": "セッション既定のシステムプロンプトとツール定義あり。制作前にREADME・runner・設定・課題文・他モデルのresult.json（メタ情報のみ）を読んだ。他モデルのLP成果物・品質レビューは読んでいない",
+    "output": "標準出力ではなくWriteツールでファイルへ直接保存",
+    "usage": null,
+    "costUsd": null
+  },
+  "comparisonConditions": {
+    "cleanOneShot": false,
+    "differsFromRunner": [
+      "runner/CLIアダプタ非経由",
+      "ツールあり・safe-modeなし",
+      "対話セッションの文脈あり",
+      "usage・費用・正確な生成時間は未取得"
+    ]
+  },
+  "outputValidation": {
+    "task": "lp-local-llm-v2",
+    "status": "success",
+    "characters": 38806,
+    "bytes": 42368,
+    "startsDoctype": true,
+    "inlineScripts": 2,
+    "inlineScriptSyntaxErrors": 0,
+    "externalResourceReferences": 0,
+    "artifactUnmodifiedAfterWrite": true
+  },
+  "browserVerification": {
+    "method": "CLI + Playwright protocol to a new headless Edge process, GPU disabled; sandboxed iframe; offline and abort all network; no CUA, desktop input, focus or foreground interaction",
+    "note": "検証は制作後に実施。結果を受けた手直しはしていない",
+    "viewports": [
+      {
+        "name": "pc",
+        "width": 1024,
+        "height": 768,
+        "overflow": false,
+        "brokenAnchorTargets": 0,
+        "pageErrors": 0,
+        "networkRequests": 0,
+        "animations": 9,
+        "hiddenAfterScroll": 0,
+        "ctaReachesSteps": true
+      },
+      {
+        "name": "mobile",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "brokenAnchorTargets": 0,
+        "pageErrors": 0,
+        "networkRequests": 0,
+        "animations": 8,
+        "hiddenAfterScroll": 0,
+        "ctaReachesSteps": true
+      },
+      {
+        "name": "mobile-reduced",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "brokenAnchorTargets": 0,
+        "pageErrors": 0,
+        "networkRequests": 0,
+        "animations": 0,
+        "hiddenAfterScroll": 0,
+        "ctaReachesSteps": true
+      }
+    ]
+  }
+}

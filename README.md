@@ -4,7 +4,9 @@
 
 [結果を見る](index.html) / [比較ビューア](results/public/index.html)
 
-32試行を保存しています。success 24件、permission-required 3件、incomplete 2件、interrupted / invalid / artifact-error 各1件です。成果の有無と成功状態は別です。モデル・経路・実行条件・欠測は各試行の result.json を参照してください。順位や統一条件での性能値を主張するものではありません。
+36試行を保存しています。success 28件、permission-required 3件、incomplete 2件、interrupted / invalid / artifact-error 各1件です。成果の有無と成功状態は別です。モデル・経路・実行条件・欠測は各試行の result.json を参照してください。順位や統一条件での性能値を主張するものではありません。
+
+2026年11月10日：Claude Fable 5.2の解説・要約2試行・LPを追加しました。要約初回は字数超過、2回目は初回を踏まえた再試行です。デスクトップ対話セッション経由で、従来のrunnerとはツール・文脈・計測条件が異なります。解説と要約2回目の記録時間には事前の検討を含まず、他モデルの速度と直接比較できません。3Dは未実施です。
 
 ## 公開版の処理
 
